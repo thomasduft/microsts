@@ -1,0 +1,3 @@
+Links:
+- https://damienbod.com/2016/10/01/identityserver4-webapi-and-angular2-in-a-single-asp-net-core-project/
+- https://github.com/aspnet/Identity/blob/master/src/UI/Areas/Identity/Pages/V4/Account/Login.cshtml

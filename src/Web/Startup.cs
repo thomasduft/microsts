@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +20,6 @@ namespace tomware.STS.Web
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddOptions();
-
       services.AddCors(o =>
       {
         o.AddPolicy("AllowAllOrigins", builder =>
@@ -32,8 +31,7 @@ namespace tomware.STS.Web
             .AllowCredentials()
             .WithExposedHeaders("X-Pagination");
         });
-      })
-        .AddMvc();
+      });
 
       services.AddRouting(o => o.LowercaseUrls = true);
 
@@ -56,8 +54,11 @@ namespace tomware.STS.Web
       services.AddSwaggerDocumentation();
 
       // Allow razor pages
-      services.AddControllersWithViews();
-      services.AddRazorPages();
+      services.AddControllers()
+        .AddNewtonsoftJson()
+        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+      services.AddRazorPages()
+        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
     }
 
     public void Configure(
@@ -83,12 +84,10 @@ namespace tomware.STS.Web
       app.UseAuthentication();
       app.UseIdentityServer();
       app.UseAuthorization();
+
       app.UseEndpoints(endpoints =>
       {
-        endpoints.MapControllerRoute(
-          name: "default",
-          pattern: "{controller}/{action=Index}/{id?}"
-        );
+        endpoints.MapControllers();
         endpoints.MapRazorPages();
       });
     }

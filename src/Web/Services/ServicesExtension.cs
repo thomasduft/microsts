@@ -1,3 +1,4 @@
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,7 +55,7 @@ namespace tomware.STS.Web
       }
 
       services
-        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
         .AddJwtBearer(o =>
         {
           o.Authority = authority;
