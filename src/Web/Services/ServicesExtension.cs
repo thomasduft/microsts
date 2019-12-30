@@ -14,6 +14,7 @@ namespace tomware.STS.Web
     )
     {
       services.AddScoped<IMigrationService, MigrationService>();
+      services.AddTransient<IAccountService, AccountService>();
 
       // Identity
       services
