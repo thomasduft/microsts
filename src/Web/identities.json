@@ -1,0 +1,11 @@
+{
+  "Identities": {
+    "Users": [
+      {
+        "UserName": "Admin",
+        "Email": "admin@sts.com",
+        "Password": "Pass123$"
+      }
+    ]
+  }
+}
