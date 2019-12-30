@@ -18,7 +18,10 @@ namespace tomware.STS.Web
 
       // Identity
       services
-       .AddIdentity<ApplicationUser, IdentityRole>()
+       .AddIdentity<ApplicationUser, IdentityRole>(o =>
+       {
+         o.User.RequireUniqueEmail = true;
+       })
        .AddEntityFrameworkStores<STSContext>()
        .AddDefaultTokenProviders();
 

@@ -20,16 +20,16 @@ namespace tomware.STS.Web
 
   public class AccountService : IAccountService
   {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly UserManager<ApplicationUser> userManager;
+    private readonly RoleManager<IdentityRole> roleManager;
 
     public AccountService(
       UserManager<ApplicationUser> userManager,
       RoleManager<IdentityRole> roleManager
     )
     {
-      _userManager = userManager;
-      _roleManager = roleManager;
+      this.userManager = userManager;
+      this.roleManager = roleManager;
     }
 
     public ApplicationUser CreateUser(RegisterViewModel model)
@@ -43,19 +43,19 @@ namespace tomware.STS.Web
 
     public async Task<IdentityResult> RegisterAsync(ApplicationUser user, string password)
     {
-      return await _userManager.CreateAsync(user, password);
+      return await this.userManager.CreateAsync(user, password);
     }
 
     public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordViewModel model)
     {
-      var user = await _userManager.FindByNameAsync(model.UserName);
+      var user = await this.userManager.FindByNameAsync(model.UserName);
 
-      return await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+      return await this.userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
     }
 
     public IEnumerable<string> GetRoles()
     {
-      var roles = this._roleManager.Roles.ToList().Select(r => r.Name);
+      var roles = this.roleManager.Roles.ToList().Select(r => r.Name);
 
       return roles;
     }
@@ -63,9 +63,9 @@ namespace tomware.STS.Web
     public async Task<IdentityResult> AddRoleAsync(string role)
     {
       var newRole = new IdentityRole(role);
-      if (!await this._roleManager.RoleExistsAsync(role))
+      if (!await this.roleManager.RoleExistsAsync(role))
       {
-        return await _roleManager.CreateAsync(newRole);
+        return await this.roleManager.CreateAsync(newRole);
       }
 
       return IdentityResult.Failed();
@@ -73,13 +73,13 @@ namespace tomware.STS.Web
 
     public async Task<IdentityResult> AssignRoleAsync(AssignViewModel model)
     {
-      var role = await _roleManager.FindByNameAsync(model.RoleName);
-      if (role == null) return await RoleDoesNotExist(model.RoleName);
+      var role = await this.roleManager.FindByNameAsync(model.RoleName);
+      if (role == null) return await this.RoleDoesNotExist(model.RoleName);
 
-      var user = await _userManager.FindByNameAsync(model.UserName);
-      if (!await _userManager.IsInRoleAsync(user, model.RoleName))
+      var user = await this.userManager.FindByNameAsync(model.UserName);
+      if (!await this.userManager.IsInRoleAsync(user, model.RoleName))
       {
-        return await _userManager.AddToRoleAsync(user, model.RoleName);
+        return await this.userManager.AddToRoleAsync(user, model.RoleName);
       }
 
       return IdentityResult.Failed();
@@ -87,13 +87,13 @@ namespace tomware.STS.Web
 
     public async Task<IdentityResult> UnassignRoleAsync(AssignViewModel model)
     {
-      var role = _roleManager.FindByNameAsync(model.RoleName).Result;
-      if (role == null) return await RoleDoesNotExist(model.RoleName);
+      var role = this.roleManager.FindByNameAsync(model.RoleName).Result;
+      if (role == null) return await this.RoleDoesNotExist(model.RoleName);
 
-      var user = await _userManager.FindByNameAsync(model.UserName);
-      if (await _userManager.IsInRoleAsync(user, model.RoleName))
+      var user = await this.userManager.FindByNameAsync(model.UserName);
+      if (await this.userManager.IsInRoleAsync(user, model.RoleName))
       {
-        return await _userManager.RemoveFromRoleAsync(user, model.RoleName);
+        return await this.userManager.RemoveFromRoleAsync(user, model.RoleName);
       }
 
       return IdentityResult.Failed();
@@ -101,7 +101,7 @@ namespace tomware.STS.Web
 
     public IEnumerable<UserViewModel> GetUsers()
     {
-      var users = _userManager.Users.ToList()
+      var users = this.userManager.Users.ToList()
         .Select(u => new UserViewModel
         {
           Id = u.Id,
@@ -115,9 +115,9 @@ namespace tomware.STS.Web
 
     public async Task<UserViewModel> GetUser(string id)
     {
-      var user = await _userManager.FindByIdAsync(id);
-      var roles = await _userManager.GetRolesAsync(user);
-      var claims = await _userManager.GetClaimsAsync(user);
+      var user = await this.userManager.FindByIdAsync(id);
+      var roles = await this.userManager.GetRolesAsync(user);
+      var claims = await this.userManager.GetClaimsAsync(user);
 
       return new UserViewModel
       {

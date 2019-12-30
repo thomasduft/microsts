@@ -11,15 +11,15 @@ namespace tomware.STS.Web
   [Authorize(Policies.ADMIN_POLICY)]
   public class AccountController : Controller
   {
-    private readonly ILogger _logger;
-    private readonly IAccountService _accountService;
+    private readonly ILogger logger;
+    private readonly IAccountService accountService;
 
     public AccountController(
       ILoggerFactory loggerFactory,
       IAccountService accountService)
     {
-      _logger = loggerFactory.CreateLogger<AccountController>();
-      _accountService = accountService;
+      this.logger = loggerFactory.CreateLogger<AccountController>();
+      this.accountService = accountService;
     }
 
     [AllowAnonymous]
@@ -30,11 +30,14 @@ namespace tomware.STS.Web
     {
       if (ModelState.IsValid)
       {
-        ApplicationUser user = _accountService.CreateUser(model);
-        var result = await _accountService.RegisterAsync(user, model.Password);
+        ApplicationUser user = this.accountService.CreateUser(model);
+        var result = await this.accountService.RegisterAsync(user, model.Password);
         if (result.Succeeded)
         {
-          _logger.LogInformation(3, $"New user {user.Email} successfully registred!");
+          this.logger.LogInformation(
+            "New user {Email} successfully registred!",
+            user.Email
+          );
 
           return Ok(result);
         }
@@ -53,10 +56,13 @@ namespace tomware.STS.Web
     {
       if (ModelState.IsValid)
       {
-        var result = await _accountService.ChangePasswordAsync(model);
+        var result = await this.accountService.ChangePasswordAsync(model);
         if (result.Succeeded)
         {
-          _logger.LogInformation(3, $"The password for user {model.UserName} has been changed.");
+          this.logger.LogInformation(
+            "The password for user {UserName} has been changed.",
+            model.UserName
+          );
 
           return Ok(result);
         }
@@ -74,10 +80,13 @@ namespace tomware.STS.Web
     {
       if (ModelState.IsValid)
       {
-        var result = await _accountService.AddRoleAsync(model.RoleName);
+        var result = await this.accountService.AddRoleAsync(model.RoleName);
         if (result.Succeeded)
         {
-          _logger.LogInformation(3, $"The role {model.RoleName} has been added.");
+          this.logger.LogInformation(
+            "The role {Role} has been added.",
+            model.RoleName
+          );
 
           return Ok(result);
         }
@@ -93,10 +102,13 @@ namespace tomware.STS.Web
     {
       if (ModelState.IsValid)
       {
-        var result = await _accountService.AssignRoleAsync(model);
+        var result = await this.accountService.AssignRoleAsync(model);
         if (result.Succeeded)
         {
-          _logger.LogInformation(3, $"The role {model.RoleName} has been assigned.");
+          this.logger.LogInformation(
+            "The role {Role} has been assigned.",
+            model.RoleName
+          );
 
           return Ok(result);
         }
@@ -112,10 +124,13 @@ namespace tomware.STS.Web
     {
       if (ModelState.IsValid)
       {
-        var result = await _accountService.UnassignRoleAsync(model);
+        var result = await this.accountService.UnassignRoleAsync(model);
         if (result.Succeeded)
         {
-          _logger.LogInformation(3, $"The role {model.RoleName} has been unassigned.");
+          this.logger.LogInformation(
+            "The role {Role} has been unassigned.",
+            model.RoleName
+          );
 
           return Ok(result);
         }
@@ -129,7 +144,7 @@ namespace tomware.STS.Web
     [ProducesResponseType(typeof(IEnumerable<string>), 200)]
     public IActionResult Roles()
     {
-      return Ok(_accountService.GetRoles());
+      return Ok(this.accountService.GetRoles());
     }
 
     [HttpGet]
@@ -137,7 +152,7 @@ namespace tomware.STS.Web
     [ProducesResponseType(typeof(IEnumerable<UserViewModel>), 200)]
     public IActionResult Users()
     {
-      return Ok(_accountService.GetUsers());
+      return Ok(this.accountService.GetUsers());
     }
 
     [HttpGet]
@@ -145,7 +160,7 @@ namespace tomware.STS.Web
     [ProducesResponseType(typeof(UserViewModel), 200)]
     public async Task<IActionResult> GetUser(string id)
     {
-      var result = await this._accountService.GetUser(id);
+      var result = await this.accountService.GetUser(id);
       return Ok(result);
     }
 
