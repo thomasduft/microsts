@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
 
 import { authConfig } from './models';
-import { AuthService } from './shared';
+import { UserService } from './shared';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,24 +14,43 @@ import { AuthService } from './shared';
 export class AppComponent {
   title = 'ClientApp';
 
+  public get isAuthenticated(): boolean {
+    return this.user.isAuthenticated;
+  }
+
   public get username(): string {
-    return this.authService.userName;
+    return this.user.userName;
+  }
+
+  public get claims(): Array<string> {
+    return this.user.userClaims;
   }
 
   public constructor(
-    private authService: AuthService,
+    private router: Router,
+    private user: UserService,
     private oauthService: OAuthService
   ) {
     this.configure();
   }
 
+  public login(): void {
+    this.oauthService.initLoginFlow();
+  }
+
   public logout(): void {
-    this.authService.logout();
+    this.oauthService.logOut(false);
+    this.user.reset();
+    this.router.navigate(['/']);
   }
 
   private configure() {
     this.oauthService.configure(authConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.loadDiscoveryDocumentAndTryLogin({
+      onTokenReceived: context => {
+        this.user.setProperties(context.accessToken);
+      }
+    });
   }
 }

@@ -40,7 +40,7 @@ namespace tomware.STS.Web
         {
           ClientId = "spaclient",
           ClientName = "spaclient",
-          AccessTokenType = AccessTokenType.Reference,
+          AccessTokenType = AccessTokenType.Jwt,
           AllowedGrantTypes = GrantTypes.Implicit,
           RequireConsent = false,
           AllowAccessTokensViaBrowser = true,
@@ -52,7 +52,8 @@ namespace tomware.STS.Web
           },
           PostLogoutRedirectUris = new List<string>
           {
-            authority
+            authority,
+            "http://localhost:4200"
           },
           AllowedCorsOrigins =
           {
@@ -62,8 +63,6 @@ namespace tomware.STS.Web
           AllowedScopes = {
             IdentityServerConstants.StandardScopes.OpenId, // For UserInfo endpoint.
             IdentityServerConstants.StandardScopes.Profile,
-            JwtClaimTypes.Name,
-            JwtClaimTypes.Role,
             Constants.API_SCOPE_NAME
           }
         }

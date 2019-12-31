@@ -1,10 +1,10 @@
 using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -14,12 +14,15 @@ namespace tomware.STS.Web
   public class ProfileService : IProfileService
   {
     private readonly UserManager<ApplicationUser> userManager;
+    private readonly IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory;
 
     public ProfileService(
-      UserManager<ApplicationUser> userManager
+      UserManager<ApplicationUser> userManager,
+      IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory
     )
     {
       this.userManager = userManager;
+      this.claimsFactory = claimsFactory;
     }
 
     public async Task GetProfileDataAsync(ProfileDataRequestContext context)
@@ -30,12 +33,10 @@ namespace tomware.STS.Web
       var user = await this.userManager.FindByIdAsync(sub);
       if (user != null)
       {
-        var claims = new List<Claim>
-        {
-          new Claim(JwtClaimTypes.Subject, user.Id),
-          new Claim(JwtClaimTypes.Name, user.UserName),
-          new Claim(JwtClaimTypes.Email, user.Email)
-        };
+        var principal = await this.claimsFactory.CreateAsync(user);
+        var claims = principal.Claims.ToList();
+        claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
+        claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
 
         var roles = await this.userManager.GetRolesAsync(user);
         if (roles.Count > 0)
@@ -43,7 +44,9 @@ namespace tomware.STS.Web
           claims.AddRange(roles.Select(r => new Claim(JwtClaimTypes.Role, r)));
         }
 
-        context.AddRequestedClaims(claims);
+        claims.Add(new Claim(IdentityServerConstants.StandardScopes.Email, user.Email));
+
+        context.IssuedClaims = claims;
       }
     }
 

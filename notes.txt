@@ -1,3 +1,12 @@
+ToDo:
+- load oidc config for spaclient via APP_INITIALIZER
+- styling integration
+- styling
+
 Links:
 - https://damienbod.com/2016/10/01/identityserver4-webapi-and-angular2-in-a-single-asp-net-core-project/
 - https://github.com/aspnet/Identity/blob/master/src/UI/Areas/Identity/Pages/V4/Account/Login.cshtml
+
+
+Docs:
+- https://manfredsteyer.github.io/angular-oauth2-oidc/docs/index.html

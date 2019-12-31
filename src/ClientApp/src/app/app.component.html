@@ -347,7 +347,14 @@
 
   <a routerLink="home">home</a>
   <a routerLink="secret">secret</a>
-  <button (click)="logout()">logout</button>
+  <button *ngIf="!isAuthenticated" (click)="login()">login</button>
+  <button *ngIf="isAuthenticated"(click)="logout()">logout</button>
+
+    Claims:
+    <ul>
+      <li *ngFor="let claim of claims">{{ claim }}</li>
+    </ul>
+
 </div>
 
 <router-outlet></router-outlet>

@@ -1,5 +1,5 @@
 using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Cryptography.X509Certificates;
@@ -23,8 +23,8 @@ namespace tomware.STS.Web
        {
          o.User.RequireUniqueEmail = true;
        })
-       .AddEntityFrameworkStores<STSContext>()
-       .AddDefaultTokenProviders();
+       .AddEntityFrameworkStores<STSContext>();
+       // .AddDefaultTokenProviders();
 
       services.Configure<IdentityOptions>(options =>
       {
@@ -56,10 +56,11 @@ namespace tomware.STS.Web
 
       services
         .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-        .AddJwtBearer(o =>
+        .AddIdentityServerAuthentication(o =>
         {
           o.Authority = authority;
-          o.Audience = Constants.API_SCOPE_NAME;
+          o.ApiName = Constants.API_SCOPE_NAME;
+          o.SupportedTokens = SupportedTokens.Both;
         });
 
       services
@@ -67,7 +68,9 @@ namespace tomware.STS.Web
         {
           options.AddPolicy(
             Policies.ADMIN_POLICY,
-            policy => policy.RequireRole(Roles.ADMINISTRATOR_ROLE)
+            policy => policy
+              .RequireAuthenticatedUser()
+              .RequireRole(Roles.ADMINISTRATOR_ROLE)
           );
         });
 

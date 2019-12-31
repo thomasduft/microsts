@@ -20,11 +20,15 @@ namespace tomware.STS.Web.Pages.Account
       this.signInManager = signInManager;
     }
 
+    public async Task OnGet(string returnUrl = null)
+    {
+      await this.Logout(returnUrl);
+    }
+
     public async Task<IActionResult> OnPost(string returnUrl = null)
     {
-      await this.signInManager.SignOutAsync();
+      await this.Logout(returnUrl);
 
-      this.logger.LogInformation("User logged out.");
       if (returnUrl != null)
       {
         return this.LocalRedirect(returnUrl);
@@ -35,6 +39,13 @@ namespace tomware.STS.Web.Pages.Account
         // request and the identity for the user gets updated.
         return this.RedirectToPage();
       }
+    }
+
+    private async Task Logout(string returnUrl = null)
+    {
+      await this.signInManager.SignOutAsync();
+
+      this.logger.LogInformation("User logged out.");
     }
   }
 }

@@ -4,6 +4,8 @@ import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, CanActivateChild } from '@angular/router';
 
+import { OAuthService } from 'angular-oauth2-oidc';
+
 import {
   HttpInterceptor,
   HttpHandler,
@@ -14,18 +16,16 @@ import {
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
 
-import { AuthService } from './auth.service';
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthInterceptor implements HttpInterceptor {
   public constructor(
-    private auth: AuthService
+    private oauthService: OAuthService
   ) { }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.auth.getToken();
+    const token = this.oauthService.getAccessToken();
     if (token) {
       req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
     }
@@ -66,16 +66,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
   public constructor(
-    private authService: AuthService
-    // private router: Router
+    private oauthService: OAuthService,
+    private router: Router
   ) { }
 
   public canActivate(): boolean {
-    const can = this.authService.isAuthenticated;
+    const can = this.oauthService.hasValidAccessToken();
 
     if (!can) {
-      // this.router.navigate(['login']);
-      this.authService.login();
+      this.router.navigate(['home']);
     }
 
     return can;
