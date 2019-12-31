@@ -45,10 +45,7 @@ namespace tomware.STS.Web
         this.Configuration.GetSection("Identities")
       );
 
-      var authority = this.GetAuthority();
-      // var cert = Program.GetCertificate(this.Configuration);
-      // services.AddIdentityServices(authority, cert);
-      services.AddSTSServices(authority);
+      services.AddSTSServices();
 
       // Swagger
       services.AddSwaggerDocumentation();
@@ -90,15 +87,6 @@ namespace tomware.STS.Web
         endpoints.MapControllers();
         endpoints.MapRazorPages();
       });
-    }
-
-    private string GetAuthority()
-    {
-      var domainSettings = this.Configuration.GetSection("DomainSettings");
-      string schema = domainSettings.GetValue<string>("schema");
-      int port = domainSettings.GetValue<int>("port");
-
-      return $"{schema}://localhost:{port}";
     }
   }
 }

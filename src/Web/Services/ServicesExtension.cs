@@ -1,6 +1,7 @@
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Cryptography.X509Certificates;
 
@@ -9,13 +10,15 @@ namespace tomware.STS.Web
   public static class ServicesExtension
   {
     public static IServiceCollection AddSTSServices(
-      this IServiceCollection services,
-      string authority,
-      X509Certificate2 cert = null
+      this IServiceCollection services
     )
     {
       services.AddScoped<IMigrationService, MigrationService>();
       services.AddTransient<IAccountService, AccountService>();
+
+      var configuration = services
+        .BuildServiceProvider()
+        .GetRequiredService<IConfiguration>();
 
       // Identity
       services
@@ -24,7 +27,7 @@ namespace tomware.STS.Web
          o.User.RequireUniqueEmail = true;
        })
        .AddEntityFrameworkStores<STSContext>();
-       // .AddDefaultTokenProviders();
+      // .AddDefaultTokenProviders();
 
       services.Configure<IdentityOptions>(options =>
       {
@@ -38,13 +41,14 @@ namespace tomware.STS.Web
 
       // IdentityServer
       var builder = services
-             .AddIdentityServer()
-             .AddInMemoryIdentityResources(Config.GetIdentityResources())
-             .AddInMemoryApiResources(Config.GetApiResources())
-             .AddInMemoryClients(Config.GetClients(authority))
-             .AddAspNetIdentity<ApplicationUser>()
-             .AddProfileService<ProfileService>();
+        .AddIdentityServer()
+        .AddInMemoryIdentityResources(Config.GetIdentityResources())
+        .AddInMemoryApiResources(Config.GetApiResources())
+        .AddInMemoryClients(configuration.GetSection("IdentityServer:Clients"))
+        .AddAspNetIdentity<ApplicationUser>()
+        .AddProfileService<ProfileService>();
 
+      X509Certificate2 cert = GetCertificate(configuration);
       if (cert == null)
       {
         builder.AddDeveloperSigningCredential();
@@ -58,7 +62,7 @@ namespace tomware.STS.Web
         .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
         .AddIdentityServerAuthentication(o =>
         {
-          o.Authority = authority;
+          o.Authority = GetAuthority(configuration);
           o.ApiName = Constants.API_SCOPE_NAME;
           o.SupportedTokens = SupportedTokens.Both;
         });
@@ -75,6 +79,26 @@ namespace tomware.STS.Web
         });
 
       return services;
+    }
+
+    private static string GetAuthority(IConfiguration configuration)
+    {
+      return Program.GetUrls(configuration);
+    }
+
+    private static X509Certificate2 GetCertificate(IConfiguration config)
+    {
+      var settings = config.GetSection("CertificateSettings");
+      if (settings == null) return null;
+
+      string filename = settings.GetValue<string>("filename");
+      string password = settings.GetValue<string>("password");
+      if (!string.IsNullOrEmpty(filename) && !string.IsNullOrEmpty(password))
+      {
+        return new X509Certificate2(filename, password);
+      }
+
+      return null;
     }
   }
 }

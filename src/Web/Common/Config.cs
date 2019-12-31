@@ -47,7 +47,6 @@ namespace tomware.STS.Web
           RedirectUris = new List<string>
           {
             authority,
-            authority + "/silent-renew.html",
             "http://localhost:4200"
           },
           PostLogoutRedirectUris = new List<string>

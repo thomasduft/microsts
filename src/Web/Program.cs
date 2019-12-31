@@ -84,7 +84,8 @@ namespace tomware.STS.Web
           webBuilder.UseStartup<Startup>();
         });
 
-    private static string GetUrls(IConfiguration config)
+    //TODO: refactor/move to better place
+    public static string GetUrls(IConfiguration config)
     {
       var domainSettings = config.GetSection("DomainSettings");
       var schema = domainSettings.GetValue<string>("Schema");
