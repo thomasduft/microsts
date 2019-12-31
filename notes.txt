@@ -2,6 +2,8 @@ ToDo:
 - load oidc config for spaclient via APP_INITIALIZER
 - styling integration
 - styling
+
+Done:
 - add config IClientStore
   - see: http://docs.identityserver.io/en/latest/topics/clients.html
 
