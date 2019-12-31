@@ -2,6 +2,8 @@ ToDo:
 - load oidc config for spaclient via APP_INITIALIZER
 - styling integration
 - styling
+- add config IClientStore
+  - see: http://docs.identityserver.io/en/latest/topics/clients.html
 
 Links:
 - https://damienbod.com/2016/10/01/identityserver4-webapi-and-angular2-in-a-single-asp-net-core-project/
