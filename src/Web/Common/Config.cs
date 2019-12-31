@@ -12,7 +12,8 @@ namespace tomware.STS.Web
       return new List<IdentityResource>
       {
         new IdentityResources.OpenId(),
-        new IdentityResources.Profile()
+        new IdentityResources.Profile(),
+        new IdentityResources.Email()
       };
     }
 
@@ -46,8 +47,8 @@ namespace tomware.STS.Web
           RedirectUris = new List<string>
           {
             authority,
-            authority + "/silent-renew.html"
-
+            authority + "/silent-renew.html",
+            "http://localhost:4200"
           },
           PostLogoutRedirectUris = new List<string>
           {
@@ -61,6 +62,8 @@ namespace tomware.STS.Web
           AllowedScopes = {
             IdentityServerConstants.StandardScopes.OpenId, // For UserInfo endpoint.
             IdentityServerConstants.StandardScopes.Profile,
+            JwtClaimTypes.Name,
+            JwtClaimTypes.Role,
             Constants.API_SCOPE_NAME
           }
         }
