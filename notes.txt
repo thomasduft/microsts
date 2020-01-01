@@ -2,6 +2,7 @@ ToDo:
 - load oidc config for spaclient via APP_INITIALIZER
 - styling integration
 - styling
+- sending mails
 
 Done:
 - add config IClientStore
