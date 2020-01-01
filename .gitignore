@@ -263,3 +263,5 @@ dist/
 lcov.info
 src/Web/sts.sqlite
 src/Web/tempkey.rsa
+src/web/sts.sqlite
+src/web/tempkey.rsa
