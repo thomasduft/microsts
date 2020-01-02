@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
 
-import { authConfig } from './models';
 import { UserService } from './shared';
-import { Router } from '@angular/router';
+import { ClientConfigProvider } from './core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ClientApp';
 
   public get isAuthenticated(): boolean {
@@ -29,8 +29,13 @@ export class AppComponent {
   public constructor(
     private router: Router,
     private user: UserService,
-    private oauthService: OAuthService
+    private oauthService: OAuthService,
+    private clientConfigProvider: ClientConfigProvider
   ) {
+    console.log('initializing app.component...')
+   }
+
+  public ngOnInit(): void {
     this.configure();
   }
 
@@ -45,7 +50,16 @@ export class AppComponent {
   }
 
   private configure() {
-    this.oauthService.configure(authConfig);
+    const config = this.clientConfigProvider.config;
+
+    this.oauthService.configure({
+      clientId: config.clientId,
+      issuer: config.issuer,
+      redirectUri: config.redirectUri || window.location.origin,
+      scope: config.scope,
+      loginUrl: config.loginUrl,
+      logoutUrl: config.logoutUrl
+    });
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.loadDiscoveryDocumentAndTryLogin({
       onTokenReceived: context => {

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -7,6 +7,9 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { SharedModule } from './shared/shared.module';
 import { ForbiddenComponent, PageNotFoundComponent, AuthGuard } from './shared';
+
+import { CoreModule } from './core/core.module';
+import { clientConfigProviderFactory, ClientConfigProvider } from './core';
 
 import { HomeModule } from './home/home.module';
 import { SecretModule } from './secret/secret.module';
@@ -33,10 +36,18 @@ const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES),
     OAuthModule.forRoot(),
     SharedModule,
+    CoreModule,
     HomeModule,
     SecretModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: clientConfigProviderFactory,
+      deps: [ClientConfigProvider],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

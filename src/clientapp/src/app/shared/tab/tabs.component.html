@@ -1,7 +1,0 @@
-<ul>
-  <li *ngFor="let tab of tabs" class="tabs__tab" [attr.tabindex]="getTabIndex(tab)" (click)="selectTab(tab)"
-    (keydown)="keydownOnTab($event, tab)">
-    <span class="tab__title" [ngClass]="{ 'tab__title--active': tab.active }">{{tab.title}}</span>
-  </li>
-</ul>
-<ng-content></ng-content>

@@ -74,7 +74,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     const can = this.oauthService.hasValidAccessToken();
 
     if (!can) {
-      this.router.navigate(['home']);
+      this.router.navigate(['forbidden']);
+      // this.oauthService.initLoginFlow();
     }
 
     return can;
