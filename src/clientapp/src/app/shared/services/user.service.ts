@@ -37,7 +37,6 @@ export class UserService {
     if (accesToken) {
       const jwt = JSON.parse(window.atob(accesToken.split('.')[1]));
 
-      console.log(jwt);
       this.username = jwt.name;
 
       this.claims = Array.isArray(jwt.role)

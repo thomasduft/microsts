@@ -1,10 +1,12 @@
 ToDo:
-- load oidc config for spaclient via APP_INITIALIZER
 - styling integration
 - styling
+  - css grid based
 - sending mails
 
+
 Done:
+- load oidc config for spaclient via APP_INITIALIZER
 - add config IClientStore
   - see: http://docs.identityserver.io/en/latest/topics/clients.html
 
