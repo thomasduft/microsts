@@ -7,7 +7,7 @@
     <LangVersion>Latest</LangVersion>
   </PropertyGroup>
 
-<ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
@@ -23,10 +23,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
-</ItemGroup>
+  </ItemGroup>
 
-<ItemGroup>
-  <Folder Include="wwwroot\css\" />
-</ItemGroup>
+  <!-- <Target Name="BuildStyles" BeforeTargets="Build">
+    <Exec WorkingDirectory="$(ProjectDir)" Command="npm run build" />
+  </Target> -->
 
 </Project>

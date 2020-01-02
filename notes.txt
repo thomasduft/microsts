@@ -1,7 +1,10 @@
 ToDo:
-- styling integration
 - styling
   - css grid based
+  - admin app
+  - layout
+    - login
+    - logout
 - sending mails
 
 
@@ -15,6 +18,7 @@ Links:
 - https://github.com/aspnet/Identity/blob/master/src/UI/Areas/Identity/Pages/V4/Account/Login.cshtml
 - https://github.com/IdentityServer/IdentityServer4.Demo/blob/master/src/IdentityServer4Demo/Startup.cs
 
+- https://blogs.taiga.nl/martijn/2017/11/24/building-and-asp-net-core-mvc-app-with-npm-and-webpack-asp-net-core-2-0-edition/
 
 Docs:
 - https://manfredsteyer.github.io/angular-oauth2-oidc/docs/index.html
