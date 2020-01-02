@@ -41,6 +41,9 @@ namespace tomware.STS.Web
         .AddDbContext<STSContext>(o => o.UseSqlite(connection));
 
       // STS Services
+      services.Configure<ClientSettings>(
+        this.Configuration.GetSection("ClientSettings")
+      );
       services.Configure<IdentityConfiguration>(
         this.Configuration.GetSection("Identities")
       );

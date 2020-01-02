@@ -24,6 +24,10 @@ namespace tomware.STS.Web
         optional: true
       )
       .AddJsonFile(
+        $"clients.json",
+        optional: true
+      )
+      .AddJsonFile(
         $"identities.json",
         optional: true
       )

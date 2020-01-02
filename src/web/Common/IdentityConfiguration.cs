@@ -4,10 +4,10 @@ namespace tomware.STS.Web
 {
   public class IdentityConfiguration
   {
-    public List<UserConfig> Users { get; set; }
+    public List<UserConfiguration> Users { get; set; }
   }
 
-  public class UserConfig
+  public class UserConfiguration
   {
     public string UserName { get; set; }
     public string Email { get; set; }

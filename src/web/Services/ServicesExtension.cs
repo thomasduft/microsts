@@ -15,6 +15,7 @@ namespace tomware.STS.Web
     {
       services.AddScoped<IMigrationService, MigrationService>();
       services.AddTransient<IAccountService, AccountService>();
+      services.AddTransient<IClientConfigurationService, ClientConfigurationService>();
 
       var configuration = services
         .BuildServiceProvider()
