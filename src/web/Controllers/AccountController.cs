@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace tomware.STS.Web
 {
   [Route("api/account")]
+  [SecurityHeaders]
   [Authorize(Policies.ADMIN_POLICY)]
   public class AccountController : Controller
   {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace tomware.STS.Web
 {
   [Route("api/client")]
+  [SecurityHeaders]
   public class ClientController : Controller
   {
     private readonly IClientConfigurationService service;

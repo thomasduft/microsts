@@ -61,11 +61,15 @@ namespace tomware.STS.Web
 
       services
         .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-        .AddIdentityServerAuthentication(o =>
+        // .AddIdentityServerAuthentication(o =>
+        // {
+        //   o.Authority = GetAuthority(configuration);
+        //   o.ApiName = Constants.API_SCOPE_NAME;
+        //   o.SupportedTokens = SupportedTokens.Both;
+        // })
+        .AddLocalApi(options =>
         {
-          o.Authority = GetAuthority(configuration);
-          o.ApiName = Constants.API_SCOPE_NAME;
-          o.SupportedTokens = SupportedTokens.Both;
+          options.ExpectedScope = Constants.API_SCOPE_NAME;
         });
 
       services
