@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-secret',
+  selector: 'tw-secret',
   templateUrl: './secret.component.html',
   styleUrls: ['./secret.component.less']
 })

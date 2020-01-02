@@ -7,7 +7,7 @@ import { UserService } from './shared';
 import { ClientConfigProvider } from './core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'tw-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     private oauthService: OAuthService,
     private clientConfigProvider: ClientConfigProvider
   ) {
-    console.log('initializing app.component...')
+    console.log('initializing app.component...');
    }
 
   public ngOnInit(): void {
