@@ -1,0 +1,12 @@
+@import './../shared/variables';
+
+.shell {
+	display: grid;
+	grid-template-columns: @sidebar-width 1fr;
+	grid-template-rows: 1fr @footer-height;
+	grid-template-areas:
+		'sidebar content'
+		'footer  footer';
+	height: 100vh;
+	overflow: hidden;
+}
