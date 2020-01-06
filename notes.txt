@@ -20,5 +20,7 @@ Links:
 
 - https://blogs.taiga.nl/martijn/2017/11/24/building-and-asp-net-core-mvc-app-with-npm-and-webpack-asp-net-core-2-0-edition/
 
+- https://deblokt.com/2019/09/27/05-identityserver4-adding-custom-properties-to-user/
+
 Docs:
 - https://manfredsteyer.github.io/angular-oauth2-oidc/docs/index.html
