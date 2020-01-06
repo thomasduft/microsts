@@ -1,8 +1,9 @@
 using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Builder;
+using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Security.Cryptography.X509Certificates;
 
 namespace tomware.Microsts.Web
@@ -42,10 +43,25 @@ namespace tomware.Microsts.Web
 
       // IdentityServer
       var builder = services
-        .AddIdentityServer()
+        .AddIdentityServer(options =>
+        {
+          options.Events.RaiseErrorEvents = true;
+          options.Events.RaiseInformationEvents = true;
+          options.Events.RaiseFailureEvents = true;
+          options.Events.RaiseSuccessEvents = true;
+          options.UserInteraction.LoginUrl = "/Account/Login";
+          options.UserInteraction.LogoutUrl = "/Account/Logout";
+          options.Authentication = new AuthenticationOptions()
+          {
+            CookieLifetime = TimeSpan.FromHours(10), // ID server cookie timeout set to 10 hours
+            CookieSlidingExpiration = true
+          };
+        })
         .AddInMemoryIdentityResources(Config.GetIdentityResources())
         .AddInMemoryApiResources(Config.GetApiResources())
         .AddInMemoryClients(configuration.GetSection("IdentityServer:Clients"))
+        // .AddConfigurationStore()
+        // .AddOperationalStore()
         .AddAspNetIdentity<ApplicationUser>()
         .AddProfileService<ProfileService>();
 
