@@ -1,12 +1,13 @@
-@import './../shared/variables';
-@import './../shared/mixins';
+@import "./../_variables.less";
+@import './../_mixins.less';
 
 .sidebar {
-  background: @sidebar-background;
-  width: 268px;
-  overflow-y: auto;
+  grid-area: sidebar;
   display: flex;
   flex-direction: column;
+  background: @sidebar-background;
+  width: @sidebar-width;
+  overflow-y: auto;
 }
 
 .sidebar__header {
@@ -19,7 +20,9 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  cursor: pointer;
+  > button {
+    cursor: pointer;
+  }
   img {
     object-fit: cover;
     border-radius: 50%;

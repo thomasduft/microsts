@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
@@ -13,6 +13,9 @@ import { ClientConfigProvider } from './core';
 })
 export class AppComponent implements OnInit {
   title = 'ClientApp';
+
+  @HostBinding('class')
+  public style = 'shell';
 
   public get isAuthenticated(): boolean {
     return this.user.isAuthenticated;
@@ -33,10 +36,18 @@ export class AppComponent implements OnInit {
     private clientConfigProvider: ClientConfigProvider
   ) {
     console.log('initializing app.component...');
-   }
+  }
 
   public ngOnInit(): void {
     this.configure();
+  }
+
+  public loginClick(state: string): void {
+    if (state === 'login') {
+      this.login();
+    } else {
+      this.logout();
+    }
   }
 
   public login(): void {
