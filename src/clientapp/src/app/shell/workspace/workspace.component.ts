@@ -2,9 +2,8 @@ import { Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'tw-workspace',
-  template: `
-  <router-outlet></router-outlet>
- `
+  templateUrl: './workspace.component.html',
+  styleUrls: ['./workspace.component.less']
 })
 export class WorkspaceComponent {
   @HostBinding('class')

@@ -11,6 +11,7 @@ import { ForbiddenComponent, PageNotFoundComponent, AuthGuard } from './shared';
 import { CoreModule } from './core/core.module';
 import { clientConfigProviderFactory, ClientConfigProvider } from './core';
 
+import { ShellModule } from './shell/shell.module';
 import { HomeModule } from './home/home.module';
 import { SecretModule } from './secret/secret.module';
 
@@ -37,6 +38,7 @@ const ROUTES: Routes = [
     OAuthModule.forRoot(),
     SharedModule,
     CoreModule,
+    ShellModule,
     HomeModule,
     SecretModule
   ],

@@ -1,0 +1,32 @@
+<div class="sidebar__header" (click)="toggle()">
+  <div *ngIf="!collapsed">MicroWF</div>
+  <button type="button">
+    <span *ngIf="collapsed" name="arrow-right"><b>></b></span>
+    <span *ngIf="!collapsed" name="arrow-left"><b><</b></span>
+  </button>
+</div>
+<div class="sidebar__content">
+  <ul>
+    <li routerLinkActive="active" class="menu__item">
+      <a routerLink="/home">
+        <!-- <tw-icon name="home"></tw-icon> -->
+        {{ userName }}
+      </a>
+    </li>
+    <tw-menu></tw-menu>
+  </ul>
+</div>
+<div class="sidebar__footer">
+  <ul>
+    <li routerLinkActive="active" *ngIf="!isAuthenticated">
+      <a href="javascript:void(0)" (click)="login()">
+        Login
+      </a>
+    </li>
+    <li routerLinkActive="active" *ngIf="isAuthenticated">
+      <a href="javascript:void(0)" (click)="logout()">
+        Logout
+      </a>
+    </li>
+  </ul>
+</div>
