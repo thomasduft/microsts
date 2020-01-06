@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public class UserViewModel
   {

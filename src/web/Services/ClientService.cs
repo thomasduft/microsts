@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public interface IClientConfigurationService
   {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   // TODO: better name for ClientSettings
   public class ClientSettings

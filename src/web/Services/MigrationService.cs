@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public interface IMigrationService
   {

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace tomware.STS.Web.Pages
+namespace tomware.Microsts.Web.Pages
 {
   public class LoginModel : PageModel
   {

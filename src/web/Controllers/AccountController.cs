@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   [Route("api/account")]
   [SecurityHeaders]

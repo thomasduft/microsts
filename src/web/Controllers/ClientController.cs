@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   [Route("api/client")]
   [SecurityHeaders]

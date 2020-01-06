@@ -3,9 +3,9 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using tomware.STS.Web;
+using tomware.Microsts.Web;
 
-namespace tomware.STS.Web.Data.Migrations
+namespace tomware.Microsts.Web.Data.Migrations
 {
     [DbContext(typeof(STSContext))]
     partial class STSContextModelSnapshot : ModelSnapshot
@@ -144,7 +144,7 @@ namespace tomware.STS.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("tomware.STS.Web.ApplicationUser", b =>
+            modelBuilder.Entity("tomware.Microsts.Web.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -219,7 +219,7 @@ namespace tomware.STS.Web.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("tomware.STS.Web.ApplicationUser", null)
+                    b.HasOne("tomware.Microsts.Web.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -228,7 +228,7 @@ namespace tomware.STS.Web.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("tomware.STS.Web.ApplicationUser", null)
+                    b.HasOne("tomware.Microsts.Web.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,7 +243,7 @@ namespace tomware.STS.Web.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("tomware.STS.Web.ApplicationUser", null)
+                    b.HasOne("tomware.Microsts.Web.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -252,7 +252,7 @@ namespace tomware.STS.Web.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("tomware.STS.Web.ApplicationUser", null)
+                    b.HasOne("tomware.Microsts.Web.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

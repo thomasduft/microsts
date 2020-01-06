@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public class IdentityConfiguration
   {

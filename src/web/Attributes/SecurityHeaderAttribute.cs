@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public class SecurityHeadersAttribute : ActionFilterAttribute
   {

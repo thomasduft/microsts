@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public class ProfileService : IProfileService
   {

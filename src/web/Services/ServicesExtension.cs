@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Cryptography.X509Certificates;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public static class ServicesExtension
   {

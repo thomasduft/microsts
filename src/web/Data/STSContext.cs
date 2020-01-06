@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public class STSContext : IdentityDbContext<ApplicationUser>
   {

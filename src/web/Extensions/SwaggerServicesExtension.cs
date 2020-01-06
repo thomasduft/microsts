@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public static class SwaggerServicesExtension
   {

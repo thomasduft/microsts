@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "tomware.STS.Web": {
+    "tomware.Microsts.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

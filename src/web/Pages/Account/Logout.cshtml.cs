@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace tomware.STS.Web.Pages.Account
+namespace tomware.Microsts.Web.Pages.Account
 {
   public class LogoutModel : PageModel
   {

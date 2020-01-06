@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9CFC3BBF-D505-47B5-B5F8-C28AF1B2F9D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tomware.STS.Web", "src\web\tomware.STS.Web.csproj", "{7C9C8086-E6B4-45F0-BF5F-63C490025E44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tomware.STS.Web", "src\web\tomware.Microsts.Web.csproj", "{7C9C8086-E6B4-45F0-BF5F-63C490025E44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

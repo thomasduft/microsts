@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public class Program
   {

@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>tomware.STS.Web</AssemblyName>
-    <RootNamespace>tomware.STS.Web</RootNamespace>
+    <AssemblyName>tomware.Microsts.Web</AssemblyName>
+    <RootNamespace>tomware.Microsts.Web</RootNamespace>
     <LangVersion>Latest</LangVersion>
   </PropertyGroup>
 

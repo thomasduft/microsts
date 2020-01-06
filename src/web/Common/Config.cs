@@ -3,7 +3,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
-namespace tomware.STS.Web
+namespace tomware.Microsts.Web
 {
   public class Config
   {

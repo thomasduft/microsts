@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace tomware.STS.Web.Data.Migrations
+namespace tomware.Microsts.Web.Data.Migrations
 {
     public partial class Initial : Migration
     {
