@@ -1,4 +1,9 @@
-import { Component, HostBinding, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 import { UserService } from '../../shared';
 

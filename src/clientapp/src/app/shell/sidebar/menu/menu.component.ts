@@ -52,7 +52,7 @@ export class MenuComponent implements OnInit {
       id: '2',
       name: 'Roles',
       route: '/roles',
-      icon: 'user-tag'
+      icon: 'tags'
     });
 
     this.service.register({

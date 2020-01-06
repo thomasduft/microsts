@@ -29,7 +29,8 @@
             ],
             "styles": [
               "src/styles.less",
-              "src/assets/styles/styles.less"
+              "src/assets/styles/styles.less",
+              "./node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": []
           },
