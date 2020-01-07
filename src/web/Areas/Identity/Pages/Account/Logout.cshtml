@@ -1,0 +1,30 @@
+﻿@page
+
+@using Microsoft.AspNetCore.Identity
+@using tomware.Microsts.Web
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@model LogoutModel
+@{
+  ViewData["Title"] = "Log out";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+  <section>
+    <p>Would you like to logout of STS?</p>
+    <form asp-action="Logout">
+      <input type="hidden" name="logoutId" value="@Model.LogoutId" />
+      <div class="form-group">
+        <button class="btn btn-primary">Yes</button>
+      </div>
+    </form>
+  </section>
+}
+else
+{
+  <section>
+    <p>You have successfully logged out of the application.</p>
+  </section>
+}

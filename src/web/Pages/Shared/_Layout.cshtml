@@ -10,7 +10,12 @@
 
 <body class="shell">
   <header class="header">
-    <a href="/">STS</a>
+    <div class="header__logo">
+      <a href="/">STS</a>
+    </div>
+    <div class="header__login-info">
+      <partial name="_LoginPartial" />
+    </div>
   </header>
   <main class="content" role="main">
     @RenderBody()

@@ -2,8 +2,37 @@
 
 .header {
   grid-area: header;
-  height: @header-height;
   color: @header-color;
   background-color: @header-background;
   padding: 1em 0.5em;
+
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'logo login-info';
+
+  &__logo {
+    grid-area: logo;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    align-self: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.6em;
+    a {
+      color: #fff
+    }
+  }
+
+  &__login-info {
+    grid-area: login-info;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    align-self: center;
+    a {
+      color: #fff
+    }
+  }
 }

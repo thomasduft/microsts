@@ -1,6 +1,7 @@
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +18,7 @@ namespace tomware.Microsts.Web
       services.AddScoped<IMigrationService, MigrationService>();
       services.AddTransient<IAccountService, AccountService>();
       services.AddTransient<IClientConfigurationService, ClientConfigurationService>();
+      services.AddTransient<IEmailSender, LogEmailSender>();
 
       var configuration = services
         .BuildServiceProvider()
@@ -49,8 +51,8 @@ namespace tomware.Microsts.Web
           options.Events.RaiseInformationEvents = true;
           options.Events.RaiseFailureEvents = true;
           options.Events.RaiseSuccessEvents = true;
-          options.UserInteraction.LoginUrl = "/Account/Login";
-          options.UserInteraction.LogoutUrl = "/Account/Logout";
+          options.UserInteraction.LoginUrl = "/Identity/Account/Login";
+          options.UserInteraction.LogoutUrl = "/Identity/Account/Logout";
           options.Authentication = new AuthenticationOptions()
           {
             CookieLifetime = TimeSpan.FromHours(10), // ID server cookie timeout set to 10 hours

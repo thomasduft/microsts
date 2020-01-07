@@ -8,12 +8,12 @@
 <div class="sidebar__content">
   <ul>
     <li routerLinkActive="active" class="menu__item">
-      <a routerLink="/home">
+      <a routerLink="home">
         <!-- <tw-icon name="home"></tw-icon> -->
         {{ userName }}
       </a>
     </li>
-    <tw-menu></tw-menu>
+    <tw-menu *ngIf="isAuthenticated"></tw-menu>
   </ul>
 </div>
 <div class="sidebar__footer">
