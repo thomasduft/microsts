@@ -54,12 +54,12 @@ namespace tomware.Microsts.Web
       services.AddSwaggerDocumentation();
 
       // Allow razor pages
-      //services.AddControllers()
-      //  .AddNewtonsoftJson()
-      //  .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-      //services.AddRazorPages()
-      //  .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-      services.AddMvc();
+      services.AddControllers()
+       .AddNewtonsoftJson()
+       .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+      services.AddRazorPages()
+       .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+      // services.AddMvc();
     }
 
     public void Configure(

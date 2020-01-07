@@ -6,6 +6,8 @@ ToDo:
     - login
     - logout
 - sending mails
+- setup razor ui class library
+  - https://wakeupandcode.com/your-first-razor-ui-library-with-asp-net-core/
 
 
 Done:
