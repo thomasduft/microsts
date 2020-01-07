@@ -35,6 +35,7 @@ namespace tomware.Microsts.Web
         ClientId = clientConfig.ClientId,
         Issuer = clientConfig.Issuer,
         RedirectUri = clientConfig.RedirectUri,
+        ResponseType = clientConfig.ResponseType,
         Scope = clientConfig.Scope,
         LoginUrl = clientConfig.LoginUrl,
         LogoutUrl = clientConfig.LogoutUrl

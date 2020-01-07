@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { OAuthService, JwksValidationHandler, OAuthEvent } from 'angular-oauth2-oidc';
 
 import { UserService } from './shared';
 import { ClientConfigProvider } from './core';
@@ -67,11 +67,17 @@ export class AppComponent implements OnInit {
       clientId: config.clientId,
       issuer: config.issuer,
       redirectUri: config.redirectUri || window.location.origin,
+      responseType: config.responseType || undefined,
       scope: config.scope,
       loginUrl: config.loginUrl,
       logoutUrl: config.logoutUrl
     });
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
+    this.oauthService.events.subscribe((e: OAuthEvent) => {
+      if (e.type === 'token_received' || e.type === 'token_refreshed') {
+        this.user.setProperties(this.oauthService.getAccessToken());
+      }
+    });
     this.oauthService.loadDiscoveryDocumentAndTryLogin({
       onTokenReceived: context => {
         this.user.setProperties(context.accessToken);
