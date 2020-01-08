@@ -1,1 +1,6 @@
-<p>claimtype-detail works!</p>
+<tw-formdef #formDef [key]="key"
+  [viewModel]="viewModel"
+  [showSave]="true"
+  [showCancel]="true"
+  (submitted)="submitted($event)">
+</tw-formdef>

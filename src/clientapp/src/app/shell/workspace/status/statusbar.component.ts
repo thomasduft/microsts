@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 
-import { StatusMessage, StatusLevel } from './models';
+import { StatusMessage, StatusLevel } from '../../../shared/services';
 import { StatusBarService } from './statusbar.service';
 
 @Component({
@@ -19,7 +19,7 @@ import { StatusBarService } from './statusbar.service';
             (click)="action()">
       <span aria-hidden="true">action</span>
     </button>
-    <strong>{{ status.title }}: </strong>{{ status.message }}
+    <strong *ngIf="status.title">{{ status.title }}:</strong>{{ status.message }}
   </div>`
 })
 export class StatusBarComponent implements OnInit {

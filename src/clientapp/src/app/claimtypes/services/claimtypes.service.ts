@@ -28,6 +28,7 @@ export class ClaimTypesService {
   }
 
   public create(model: ClaimType): Observable<string> {
+    model.id = undefined;
     return this.http
       .post<string>('claimtype', model)
       .pipe(catchError(this.http.handleError));

@@ -44,7 +44,7 @@ namespace tomware.Microsts.Web
 
       var claimType = await this.context.ClaimTypes.FindAsync(id);
 
-      return claimType == null ? ToModel(claimType) : null;
+      return claimType != null ? ToModel(claimType) : null;
     }
 
     public async Task<Guid> CreateAsync(ClaimTypeViewModel model)

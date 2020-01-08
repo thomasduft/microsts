@@ -4,11 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../shared';
 import { SharedModule } from '../shared/shared.module';
+import { FormdefModule } from '../shared/formdef/formdef.module';
 
 import { ClaimTypesService } from './services';
 import { ClaimtypeDetailComponent } from './components/detail/claimtype-detail.component';
 import { ClaimtypeListComponent } from './components/list/claimtype-list.component';
 import { ClaimtypeDashboardComponent } from './components/dashboard/claimtype-dashboard.component';
+import { FormdefRegistry } from '../shared/formdef';
+import { ClaimtypeDetailSlot } from './models';
 
 const ROUTES: Routes = [
   {
@@ -28,7 +31,8 @@ const ROUTES: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(ROUTES),
-    SharedModule
+    SharedModule,
+    FormdefModule
   ],
   declarations: [
     ClaimtypeListComponent,
@@ -39,4 +43,10 @@ const ROUTES: Routes = [
     ClaimTypesService
   ]
 })
-export class ClaimtypesModule { }
+export class ClaimtypesModule {
+  public constructor(
+    private slotRegistry: FormdefRegistry
+  ) {
+    this.slotRegistry.register(new ClaimtypeDetailSlot());
+  }
+}

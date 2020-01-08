@@ -2,9 +2,7 @@ import { Subject, BehaviorSubject, Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
-import { MessageBus } from './../../../shared/services/messageBus.service';
-import { IMessageSubscriber } from './../../../shared/services/models';
-import { StatusMessage } from './models';
+import { MessageBus, IMessageSubscriber, StatusMessage } from './../../../shared/services';
 
 @Injectable()
 export class StatusBarService implements IMessageSubscriber<StatusMessage> {

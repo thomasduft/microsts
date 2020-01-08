@@ -9,7 +9,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/web/bin/Debug/netcoreapp3.1/tomware.STS.Web.dll",
+      "program": "${workspaceFolder}/src/web/bin/Debug/netcoreapp3.1/tomware.Microsts.Web.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/web",
       "stopAtEntry": false,
