@@ -6,23 +6,21 @@ import { Routes, RouterModule } from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { SharedModule } from './shared/shared.module';
-import { ForbiddenComponent, PageNotFoundComponent, AuthGuard } from './shared';
+import { ForbiddenComponent, PageNotFoundComponent } from './shared';
 
 import { CoreModule } from './core/core.module';
 import { clientConfigProviderFactory, ClientConfigProvider } from './core';
 
 import { ShellModule } from './shell/shell.module';
 import { HomeModule } from './home/home.module';
-import { SecretModule } from './secret/secret.module';
+import { ClaimtypesModule } from './claimtypes/claimtypes.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home/home.component';
-import { SecretComponent } from './secret/secret/secret.component';
 
 const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'secret', component: SecretComponent, canActivate: [AuthGuard] },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -40,7 +38,7 @@ const ROUTES: Routes = [
     CoreModule,
     ShellModule,
     HomeModule,
-    SecretModule
+    ClaimtypesModule
   ],
   providers: [
     {

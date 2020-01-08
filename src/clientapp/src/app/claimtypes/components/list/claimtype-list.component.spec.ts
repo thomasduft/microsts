@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SecretComponent } from './secret.component';
+import { ClaimtypeListComponent } from './claimtype-list.component';
 
-describe('SecretComponent', () => {
-  let component: SecretComponent;
-  let fixture: ComponentFixture<SecretComponent>;
+describe('ClaimtypeListComponent', () => {
+  let component: ClaimtypeListComponent;
+  let fixture: ComponentFixture<ClaimtypeListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SecretComponent ]
+      declarations: [ ClaimtypeListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SecretComponent);
+    fixture = TestBed.createComponent(ClaimtypeListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
