@@ -9,11 +9,7 @@ import {
   ClaimType
 } from '../models/index';
 
-import { ClaimtypesModule } from '../claimtypes.module';
-
-@Injectable({
-  providedIn: ClaimtypesModule
-})
+@Injectable()
 export class ClaimTypesService {
   public constructor(
     private http: HttpWrapperService

@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../shared';
 import { SharedModule } from '../shared/shared.module';
 
+import { ClaimTypesService } from './services';
 import { ClaimtypeDetailComponent } from './components/detail/claimtype-detail.component';
 import { ClaimtypeListComponent } from './components/list/claimtype-list.component';
 import { ClaimtypeDashboardComponent } from './components/dashboard/claimtype-dashboard.component';
@@ -33,6 +34,9 @@ const ROUTES: Routes = [
     ClaimtypeListComponent,
     ClaimtypeDetailComponent,
     ClaimtypeDashboardComponent
+  ],
+  providers: [
+    ClaimTypesService
   ]
 })
 export class ClaimtypesModule { }
