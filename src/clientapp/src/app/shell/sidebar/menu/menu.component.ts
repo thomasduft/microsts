@@ -57,8 +57,8 @@ export class MenuComponent implements OnInit {
 
     this.service.register({
       id: '3',
-      name: 'Claims',
-      route: '/claims',
+      name: 'ClaimTypes',
+      route: '/claimtypes',
       icon: 'key'
     });
   }

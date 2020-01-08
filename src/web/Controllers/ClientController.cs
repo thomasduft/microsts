@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace tomware.Microsts.Web
@@ -14,9 +15,8 @@ namespace tomware.Microsts.Web
       this.service = service;
     }
 
-    [HttpGet]
-    [Route("config/{clientId}")]
-    [ProducesResponseType(typeof(ClientConfigurtationViewModel), 200)]
+    [HttpGet("config/{clientId}")]
+    [ProducesResponseType(typeof(ClientConfigurtationViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Config(string clientId)
     {
       if (clientId is null) return BadRequest();

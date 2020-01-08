@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,9 +25,8 @@ namespace tomware.Microsts.Web
     }
 
     [AllowAnonymous]
-    [HttpPost]
-    [Route("register")]
-    [ProducesResponseType(typeof(IdentityResult), 200)]
+    [HttpPost("register")]
+    [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
     public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
     {
       if (ModelState.IsValid)
@@ -49,10 +49,9 @@ namespace tomware.Microsts.Web
       return BadRequest(ModelState);
     }
 
-    [HttpPost]
     [Authorize]
-    [Route("changepassword")]
-    [ProducesResponseType(typeof(IdentityResult), 200)]
+    [HttpPost("changepassword")]
+    [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
     public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
     {
       if (ModelState.IsValid)
@@ -74,9 +73,8 @@ namespace tomware.Microsts.Web
       return BadRequest(ModelState);
     }
 
-    [HttpPost]
-    [Route("addrole")]
-    [ProducesResponseType(typeof(IdentityResult), 200)]
+    [HttpPost("addrole")]
+    [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
     public async Task<IActionResult> AddRole([FromBody]AddRoleViewModel model)
     {
       if (ModelState.IsValid)
@@ -96,9 +94,8 @@ namespace tomware.Microsts.Web
       return BadRequest(ModelState);
     }
 
-    [HttpPost]
-    [Route("assignrole")]
-    [ProducesResponseType(typeof(IdentityResult), 200)]
+    [HttpPost("assignrole")]
+    [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
     public async Task<IActionResult> AssignRole([FromBody]AssignViewModel model)
     {
       if (ModelState.IsValid)
@@ -118,9 +115,8 @@ namespace tomware.Microsts.Web
       return BadRequest(ModelState);
     }
 
-    [HttpPost]
-    [Route("unassignrole")]
-    [ProducesResponseType(typeof(IdentityResult), 200)]
+    [HttpPost("unassignrole")]
+    [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
     public async Task<IActionResult> UnassignRole([FromBody]AssignViewModel model)
     {
       if (ModelState.IsValid)
@@ -140,25 +136,22 @@ namespace tomware.Microsts.Web
       return BadRequest(ModelState);
     }
 
-    [HttpGet]
-    [Route("roles")]
-    [ProducesResponseType(typeof(IEnumerable<string>), 200)]
+    [HttpGet("roles")]
+    [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
     public IActionResult Roles()
     {
       return Ok(this.accountService.GetRoles());
     }
 
-    [HttpGet]
-    [Route("users")]
-    [ProducesResponseType(typeof(IEnumerable<UserViewModel>), 200)]
+    [HttpGet("users")]
+    [ProducesResponseType(typeof(IEnumerable<UserViewModel>), StatusCodes.Status200OK)]
     public IActionResult Users()
     {
       return Ok(this.accountService.GetUsers());
     }
 
-    [HttpGet]
-    [Route("user/{id}")]
-    [ProducesResponseType(typeof(UserViewModel), 200)]
+    [HttpGet("user/{id}")]
+    [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetUser(string id)
     {
       var result = await this.accountService.GetUser(id);

@@ -26,3 +26,8 @@ Links:
 
 Docs:
 - https://manfredsteyer.github.io/angular-oauth2-oidc/docs/index.html
+
+
+----------------------------------------------------------------------------------------------------
+- dotnet ef migrations add "ClaimTypes" -c STSContext -o Data/Migrations
+- dotnet ef database update -c STSContext

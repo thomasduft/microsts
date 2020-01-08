@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tomware.Microsts.Web;
 
 namespace tomware.Microsts.Web.Data.Migrations
 {
     [DbContext(typeof(STSContext))]
-    partial class STSContextModelSnapshot : ModelSnapshot
+    [Migration("20200108074503_ClaimTypes")]
+    partial class ClaimTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
