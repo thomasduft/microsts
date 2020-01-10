@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel } from '../../../shared';
 import { FormdefRegistry } from '../../../shared/formdef';
@@ -26,6 +26,7 @@ export class UserDetailComponent implements OnInit {
   public viewModel: User;
 
   public constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private service: AccountService,
     private slotRegistry: FormdefRegistry,
@@ -45,22 +46,20 @@ export class UserDetailComponent implements OnInit {
     this.user$ = this.service.update(viewModel)
       .subscribe(() => {
         console.log('updated', viewModel);
+        this.back();
       });
 
-    this.messageBus.publish(
-      new StatusMessage(
-        undefined,
-        'Your changes have been saved...',
-        StatusLevel.Success
-      ));
+    this.changesSaved();
   }
 
   public deleted(viewModel: User): void {
     console.log('deleted...', viewModel);
+
+    this.changesSaved();
   }
 
-  public cancel(): void {
-    console.log('cancel...');
+  public back(): void {
+    this.router.navigate(['users']);
   }
 
   private init(id?: string): void {
@@ -78,5 +77,14 @@ export class UserDetailComponent implements OnInit {
         this.key = UserDetailSlot.KEY;
         this.viewModel = result.user;
       });
+  }
+
+  private changesSaved(): void {
+    this.messageBus.publish(
+      new StatusMessage(
+        undefined,
+        'Your changes have been saved...',
+        StatusLevel.Success
+      ));
   }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -48,7 +49,9 @@ namespace tomware.Microsts.Web
 
       var result = await this.service.CreateAsync(model);
 
-      return Created($"api/claimtypes/{result}", result);
+      var id = new Guid(result);
+
+      return Created($"api/role/{id}", id);
     }
 
     [HttpPut]

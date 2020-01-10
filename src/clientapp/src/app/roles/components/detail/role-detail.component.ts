@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel } from '../../../shared';
 
@@ -27,6 +27,7 @@ export class RoleDetailComponent implements OnInit {
   public isNew = false;
 
   public constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private service: RoleService,
     private messageBus: MessageBus
@@ -47,22 +48,18 @@ export class RoleDetailComponent implements OnInit {
         .subscribe((id: string) => {
           if (id) {
             console.log('created', id);
-            this.create();
+            this.back();
           }
         });
     } else {
       this.role$ = this.service.update(viewModel)
         .subscribe(() => {
           console.log('updated', viewModel);
+          this.back();
         });
     }
 
-    this.messageBus.publish(
-      new StatusMessage(
-        undefined,
-        'Your changes have been saved...',
-        StatusLevel.Success
-      ));
+    this.changesSaved();
   }
 
   public deleted(viewModel: Role): void {
@@ -75,12 +72,14 @@ export class RoleDetailComponent implements OnInit {
     this.role$ = this.service.delete(viewModel.id)
       .subscribe((id: string) => {
         console.log('deleted', viewModel.id);
-        this.create();
+        this.back();
       });
+
+    this.changesSaved();
   }
 
-  public cancel(): void {
-    console.log('cancel...');
+  public back(): void {
+    this.router.navigate(['roles']);
   }
 
   private init(id?: string): void {
@@ -92,6 +91,7 @@ export class RoleDetailComponent implements OnInit {
   }
 
   private load(id: string): void {
+    this.isNew = false;
     this.role$ = this.service.role(id)
       .subscribe((result: Role) => {
         this.key = RoleDetailSlot.KEY;
@@ -105,5 +105,14 @@ export class RoleDetailComponent implements OnInit {
       id: 'new',
       name: undefined
     };
+  }
+
+  private changesSaved(): void {
+    this.messageBus.publish(
+      new StatusMessage(
+        undefined,
+        'Your changes have been saved...',
+        StatusLevel.Success
+      ));
   }
 }
