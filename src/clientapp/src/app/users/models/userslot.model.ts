@@ -59,7 +59,7 @@ export class UserDetailSlot implements Slot {
         label: 'Claims',
         required: false,
         options: claimOptions,
-        singleSelection: true,
+        singleSelection: false,
         bindingBehaviour: VALUE_BINDING_BEHAVIOR
       },
       {
@@ -68,7 +68,7 @@ export class UserDetailSlot implements Slot {
         label: 'Roles',
         required: false,
         options: roleOptions,
-        singleSelection: true,
+        singleSelection: false,
         bindingBehaviour: VALUE_BINDING_BEHAVIOR
       }
     ];

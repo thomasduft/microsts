@@ -14,7 +14,7 @@ namespace tomware.Microsts.Web
   public class AccountController : Controller
   {
     private readonly ILogger<AccountController> logger;
-    private readonly IAccountService accountService;
+    private readonly IAccountService service;
 
     public AccountController(
       ILogger<AccountController> logger,
@@ -22,7 +22,7 @@ namespace tomware.Microsts.Web
     )
     {
       this.logger = logger;
-      this.accountService = accountService;
+      this.service = accountService;
     }
 
     [HttpPost("register")]
@@ -31,8 +31,8 @@ namespace tomware.Microsts.Web
     {
       if (ModelState.IsValid)
       {
-        ApplicationUser user = this.accountService.CreateUser(model);
-        var result = await this.accountService.RegisterAsync(user, model.Password);
+        ApplicationUser user = this.service.CreateUser(model);
+        var result = await this.service.RegisterAsync(user, model.Password);
         if (result.Succeeded)
         {
           this.logger.LogInformation(
@@ -55,7 +55,7 @@ namespace tomware.Microsts.Web
     {
       if (ModelState.IsValid)
       {
-        var result = await this.accountService.ChangePasswordAsync(model);
+        var result = await this.service.ChangePasswordAsync(model);
         if (result.Succeeded)
         {
           this.logger.LogInformation(
@@ -76,7 +76,7 @@ namespace tomware.Microsts.Web
     [ProducesResponseType(typeof(IEnumerable<UserViewModel>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Users()
     {
-      var result = await this.accountService.GetUsersAsync();
+      var result = await this.service.GetUsersAsync();
 
       return Ok(result);
     }
@@ -85,50 +85,73 @@ namespace tomware.Microsts.Web
     [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetUser(string id)
     {
-      var result = await this.accountService.GetUserAsync(id);
+      if (string.IsNullOrWhiteSpace(id)) return BadRequest();
+
+      var result = await this.service.GetUserAsync(id);
 
       return Ok(result);
     }
 
-    [HttpPut("assignclaims")]
+    [HttpPut("user")]
     [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
-    public async Task<IActionResult> AssignClaimsAsync([FromBody]AssignClaimsViewModel model)
+    public async Task<IActionResult> UpdateAsync([FromBody]UserViewModel model)
     {
-      if (ModelState.IsValid)
-      {
-        var result = await this.accountService.AssignClaimsAsync(model);
-        if (result.Succeeded)
-        {
-          this.logger.LogInformation("The claims have been assigned.");
+      if (model == null) return BadRequest();
+      if (!ModelState.IsValid) return BadRequest(ModelState);
 
-          return Ok(result);
-        }
+      var result = await this.service.UpdateAsync(model);
 
-        AddErrors(result);
-      }
-
-      return BadRequest(ModelState);
+      return Ok(result);
     }
 
-    [HttpPut("assignroles")]
+    [HttpDelete("user/{id}")]
     [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
-    public async Task<IActionResult> AssignRolesAsync([FromBody]AssignRolesViewModel model)
+    public IActionResult DeleteAsync(string id)
     {
-      if (ModelState.IsValid)
-      {
-        var result = await this.accountService.AssignRolesAsync(model);
-        if (result.Succeeded)
-        {
-          this.logger.LogInformation("The roles have been assigned.");
+      if (string.IsNullOrWhiteSpace(id)) return BadRequest();
 
-          return Ok(result);
-        }
-
-        AddErrors(result);
-      }
-
-      return BadRequest(ModelState);
+      throw new System.NotImplementedException("DeleteAsync");
     }
+
+    // [HttpPut("assignclaims")]
+    // [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
+    // public async Task<IActionResult> AssignClaimsAsync([FromBody]AssignClaimsViewModel model)
+    // {
+    //   if (ModelState.IsValid)
+    //   {
+    //     var result = await this.accountService.AssignClaimsAsync(model);
+    //     if (result.Succeeded)
+    //     {
+    //       this.logger.LogInformation("The claims have been assigned.");
+
+    //       return Ok(result);
+    //     }
+
+    //     AddErrors(result);
+    //   }
+
+    //   return BadRequest(ModelState);
+    // }
+
+    // [HttpPut("assignroles")]
+    // [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
+    // public async Task<IActionResult> AssignRolesAsync([FromBody]AssignRolesViewModel model)
+    // {
+    //   if (ModelState.IsValid)
+    //   {
+    //     var result = await this.accountService.AssignRolesAsync(model);
+    //     if (result.Succeeded)
+    //     {
+    //       this.logger.LogInformation("The roles have been assigned.");
+
+    //       return Ok(result);
+    //     }
+
+    //     AddErrors(result);
+    //   }
+
+    //   return BadRequest(ModelState);
+    // }
 
     private void AddErrors(IdentityResult result)
     {

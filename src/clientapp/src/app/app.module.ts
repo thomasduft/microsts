@@ -15,6 +15,7 @@ import { ShellModule } from './shell/shell.module';
 import { HomeModule } from './home/home.module';
 import { ClaimtypesModule } from './claimtypes/claimtypes.module';
 import { RolesModule } from './roles/roles.module';
+import { UsersModule } from './users/users.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home/home.component';
@@ -40,7 +41,8 @@ const ROUTES: Routes = [
     ShellModule,
     HomeModule,
     ClaimtypesModule,
-    RolesModule
+    RolesModule,
+    UsersModule
   ],
   providers: [
     {

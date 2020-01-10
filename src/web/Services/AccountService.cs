@@ -15,19 +15,18 @@ namespace tomware.Microsts.Web
     Task<IdentityResult> ChangePasswordAsync(ChangePasswordViewModel model);
     Task<IEnumerable<UserViewModel>> GetUsersAsync();
     Task<UserViewModel> GetUserAsync(string id);
-    Task<IdentityResult> AssignClaimsAsync(AssignClaimsViewModel model);
-    Task<IdentityResult> AssignRolesAsync(AssignRolesViewModel model);
+    Task<IdentityResult> UpdateAsync(UserViewModel model);
   }
 
   public class AccountService : IAccountService
   {
-    private readonly UserManager<ApplicationUser> userManager;
+    private readonly UserManager<ApplicationUser> manager;
 
     public AccountService(
-      UserManager<ApplicationUser> userManager
+      UserManager<ApplicationUser> manager
     )
     {
-      this.userManager = userManager;
+      this.manager = manager;
     }
 
     public ApplicationUser CreateUser(RegisterUserViewModel model)
@@ -41,14 +40,14 @@ namespace tomware.Microsts.Web
 
     public async Task<IdentityResult> RegisterAsync(ApplicationUser user, string password)
     {
-      return await this.userManager.CreateAsync(user, password);
+      return await this.manager.CreateAsync(user, password);
     }
 
     public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordViewModel model)
     {
-      var user = await this.userManager.FindByNameAsync(model.UserName);
+      var user = await this.manager.FindByNameAsync(model.UserName);
 
-      return await this.userManager.ChangePasswordAsync(
+      return await this.manager.ChangePasswordAsync(
         user,
         model.CurrentPassword,
         model.NewPassword
@@ -58,7 +57,7 @@ namespace tomware.Microsts.Web
     public async Task<IEnumerable<UserViewModel>> GetUsersAsync()
     {
       // TODO: Paging
-      var items = await this.userManager.Users
+      var items = await this.manager.Users
         .OrderBy(u => u.UserName)
         .AsNoTracking()
         .ToListAsync();
@@ -74,9 +73,9 @@ namespace tomware.Microsts.Web
 
     public async Task<UserViewModel> GetUserAsync(string id)
     {
-      var user = await this.userManager.FindByIdAsync(id);
-      var roles = await this.userManager.GetRolesAsync(user);
-      var claims = await this.userManager.GetClaimsAsync(user);
+      var user = await this.manager.FindByIdAsync(id);
+      var roles = await this.manager.GetRolesAsync(user);
+      var claims = await this.manager.GetClaimsAsync(user);
 
       return new UserViewModel
       {
@@ -84,40 +83,72 @@ namespace tomware.Microsts.Web
         UserName = user.UserName,
         Email = user.Email,
         LockoutEnabled = user.LockoutEnabled,
-        Claims = claims.ToList(),
+        Claims = new List<string>(claims.ToList().Select(c => c.Value)),
         Roles = roles.ToList()
       };
     }
 
-    public async Task<IdentityResult> AssignClaimsAsync(AssignClaimsViewModel model)
+    public async Task<IdentityResult> UpdateAsync(UserViewModel model)
     {
-      if (model is null) throw new ArgumentNullException(nameof(model));
+      if (model == null) throw new ArgumentNullException(nameof(model));
+      if (string.IsNullOrWhiteSpace(model.Id)) throw new ArgumentNullException(nameof(model.Id));
 
-      var user = await this.userManager.FindByNameAsync(model.UserName);
-      var claims = await this.userManager.GetClaimsAsync(user);
+      var user = await this.manager.FindByIdAsync(model.Id);
+      user.UserName = model.UserName;
+      user.Email = model.Email;
+      user.LockoutEnabled = model.LockoutEnabled;
+
+      var result = await this.manager.UpdateAsync(user);
+
+      result = await this.AssignClaimsAsync(user, new AssignClaimsViewModel
+      {
+        UserName = user.UserName,
+        Claims = model.Claims
+      });
+
+      if (!result.Succeeded)
+      {
+        return result;
+      }
+
+      result = await this.AssignRolesAsync(user, new AssignRolesViewModel
+      {
+        UserName = user.UserName,
+        Roles = model.Roles
+      });
+
+      return result;
+    }
+
+    private async Task<IdentityResult> AssignClaimsAsync(
+      ApplicationUser user,
+      AssignClaimsViewModel model
+    )
+    {
+      var claims = await this.manager.GetClaimsAsync(user);
 
       // removing all claims
-      await this.userManager.RemoveClaimsAsync(user, claims.Where(c => c.Type == "tw"));
+      await this.manager.RemoveClaimsAsync(user, claims.Where(c => c.Type == "tw"));
 
       // assigning claims
-      return await this.userManager.AddClaimsAsync(
+      return await this.manager.AddClaimsAsync(
         user,
         model.Claims.Select(c => new Claim("tw", c))
       );
     }
 
-    public async Task<IdentityResult> AssignRolesAsync(AssignRolesViewModel model)
+    private async Task<IdentityResult> AssignRolesAsync(
+      ApplicationUser user,
+      AssignRolesViewModel model
+    )
     {
-      if (model is null) throw new ArgumentNullException(nameof(model));
-
-      var user = await this.userManager.FindByNameAsync(model.UserName);
-      var roles = await this.userManager.GetRolesAsync(user);
+      var roles = await this.manager.GetRolesAsync(user);
 
       // removing all roles
-      await this.userManager.RemoveFromRolesAsync(user, roles);
+      await this.manager.RemoveFromRolesAsync(user, roles);
 
       // assigning roles
-      return await this.userManager.AddToRolesAsync(
+      return await this.manager.AddToRolesAsync(
         user,
         model.Roles
       );

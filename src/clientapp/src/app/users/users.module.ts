@@ -5,22 +5,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../shared';
 import { SharedModule } from '../shared/shared.module';
 import { FormdefModule } from '../shared/formdef/formdef.module';
-import { FormdefRegistry } from '../shared/formdef';
 
 import { AccountService } from './services';
+import { UserDashboardComponent } from './components/dashboard/user-dashboard.component';
+import { UserListComponent } from './components/list/user-list.component';
+import { UserDetailComponent } from './components/detail/user-detail.component';
 
 const ROUTES: Routes = [
-  // {
-  //   path: 'users',
-  //   component: UserDashboardComponent,
-  //   canActivate: [AuthGuard],
-  //   children: [
-  //     {
-  //       path: ':id',
-  //       component: UserDetailComponent
-  //     }
-  //   ]
-  // }
+  {
+    path: 'users',
+    component: UserDashboardComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: ':id',
+        component: UserDetailComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({
@@ -30,15 +32,15 @@ const ROUTES: Routes = [
     SharedModule,
     FormdefModule
   ],
-  declarations: [],
+  declarations: [
+    UserListComponent,
+    UserDetailComponent,
+    UserDashboardComponent
+  ],
   providers: [
     AccountService
   ]
 })
 export class UsersModule {
-  public constructor(
-    private slotRegistry: FormdefRegistry
-  ) {
-    // this.slotRegistry.register(new UserDetailSlot());
-  }
+
 }
