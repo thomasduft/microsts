@@ -1,0 +1,21 @@
+<tw-list [rows]="roles">
+  <tw-header>
+    <h3 i18n>Roles</h3>
+    <div class="button__bar">
+      <a class="button" [routerLink]="['.', 'new']">
+        <tw-icon name="plus"></tw-icon>
+      </a>
+      <button type="button" (click)="reload()">
+        <tw-icon name="refresh"></tw-icon>
+      </button>
+    </div>
+  </tw-header>
+  <ng-template let-role twTemplate="role-item">
+    <div [routerLink]="['.', role?.id]"
+         routerLinkActive="active"
+         [attr.title]="role?.name"
+         class="list__item">
+      <div>{{ role.name }}</div>
+    </div>
+  </ng-template>
+</tw-list>

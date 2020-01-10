@@ -5,30 +5,30 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel } from '../../../shared';
 
-import { ClaimtypeDetailSlot, ClaimType } from '../../models';
-import { ClaimTypesService } from '../../services';
+import { RoleDetailSlot, Role } from '../../models';
+import { RoleService } from '../../services';
 
 @AutoUnsubscribe
 @Component({
-  selector: 'tw-claimtype-detail',
-  templateUrl: './claimtype-detail.component.html',
-  styleUrls: ['./claimtype-detail.component.less'],
+  selector: 'tw-role-detail',
+  templateUrl: './role-detail.component.html',
+  styleUrls: ['./role-detail.component.less'],
   providers: [
-    ClaimTypesService
+    RoleService
   ]
 })
-export class ClaimtypeDetailComponent implements OnInit {
+export class RoleDetailComponent implements OnInit {
   private routeParams$: Subscription;
-  private claimtype$: Subscription;
+  private role$: Subscription;
 
-  public key = ClaimtypeDetailSlot.KEY;
-  public viewModel: ClaimType;
+  public key = RoleDetailSlot.KEY;
+  public viewModel: Role;
 
   public isNew = false;
 
   public constructor(
     private route: ActivatedRoute,
-    private service: ClaimTypesService,
+    private service: RoleService,
     private messageBus: MessageBus
   ) { }
 
@@ -41,9 +41,9 @@ export class ClaimtypeDetailComponent implements OnInit {
       });
   }
 
-  public submitted(viewModel: ClaimType): void {
+  public submitted(viewModel: Role): void {
     if (this.isNew) {
-      this.claimtype$ = this.service.create(viewModel)
+      this.role$ = this.service.create(viewModel)
         .subscribe((id: string) => {
           if (id) {
             console.log('created', id);
@@ -51,7 +51,7 @@ export class ClaimtypeDetailComponent implements OnInit {
           }
         });
     } else {
-      this.claimtype$ = this.service.update(viewModel)
+      this.role$ = this.service.update(viewModel)
         .subscribe(() => {
           console.log('updated', viewModel);
         });
@@ -65,14 +65,14 @@ export class ClaimtypeDetailComponent implements OnInit {
       ));
   }
 
-  public deleted(viewModel: ClaimType): void {
+  public deleted(viewModel: Role): void {
     if (this.isNew) {
       return;
     }
 
     // TODO: confirm???
 
-    this.claimtype$ = this.service.delete(viewModel.id)
+    this.role$ = this.service.delete(viewModel.id)
       .subscribe((id: string) => {
         console.log('deleted', viewModel.id);
         this.create();
@@ -92,9 +92,9 @@ export class ClaimtypeDetailComponent implements OnInit {
   }
 
   private load(id: string): void {
-    this.claimtype$ = this.service.claimtype(id)
-      .subscribe((result: ClaimType) => {
-        this.key = ClaimtypeDetailSlot.KEY;
+    this.role$ = this.service.claimtype(id)
+      .subscribe((result: Role) => {
+        this.key = RoleDetailSlot.KEY;
         this.viewModel = result;
       });
   }
@@ -103,8 +103,7 @@ export class ClaimtypeDetailComponent implements OnInit {
     this.isNew = true;
     this.viewModel = {
       id: 'new',
-      name: undefined,
-      description: undefined
+      name: undefined
     };
   }
 }

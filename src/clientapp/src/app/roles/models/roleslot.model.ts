@@ -6,12 +6,12 @@ import {
   TEXT_EDITOR
 } from '../../shared/formdef';
 
-export class ClaimtypeDetailSlot implements Slot {
-  public static KEY = 'ClaimtypeDetailSlot';
+export class RoleDetailSlot implements Slot {
+  public static KEY = 'RoleDetailSlot';
 
-  public key = ClaimtypeDetailSlot.KEY;
+  public key = RoleDetailSlot.KEY;
   public type = SINGLE_SLOT;
-  public title = 'Claimtype';
+  public title = 'Role';
   public editors: Editor[];
 
   public constructor() {
@@ -27,11 +27,6 @@ export class ClaimtypeDetailSlot implements Slot {
         type: TEXT_EDITOR,
         label: 'Name',
         required: true
-      },
-      {
-        key: 'description',
-        type: TEXT_EDITOR,
-        label: 'Description'
       }
     ];
   }
