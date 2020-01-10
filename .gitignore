@@ -265,3 +265,5 @@ src/Web/sts.sqlite
 src/Web/tempkey.rsa
 src/web/sts.sqlite
 src/web/tempkey.rsa
+src/web/sts.sqlite-shm
+src/web/sts.sqlite-wal
