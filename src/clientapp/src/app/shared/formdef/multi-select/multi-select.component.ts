@@ -145,7 +145,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
     if(event.keyCode === 13) {
       // return
       event.preventDefault();
-      
+
       this.toggleDropdown(event);
     }
   }

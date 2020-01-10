@@ -1,42 +1,40 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace tomware.Microsts.Web
 {
   public interface IAccountService
   {
-    ApplicationUser CreateUser(RegisterViewModel model);
+    ApplicationUser CreateUser(RegisterUserViewModel model);
     Task<IdentityResult> RegisterAsync(ApplicationUser user, string password);
     Task<IdentityResult> ChangePasswordAsync(ChangePasswordViewModel model);
-    IEnumerable<string> GetRoles();
-    Task<IdentityResult> AddRoleAsync(string role);
-    Task<IdentityResult> AssignRoleAsync(AssignViewModel model);
-    Task<IdentityResult> UnassignRoleAsync(AssignViewModel model);
-    IEnumerable<UserViewModel> GetUsers();
-    Task<UserViewModel> GetUser(string id);
+    Task<IEnumerable<UserViewModel>> GetUsersAsync();
+    Task<UserViewModel> GetUserAsync(string id);
+    Task<IdentityResult> AssignClaimsAsync(AssignClaimsViewModel model);
+    Task<IdentityResult> AssignRolesAsync(AssignRolesViewModel model);
   }
 
   public class AccountService : IAccountService
   {
     private readonly UserManager<ApplicationUser> userManager;
-    private readonly RoleManager<IdentityRole> roleManager;
 
     public AccountService(
-      UserManager<ApplicationUser> userManager,
-      RoleManager<IdentityRole> roleManager
+      UserManager<ApplicationUser> userManager
     )
     {
       this.userManager = userManager;
-      this.roleManager = roleManager;
     }
 
-    public ApplicationUser CreateUser(RegisterViewModel model)
+    public ApplicationUser CreateUser(RegisterUserViewModel model)
     {
       return new ApplicationUser
       {
-        UserName = model.Email,
+        UserName = model.UserName,
         Email = model.Email
       };
     }
@@ -50,70 +48,31 @@ namespace tomware.Microsts.Web
     {
       var user = await this.userManager.FindByNameAsync(model.UserName);
 
-      return await this.userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+      return await this.userManager.ChangePasswordAsync(
+        user,
+        model.CurrentPassword,
+        model.NewPassword
+      );
     }
 
-    public IEnumerable<string> GetRoles()
+    public async Task<IEnumerable<UserViewModel>> GetUsersAsync()
     {
-      var roles = this.roleManager.Roles.ToList().Select(r => r.Name);
+      // TODO: Paging
+      var items = await this.userManager.Users
+        .OrderBy(u => u.UserName)
+        .AsNoTracking()
+        .ToListAsync();
 
-      return roles;
-    }
-
-    public async Task<IdentityResult> AddRoleAsync(string role)
-    {
-      var newRole = new IdentityRole(role);
-      if (!await this.roleManager.RoleExistsAsync(role))
+      return items.Select(u => new UserViewModel
       {
-        return await this.roleManager.CreateAsync(newRole);
-      }
-
-      return IdentityResult.Failed();
+        Id = u.Id,
+        UserName = u.UserName,
+        Email = u.Email,
+        LockoutEnabled = u.LockoutEnabled
+      });
     }
 
-    public async Task<IdentityResult> AssignRoleAsync(AssignViewModel model)
-    {
-      var role = await this.roleManager.FindByNameAsync(model.RoleName);
-      if (role == null) return await this.RoleDoesNotExist(model.RoleName);
-
-      var user = await this.userManager.FindByNameAsync(model.UserName);
-      if (!await this.userManager.IsInRoleAsync(user, model.RoleName))
-      {
-        return await this.userManager.AddToRoleAsync(user, model.RoleName);
-      }
-
-      return IdentityResult.Failed();
-    }
-
-    public async Task<IdentityResult> UnassignRoleAsync(AssignViewModel model)
-    {
-      var role = this.roleManager.FindByNameAsync(model.RoleName).Result;
-      if (role == null) return await this.RoleDoesNotExist(model.RoleName);
-
-      var user = await this.userManager.FindByNameAsync(model.UserName);
-      if (await this.userManager.IsInRoleAsync(user, model.RoleName))
-      {
-        return await this.userManager.RemoveFromRoleAsync(user, model.RoleName);
-      }
-
-      return IdentityResult.Failed();
-    }
-
-    public IEnumerable<UserViewModel> GetUsers()
-    {
-      var users = this.userManager.Users.ToList()
-        .Select(u => new UserViewModel
-        {
-          Id = u.Id,
-          UserName = u.UserName,
-          Email = u.Email,
-          LockoutEnabled = u.LockoutEnabled
-        });
-
-      return users;
-    }
-
-    public async Task<UserViewModel> GetUser(string id)
+    public async Task<UserViewModel> GetUserAsync(string id)
     {
       var user = await this.userManager.FindByIdAsync(id);
       var roles = await this.userManager.GetRolesAsync(user);
@@ -130,16 +89,38 @@ namespace tomware.Microsts.Web
       };
     }
 
-    private Task<IdentityResult> RoleDoesNotExist(string role)
+    public async Task<IdentityResult> AssignClaimsAsync(AssignClaimsViewModel model)
     {
-      return Task.FromResult(IdentityResult.Failed(new[]
-      {
-        new IdentityError
-        {
-          Code = "RoleDoesNotExist",
-          Description = $"The role {role} does not exist! Please add it first."
-        }
-      }));
+      if (model is null) throw new ArgumentNullException(nameof(model));
+
+      var user = await this.userManager.FindByNameAsync(model.UserName);
+      var claims = await this.userManager.GetClaimsAsync(user);
+
+      // removing all claims
+      await this.userManager.RemoveClaimsAsync(user, claims.Where(c => c.Type == "tw"));
+
+      // assigning claims
+      return await this.userManager.AddClaimsAsync(
+        user,
+        model.Claims.Select(c => new Claim("tw", c))
+      );
+    }
+
+    public async Task<IdentityResult> AssignRolesAsync(AssignRolesViewModel model)
+    {
+      if (model is null) throw new ArgumentNullException(nameof(model));
+
+      var user = await this.userManager.FindByNameAsync(model.UserName);
+      var roles = await this.userManager.GetRolesAsync(user);
+
+      // removing all roles
+      await this.userManager.RemoveFromRolesAsync(user, roles);
+
+      // assigning roles
+      return await this.userManager.AddToRolesAsync(
+        user,
+        model.Roles
+      );
     }
   }
 }

@@ -2,8 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace tomware.Microsts.Web
 {
-  public class RegisterViewModel
+  public class RegisterUserViewModel
   {
+    [Required]
+    public string UserName { get; set; }
+
     [Required]
     [EmailAddress]
     public string Email { get; set; }

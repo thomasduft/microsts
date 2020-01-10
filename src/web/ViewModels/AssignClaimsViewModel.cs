@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace tomware.Microsts.Web
 {
-  public class AssignRolesViewModel
+  public class AssignClaimsViewModel
   {
     [Required]
     public string UserName { get; set; }
 
     [Required]
-    public IList<string> Roles { get; set; } = new List<string>();
+    public IList<string> Claims { get; set; } = new List<string>();
   }
 }

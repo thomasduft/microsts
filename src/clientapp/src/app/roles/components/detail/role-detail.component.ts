@@ -92,7 +92,7 @@ export class RoleDetailComponent implements OnInit {
   }
 
   private load(id: string): void {
-    this.role$ = this.service.claimtype(id)
+    this.role$ = this.service.role(id)
       .subscribe((result: Role) => {
         this.key = RoleDetailSlot.KEY;
         this.viewModel = result;

@@ -15,13 +15,13 @@ export class RoleService {
     private http: HttpWrapperService
   ) { }
 
-  public claimtypes(): Observable<Array<Role>> {
+  public roles(): Observable<Array<Role>> {
     return this.http
       .get<Array<Role>>('role')
       .pipe(catchError(this.http.handleError));
   }
 
-  public claimtype(id: string): Observable<Role> {
+  public role(id: string): Observable<Role> {
     return this.http
       .get<Role>(`role/${id}`)
       .pipe(catchError(this.http.handleError));

@@ -38,7 +38,7 @@ export class RoleListComponent implements OnInit {
   }
 
   private loadRoles(): void {
-    this.roles$ = this.service.claimtypes()
+    this.roles$ = this.service.roles()
       .subscribe((response: Array<Role>) => {
         this.roles = response;
       });
