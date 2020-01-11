@@ -18,11 +18,9 @@ import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home/home.component';
 
 const ROUTES: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'users', pathMatch: 'full' },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

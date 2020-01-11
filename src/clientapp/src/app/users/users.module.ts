@@ -39,6 +39,9 @@ const ROUTES: Routes = [
   ],
   providers: [
     AccountService
+  ],
+  exports: [
+    UserDashboardComponent
   ]
 })
 export class UsersModule {
