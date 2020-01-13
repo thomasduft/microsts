@@ -1,8 +1,9 @@
 import { Subscription } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { AutoUnsubscribe } from '../../../shared';
+import { AutoUnsubscribe, IMessageSubscriber, MessageBus } from '../../../shared';
+import { RefreshMessage } from '../../../core';
 
 import { User } from '../../models';
 import { AccountService } from '../../services/account.service';
@@ -16,17 +17,36 @@ import { AccountService } from '../../services/account.service';
     AccountService
   ]
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent
+  implements OnInit, OnDestroy, IMessageSubscriber<RefreshMessage> {
   private users$: Subscription;
+  private busSubscription: number;
 
   public users: Array<User> = [];
 
   public constructor(
-    private service: AccountService
-  ) { }
+    private service: AccountService,
+    private bus: MessageBus
+  ) {
+    this.busSubscription = this.bus.subsribe(this);
+  }
 
   public ngOnInit(): void {
     this.loadData();
+  }
+
+  public ngOnDestroy(): void {
+    this.bus.unsubscribe(this.busSubscription);
+  }
+
+  public onMessage(message: RefreshMessage): void {
+    if (message.source === 'user') {
+      this.loadData();
+    }
+  }
+
+  public getType(): string {
+    return RefreshMessage.KEY;
   }
 
   public reload(): void {

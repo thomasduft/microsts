@@ -1,8 +1,9 @@
 import { Subscription } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { AutoUnsubscribe } from '../../../shared';
+import { AutoUnsubscribe, IMessageSubscriber, MessageBus } from '../../../shared';
+import { RefreshMessage } from '../../../core';
 
 import { ClaimType } from '../../models';
 import { ClaimTypesService } from '../../services/claimtypes.service';
@@ -16,17 +17,36 @@ import { ClaimTypesService } from '../../services/claimtypes.service';
     ClaimTypesService
   ]
 })
-export class ClaimtypeListComponent implements OnInit {
+export class ClaimtypeListComponent
+  implements OnInit, OnDestroy, IMessageSubscriber<RefreshMessage> {
   private claimtypes$: Subscription;
+  private busSubscription: number;
 
   public claimtypes: Array<ClaimType> = [];
 
   public constructor(
-    private service: ClaimTypesService
-  ) { }
+    private service: ClaimTypesService,
+    private bus: MessageBus
+  ) {
+    this.busSubscription = this.bus.subsribe(this);
+  }
 
   public ngOnInit(): void {
     this.loadData();
+  }
+
+  public ngOnDestroy(): void {
+    this.bus.unsubscribe(this.busSubscription);
+  }
+
+  public onMessage(message: RefreshMessage): void {
+    if (message.source === 'claimtype') {
+      this.loadData();
+    }
+  }
+
+  public getType(): string {
+    return RefreshMessage.KEY;
   }
 
   public reload(): void {

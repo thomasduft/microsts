@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel } from '../../../shared';
+import { RefreshMessage } from '../../../core';
 
 import { RoleDetailSlot, Role } from '../../models';
 import { RoleService } from '../../services';
@@ -114,5 +115,7 @@ export class RoleDetailComponent implements OnInit {
         'Your changes have been saved...',
         StatusLevel.Success
       ));
+
+    this.messageBus.publish(new RefreshMessage('role'));
   }
 }

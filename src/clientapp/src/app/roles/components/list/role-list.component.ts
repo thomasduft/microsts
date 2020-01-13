@@ -1,8 +1,9 @@
 import { Subscription } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { AutoUnsubscribe } from '../../../shared';
+import { AutoUnsubscribe, IMessageSubscriber, MessageBus } from '../../../shared';
+import { RefreshMessage } from '../../../core';
 
 import { Role } from '../../models';
 import { RoleService } from '../../services/role.service';
@@ -16,17 +17,36 @@ import { RoleService } from '../../services/role.service';
     RoleService
   ]
 })
-export class RoleListComponent implements OnInit {
+export class RoleListComponent
+  implements OnInit, OnDestroy, IMessageSubscriber<RefreshMessage> {
   private roles$: Subscription;
+  private busSubscription: number;
 
   public roles: Array<Role> = [];
 
   public constructor(
-    private service: RoleService
-  ) { }
+    private service: RoleService,
+    private bus: MessageBus
+  ) {
+    this.busSubscription = this.bus.subsribe(this);
+  }
 
   public ngOnInit(): void {
     this.loadData();
+  }
+
+  public ngOnDestroy(): void {
+    this.bus.unsubscribe(this.busSubscription);
+  }
+
+  public onMessage(message: RefreshMessage): void {
+    if (message.source === 'role') {
+      this.loadData();
+    }
+  }
+
+  public getType(): string {
+    return RefreshMessage.KEY;
   }
 
   public reload(): void {

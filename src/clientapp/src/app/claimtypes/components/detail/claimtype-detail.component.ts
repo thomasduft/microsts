@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel } from '../../../shared';
+import { RefreshMessage } from '../../../core';
 
 import { ClaimtypeDetailSlot, ClaimType } from '../../models';
 import { ClaimTypesService } from '../../services';
@@ -115,5 +116,7 @@ export class ClaimtypeDetailComponent implements OnInit {
         'Your changes have been saved...',
         StatusLevel.Success
       ));
+
+    this.messageBus.publish(new RefreshMessage('claimtype'));
   }
 }

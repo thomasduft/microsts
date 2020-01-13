@@ -5,6 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel } from '../../../shared';
 import { FormdefRegistry } from '../../../shared/formdef';
+import { RefreshMessage } from '../../../core';
 
 import { UserDetailSlot, User, UserDetail } from '../../models';
 import { AccountService } from '../../services';
@@ -86,5 +87,7 @@ export class UserDetailComponent implements OnInit {
         'Your changes have been saved...',
         StatusLevel.Success
       ));
+
+    this.messageBus.publish(new RefreshMessage('user'));
   }
 }

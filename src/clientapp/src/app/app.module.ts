@@ -20,7 +20,7 @@ import { UsersModule } from './users/users.module';
 import { AppComponent } from './app.component';
 
 const ROUTES: Routes = [
-  { path: '', redirectTo: 'users', pathMatch: 'full' },
+  { path: '', redirectTo: 'forbidden', pathMatch: 'full' },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
