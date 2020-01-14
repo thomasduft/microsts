@@ -22,6 +22,7 @@ export class ClaimtypeListComponent
   private claimtypes$: Subscription;
   private busSubscription: number;
 
+  public searchText = '';
   public claimtypes: Array<ClaimType> = [];
 
   public constructor(
@@ -32,6 +33,8 @@ export class ClaimtypeListComponent
   }
 
   public ngOnInit(): void {
+    this.searchText = '';
+
     this.loadData();
   }
 

@@ -1,4 +1,4 @@
-<tw-list [rows]="users">
+<tw-list [rows]="users | filter : searchText">
   <tw-header>
     <h3 i18n>Users</h3>
     <div class="button__bar">
@@ -9,6 +9,7 @@
         <tw-icon name="refresh"></tw-icon>
       </button>
     </div>
+    <input [(ngModel)]="searchText" placeholder="search text goes here">
   </tw-header>
   <ng-template let-user twTemplate="user-item">
     <div [routerLink]="['.', user?.id]"

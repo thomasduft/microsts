@@ -22,6 +22,7 @@ export class RoleListComponent
   private roles$: Subscription;
   private busSubscription: number;
 
+  public searchText = '';
   public roles: Array<Role> = [];
 
   public constructor(
@@ -32,6 +33,8 @@ export class RoleListComponent
   }
 
   public ngOnInit(): void {
+    this.searchText = '';
+
     this.loadData();
   }
 

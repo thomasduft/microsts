@@ -11,6 +11,8 @@ import { TabModule } from './tab/tab.module';
 import { ForbiddenComponent } from './components/forbidden.component';
 import { PageNotFoundComponent } from './components/page-not-found.component';
 
+import { FilterPipe } from './pipes';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { PageNotFoundComponent } from './components/page-not-found.component';
   ],
   declarations: [
     ForbiddenComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    FilterPipe
   ],
   exports: [
     ForbiddenComponent,
@@ -32,7 +35,8 @@ import { PageNotFoundComponent } from './components/page-not-found.component';
     IconModule,
     ListModule,
     PaneModule,
-    TabModule
+    TabModule,
+    FilterPipe
   ]
 })
 export class SharedModule { }

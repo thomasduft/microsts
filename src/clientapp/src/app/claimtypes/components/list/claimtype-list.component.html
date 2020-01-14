@@ -1,4 +1,4 @@
-<tw-list [rows]="claimtypes">
+<tw-list [rows]="claimtypes | filter : searchText">
   <tw-header>
     <h3 i18n>Claimtypes</h3>
     <div class="button__bar">
@@ -9,6 +9,7 @@
         <tw-icon name="refresh"></tw-icon>
       </button>
     </div>
+    <input [(ngModel)]="searchText" placeholder="search text goes here">
   </tw-header>
   <ng-template let-claimtype twTemplate="claimtype-item">
     <div [routerLink]="['.', claimtype?.id]"

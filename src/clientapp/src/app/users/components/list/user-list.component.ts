@@ -22,6 +22,7 @@ export class UserListComponent
   private users$: Subscription;
   private busSubscription: number;
 
+  public searchText = '';
   public users: Array<User> = [];
 
   public constructor(
@@ -32,6 +33,8 @@ export class UserListComponent
   }
 
   public ngOnInit(): void {
+    this.searchText = '';
+
     this.loadData();
   }
 
