@@ -20,7 +20,6 @@ export class ClientConfigProvider {
     return this.http.get<ClientConfiguration>(`client/config/${clientId}`)
       .toPromise()
       .then((data: ClientConfiguration) => {
-        console.log('data received...');
         this.config = data;
       });
   }

@@ -48,14 +48,12 @@ export class ClaimtypeDetailComponent implements OnInit {
       this.claimtype$ = this.service.create(viewModel)
         .subscribe((id: string) => {
           if (id) {
-            console.log('created', id);
             this.back();
           }
         });
     } else {
       this.claimtype$ = this.service.update(viewModel)
         .subscribe(() => {
-          console.log('updated', viewModel);
           this.back();
         });
     }
@@ -72,7 +70,6 @@ export class ClaimtypeDetailComponent implements OnInit {
 
     this.claimtype$ = this.service.delete(viewModel.id)
       .subscribe((id: string) => {
-        console.log('deleted', viewModel.id);
         this.back();
       });
 

@@ -46,7 +46,6 @@ export class UserDetailComponent implements OnInit {
   public submitted(viewModel: User): void {
     this.user$ = this.service.update(viewModel)
       .subscribe(() => {
-        console.log('updated', viewModel);
         this.back();
       });
 
@@ -54,8 +53,6 @@ export class UserDetailComponent implements OnInit {
   }
 
   public deleted(viewModel: User): void {
-    console.log('deleted...', viewModel);
-
     this.changesSaved();
   }
 

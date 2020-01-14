@@ -10,7 +10,7 @@ import { StatusBarService } from './statusbar.service';
   ],
   template: `
   <div *ngIf="displayStatusBar()" [class]="statusClass">
-    <button type="button" class="close"(click)="close($event)">
+    <button type="button" class="close"(click)="close()">
       <span>&times;</span>
     </button>
     <button *ngIf="hasAction"

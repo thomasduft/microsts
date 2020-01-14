@@ -26,7 +26,6 @@ export class MessageBus {
     const subscribersForMessage = this.getSubscribersForMessage<T>(message);
 
     if (subscribersForMessage.length === 0) {
-      console.log(`No subscribers for ${message.getType()} registred!`);
       return;
     }
 

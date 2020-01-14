@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
     private oauthService: OAuthService,
     private clientConfigProvider: ClientConfigProvider
   ) {
-    console.log('initializing app.component...');
   }
 
   public ngOnInit(): void {
