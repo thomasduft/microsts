@@ -38,10 +38,15 @@ namespace tomware.Microsts.Web
         claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
         claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
 
-        var roles = await this.userManager.GetRolesAsync(user);
-        if (roles.Count > 0)
+        var userRoles = await this.userManager.GetRolesAsync(user);
+        if (userRoles.Count > 0)
         {
-          claims.AddRange(roles.Select(r => new Claim(JwtClaimTypes.Role, r)));
+          claims.AddRange(userRoles.Select(r => new Claim(JwtClaimTypes.Role, r)));
+        }
+        var userClaims = await this.userManager.GetClaimsAsync(user);
+        if (userClaims.Count > 0)
+        {
+          claims.AddRange(userClaims);
         }
 
         claims.Add(new Claim(IdentityServerConstants.StandardScopes.Email, user.Email));
