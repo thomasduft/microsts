@@ -2,28 +2,28 @@
 @model LoginModel
 
 @{
-  ViewData["Title"] = "Log in";
+  ViewData["Title"] = "Login";
 }
 
 <h1>@ViewData["Title"]</h1>
-<div>
-  <div>
+<div class="pane">
+  <div class="pane__content" >
     <section>
-      <form id="account" method="post">
-        <h4>Use a local account to log in.</h4>
-        <hr />
-        <div asp-validation-summary="All"></div>
-        <div>
+      <h4>Use a local account to log in.</h4>
+      <hr />
+      <form class="form" id="account" method="post">
+        <div class="form__validation-summary" asp-validation-summary="All"></div>
+        <div class="form__group">
           <label asp-for="Input.Email"></label>
           <input asp-for="Input.Email" />
           <span asp-validation-for="Input.Email"></span>
         </div>
-        <div>
+        <div class="form__group">
           <label asp-for="Input.Password"></label>
           <input asp-for="Input.Password" />
           <span asp-validation-for="Input.Password"></span>
         </div>
-        <div>
+        <div class="form__group">
           <div>
             <label asp-for="Input.RememberMe">
               <input asp-for="Input.RememberMe" />
@@ -45,7 +45,7 @@
       </form>
     </section>
   </div>
-  <div>
+  <div class="pane__aside">
     <section>
       <h4>Use another service to log in.</h4>
       <hr />
