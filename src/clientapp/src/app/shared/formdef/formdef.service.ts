@@ -9,9 +9,7 @@ import {
 import {
   FormdefValidator,
   Editor,
-  Slot,
-  SINGLE_SLOT,
-  ARRAY_SLOT
+  Slot
 } from './models';
 import { FormdefRegistry } from './formdefRegistry.service';
 
@@ -42,7 +40,7 @@ export class FormdefService {
     if (!isArray) {
       slot.editors.forEach((e: Editor) => {
         fg.addControl(e.key, new FormControl(
-          viewModel[e.key],
+          { value: viewModel[e.key], disabled: e.isReadOnly === true },
           FormdefValidator.getValidators(e)
         ));
       });
@@ -54,7 +52,7 @@ export class FormdefService {
 
         slot.editors.forEach((e: Editor) => {
           row.addControl(e.key, new FormControl(
-            viewModel[i][e.key],
+            { value: viewModel[i][e.key], disabled: e.isReadOnly === true },
             FormdefValidator.getValidators(e)
           ));
         });

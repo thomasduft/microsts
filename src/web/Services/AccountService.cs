@@ -40,6 +40,8 @@ namespace tomware.Microsts.Web
 
     public async Task<IdentityResult> RegisterAsync(ApplicationUser user, string password)
     {
+      user.LockoutEnabled = true;
+
       return await this.manager.CreateAsync(user, password);
     }
 
@@ -77,12 +79,15 @@ namespace tomware.Microsts.Web
       var roles = await this.manager.GetRolesAsync(user);
       var claims = await this.manager.GetClaimsAsync(user);
 
+      var isLockedOut = await this.manager.IsLockedOutAsync(user);
+
       return new UserViewModel
       {
         Id = user.Id,
         UserName = user.UserName,
         Email = user.Email,
         LockoutEnabled = user.LockoutEnabled,
+        IsLockedOut = isLockedOut,
         Claims = new List<string>(claims.ToList().Select(c => c.Value)),
         Roles = roles.ToList()
       };

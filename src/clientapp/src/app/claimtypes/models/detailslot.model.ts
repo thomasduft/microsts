@@ -11,7 +11,7 @@ export class ClaimtypeDetailSlot implements Slot {
 
   public key = ClaimtypeDetailSlot.KEY;
   public type = SINGLE_SLOT;
-  public title = 'Claimtype';
+  public title = 'Detail';
   public editors: Editor[];
 
   public constructor() {

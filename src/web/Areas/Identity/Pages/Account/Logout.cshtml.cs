@@ -1,4 +1,7 @@
 ﻿using System.Threading.Tasks;
+using IdentityServer4.Events;
+using IdentityServer4.Extensions;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +15,19 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
   {
     public string LogoutId { get; set; }
 
-    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<LogoutModel> _logger;
+    private readonly IEventService _eventService;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
-    public LogoutModel(SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
+    public LogoutModel(
+      ILogger<LogoutModel> logger,
+      IEventService eventService,
+      SignInManager<ApplicationUser> signInManager
+    )
     {
-      _signInManager = signInManager;
       _logger = logger;
+      _signInManager = signInManager;
+      _eventService = eventService;
     }
 
     public void OnGet(string logoutId)
@@ -29,6 +38,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     public async Task<IActionResult> OnPost(string returnUrl = null)
     {
       await _signInManager.SignOutAsync();
+
+      await _eventService.RaiseAsync(new UserLogoutSuccessEvent(
+        User.GetSubjectId(),
+        User.GetDisplayName()
+      ));
 
       _logger.LogInformation("User logged out.");
 

@@ -14,7 +14,7 @@ export class UserDetailSlot implements Slot {
 
   public key = UserDetailSlot.KEY;
   public type = SINGLE_SLOT;
-  public title = 'User';
+  public title = 'Detail';
   public editors: Editor[];
 
   public constructor(
@@ -52,6 +52,12 @@ export class UserDetailSlot implements Slot {
         key: 'lockoutEnabled',
         type: CHECKBOX_EDITOR,
         label: 'Lockout enabled'
+      },
+      {
+        key: 'isLockedOut',
+        type: CHECKBOX_EDITOR,
+        label: 'Is locked out',
+        isReadOnly: true
       },
       {
         key: 'claims',

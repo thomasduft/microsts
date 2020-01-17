@@ -3,6 +3,7 @@ export interface User {
   userName: string;
   email: string;
   lockoutEnabled: boolean;
+  isLockedOut: boolean;
   claims: Array<string>;
   roles: Array<string>;
 }

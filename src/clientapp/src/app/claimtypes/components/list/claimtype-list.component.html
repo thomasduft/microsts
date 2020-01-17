@@ -9,7 +9,12 @@
         <tw-icon name="refresh"></tw-icon>
       </button>
     </div>
-    <input [(ngModel)]="searchText" placeholder="search text goes here">
+    <div class="form list__search">
+      <input type="text"
+        placeholder="search"
+        [(ngModel)]="searchText"
+        i18n-placeholder>
+    </div>
   </tw-header>
   <ng-template let-claimtype twTemplate="claimtype-item">
     <div [routerLink]="['.', claimtype?.id]"

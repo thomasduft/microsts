@@ -11,7 +11,7 @@ export class RoleDetailSlot implements Slot {
 
   public key = RoleDetailSlot.KEY;
   public type = SINGLE_SLOT;
-  public title = 'Role';
+  public title = 'Detail';
   public editors: Editor[];
 
   public constructor() {

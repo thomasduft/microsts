@@ -55,10 +55,18 @@ namespace tomware.Microsts.Web
 
       // Allow razor pages
       services.AddControllers()
-       .AddNewtonsoftJson()
-       .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+        .AddNewtonsoftJson()
+        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
       services.AddRazorPages()
-       .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+        .AddRazorPagesOptions(options =>
+        {
+          options.Conventions.AuthorizeAreaPage(
+            "identity",
+            "/account/register",
+            Policies.ADMIN_POLICY
+          );
+        })
+        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
       // services.AddMvc();
     }
 

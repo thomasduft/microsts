@@ -1,3 +1,5 @@
+using IdentityServer4.Events;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,14 +16,25 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
   [AllowAnonymous]
   public class LoginModel : PageModel
   {
-    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<LoginModel> _logger;
+    private readonly IEventService _eventService;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IIdentityServerInteractionService _interaction;
 
-    public LoginModel(SignInManager<ApplicationUser> signInManager,
-        ILogger<LoginModel> logger)
+    public LoginModel(
+      ILogger<LoginModel> logger,
+      IEventService eventService,
+      UserManager<ApplicationUser> userManager,
+      SignInManager<ApplicationUser> signInManager,
+      IIdentityServerInteractionService interaction
+    )
     {
-      _signInManager = signInManager;
       _logger = logger;
+      _eventService = eventService;
+      _userManager = userManager;
+      _signInManager = signInManager;
+      _interaction = interaction;
     }
 
     [BindProperty]
@@ -38,7 +51,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     {
       [Required]
       [Display(Name = "Username")]
-      //[EmailAddress]
+      // [EmailAddress]
       public string Email { get; set; }
 
       [Required]
@@ -70,19 +83,39 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     {
       returnUrl = returnUrl ?? Url.Content("~/");
 
+      var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+
       if (ModelState.IsValid)
       {
         // This doesn't count login failures towards account lockout
         // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+        var result = await _signInManager.PasswordSignInAsync(
+          Input.Email,
+          Input.Password,
+          Input.RememberMe,
+          lockoutOnFailure: true
+        );
         if (result.Succeeded)
         {
           _logger.LogInformation("User logged in.");
+
+          var user = await _userManager.FindByNameAsync(Input.Email);
+          await _eventService.RaiseAsync(new UserLoginSuccessEvent(
+            user.UserName,
+            user.Id,
+            user.UserName,
+            clientId: context?.ClientId
+          ));
+
           return LocalRedirect(returnUrl);
         }
         if (result.RequiresTwoFactor)
         {
-          return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+          return RedirectToPage("./LoginWith2fa", new
+          {
+            ReturnUrl = returnUrl,
+            RememberMe = Input.RememberMe
+          });
         }
         if (result.IsLockedOut)
         {

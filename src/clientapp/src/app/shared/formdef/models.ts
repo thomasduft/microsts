@@ -25,6 +25,7 @@ export interface Editor {
   type: string;
   label: string;
   value?: any;
+  isReadOnly?: boolean;
   options?: Array<{ key: string | number, value: string }>;
   singleSelection?: boolean;
   bindingBehaviour?: 'key' | 'value';
