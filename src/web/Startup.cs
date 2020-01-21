@@ -25,7 +25,7 @@ namespace tomware.Microsts.Web
         o.AddPolicy("AllowAllOrigins", builder =>
         {
           builder
-            .WithOrigins("http://localhost:4200")
+            .WithOrigins("http://localhost:4200", "https://localhost:4200")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()

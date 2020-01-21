@@ -28,6 +28,11 @@ Links:
 Docs:
 - https://manfredsteyer.github.io/angular-oauth2-oidc/docs/index.html
 
+----------------------------------------------------------------------------------------------------
+
+certs:
+ - https://github.com/RubenVermeulen/generate-trusted-ssl-certificate/blob/master/openssl-custom.cnf
+ - https://medium.com/@rubenvermeulen/running-angular-cli-over-https-with-a-trusted-certificate-4a0d5f92747a
 
 ----------------------------------------------------------------------------------------------------
 - dotnet ef migrations add "ClaimTypes" -c STSContext -o Data/Migrations
