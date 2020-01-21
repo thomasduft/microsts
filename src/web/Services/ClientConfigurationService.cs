@@ -6,7 +6,7 @@ namespace tomware.Microsts.Web
 {
   public interface IClientConfigurationService
   {
-    Task<ClientConfigurtationViewModel> GetClient(string clientId);
+    Task<ClientConfigurationViewModel> GetClient(string clientId);
   }
 
   public class ClientConfigurationService : IClientConfigurationService
@@ -20,7 +20,7 @@ namespace tomware.Microsts.Web
       this.clientSettings = options.Value;
     }
 
-    public async Task<ClientConfigurtationViewModel> GetClient(string clientId)
+    public async Task<ClientConfigurationViewModel> GetClient(string clientId)
     {
       if (clientId is null)
       {
@@ -30,7 +30,7 @@ namespace tomware.Microsts.Web
       var clientConfig = this.clientSettings.Clients.FirstOrDefault(c => c.ClientId == clientId);
       if (clientConfig == null) return null;
 
-      var model = new ClientConfigurtationViewModel
+      var model = new ClientConfigurationViewModel
       {
         ClientId = clientConfig.ClientId,
         Issuer = clientConfig.Issuer,

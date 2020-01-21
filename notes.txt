@@ -1,16 +1,17 @@
 ToDo:
-- styling
-  - css grid based
-  - admin app
-  - layout
-    - login
-    - logout
+- new user via admin app
 - sending mails
 - setup razor ui class library
   - https://wakeupandcode.com/your-first-razor-ui-library-with-asp-net-core/
 
 
 Done:
+- styling
+  - css grid based
+  - admin app
+  - layout
+    - login
+    - logout
 - load oidc config for spaclient via APP_INITIALIZER
 - add config IClientStore
   - see: http://docs.identityserver.io/en/latest/topics/clients.html

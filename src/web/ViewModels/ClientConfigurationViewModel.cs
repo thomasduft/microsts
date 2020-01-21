@@ -1,6 +1,6 @@
 namespace tomware.Microsts.Web
 {
-  public class ClientConfigurtationViewModel
+  public class ClientConfigurationViewModel
   {
     public string ClientId { get; set; }
     public string Issuer { get; set; }

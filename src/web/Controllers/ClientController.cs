@@ -16,7 +16,7 @@ namespace tomware.Microsts.Web
     }
 
     [HttpGet("config/{clientId}")]
-    [ProducesResponseType(typeof(ClientConfigurtationViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ClientConfigurationViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Config(string clientId)
     {
       if (clientId is null) return BadRequest();
