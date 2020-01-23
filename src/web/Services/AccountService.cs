@@ -34,15 +34,14 @@ namespace tomware.Microsts.Web
       return new ApplicationUser
       {
         UserName = model.UserName,
-        Email = model.Email
+        Email = model.Email,
+        LockoutEnabled = true
       };
     }
 
     public async Task<IdentityResult> RegisterAsync(ApplicationUser user, string password)
     {
-      user.LockoutEnabled = true;
-
-      return await this.manager.CreateAsync(user, password);
+       return await this.manager.CreateAsync(user, password);
     }
 
     public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordViewModel model)

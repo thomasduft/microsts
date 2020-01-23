@@ -113,46 +113,6 @@ namespace tomware.Microsts.Web
       throw new System.NotImplementedException("DeleteAsync");
     }
 
-    // [HttpPut("assignclaims")]
-    // [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
-    // public async Task<IActionResult> AssignClaimsAsync([FromBody]AssignClaimsViewModel model)
-    // {
-    //   if (ModelState.IsValid)
-    //   {
-    //     var result = await this.accountService.AssignClaimsAsync(model);
-    //     if (result.Succeeded)
-    //     {
-    //       this.logger.LogInformation("The claims have been assigned.");
-
-    //       return Ok(result);
-    //     }
-
-    //     AddErrors(result);
-    //   }
-
-    //   return BadRequest(ModelState);
-    // }
-
-    // [HttpPut("assignroles")]
-    // [ProducesResponseType(typeof(IdentityResult), StatusCodes.Status200OK)]
-    // public async Task<IActionResult> AssignRolesAsync([FromBody]AssignRolesViewModel model)
-    // {
-    //   if (ModelState.IsValid)
-    //   {
-    //     var result = await this.accountService.AssignRolesAsync(model);
-    //     if (result.Succeeded)
-    //     {
-    //       this.logger.LogInformation("The roles have been assigned.");
-
-    //       return Ok(result);
-    //     }
-
-    //     AddErrors(result);
-    //   }
-
-    //   return BadRequest(ModelState);
-    // }
-
     private void AddErrors(IdentityResult result)
     {
       foreach (var error in result.Errors)

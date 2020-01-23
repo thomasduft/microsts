@@ -62,7 +62,7 @@ export class FormdefComponent implements OnInit {
   public showSave = false;
 
   @Input()
-  public saveTitle;
+  public saveTitle: string;
 
   public get getSaveLabel(): string {
     return this.saveTitle ? this.saveTitle : 'Save';
