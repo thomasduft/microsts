@@ -1,11 +1,11 @@
-@import './../_variables.less';
+@import '../shared/variables.less';
 
 .pane {
   display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr;
 	grid-template-areas: 'pane-content pane-aside';
-    
+
   &__content {
     grid-area: pane-content;
     // background: lightblue;
@@ -22,8 +22,8 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
-    grid-template-areas: 
+    grid-template-areas:
       'pane-content'
       'pane-aside';
-  }  
+  }
 }
