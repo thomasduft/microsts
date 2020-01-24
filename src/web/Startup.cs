@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -83,6 +86,8 @@ namespace tomware.Microsts.Web
         app.UseDeveloperExceptionPage();
       }
 
+      ConsiderSpaRoutes(app);
+
       app.UseDefaultFiles();
       app.UseStaticFiles();
 
@@ -98,6 +103,31 @@ namespace tomware.Microsts.Web
       {
         endpoints.MapControllers();
         endpoints.MapRazorPages();
+      });
+    }
+
+    private static void ConsiderSpaRoutes(IApplicationBuilder app)
+    {
+      var angularRoutes = new[]
+      {
+        "/home",
+        "/forbidden",
+        "/claimtypes",
+        "/roles",
+        "/users",
+        "/users/register"
+      };
+
+      app.Use(async (context, next) =>
+      {
+        if (context.Request.Path.HasValue
+          && null != angularRoutes.FirstOrDefault(
+            (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
+        {
+          context.Request.Path = new PathString("/");
+        }
+
+        await next();
       });
     }
   }

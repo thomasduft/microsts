@@ -1,0 +1,37 @@
+@import "../_variables.less";
+
+.pane {
+  display: grid;
+  grid-template-columns: @sidebar-width 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    'list detail';
+  height: 100vh;
+
+  &__list {
+    grid-area: list;
+    // background-color: lightgreen;
+    padding: 5px;
+    overflow-y: auto;
+  }
+
+  &__detail {
+    grid-area: detail;
+    // background-color: lightblue;
+    padding: 5px;
+    overflow-y: auto;
+    border-left: 1px solid @sidebar-background;
+  }
+}
+
+@media (max-width: @breakpoint-max-width) {
+  .pane {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      'list'
+      'detail';
+    height: 100vh;
+  }
+}

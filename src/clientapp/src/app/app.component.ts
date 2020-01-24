@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
         this.user.setProperties(this.oauthService.getAccessToken());
       }
     });
-    this.oauthService.loadDiscoveryDocumentAndTryLogin({
+    this.oauthService.loadDiscoveryDocumentAndLogin({
       onTokenReceived: context => {
         this.user.setProperties(context.accessToken);
       }
