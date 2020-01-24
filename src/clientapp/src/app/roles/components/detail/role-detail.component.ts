@@ -48,17 +48,17 @@ export class RoleDetailComponent implements OnInit {
       this.role$ = this.service.create(viewModel)
         .subscribe((id: string) => {
           if (id) {
+            this.changesSaved();
             this.back();
           }
         });
     } else {
       this.role$ = this.service.update(viewModel)
         .subscribe(() => {
+          this.changesSaved();
           this.back();
         });
     }
-
-    this.changesSaved();
   }
 
   public deleted(viewModel: Role): void {
@@ -70,10 +70,9 @@ export class RoleDetailComponent implements OnInit {
 
     this.role$ = this.service.delete(viewModel.id)
       .subscribe((id: string) => {
+        this.changesSaved();
         this.back();
       });
-
-    this.changesSaved();
   }
 
   public back(): void {

@@ -48,17 +48,17 @@ export class ClaimtypeDetailComponent implements OnInit {
       this.claimtype$ = this.service.create(viewModel)
         .subscribe((id: string) => {
           if (id) {
+            this.changesSaved();
             this.back();
           }
         });
     } else {
       this.claimtype$ = this.service.update(viewModel)
         .subscribe(() => {
+          this.changesSaved();
           this.back();
         });
     }
-
-    this.changesSaved();
   }
 
   public deleted(viewModel: ClaimType): void {
@@ -70,10 +70,9 @@ export class ClaimtypeDetailComponent implements OnInit {
 
     this.claimtype$ = this.service.delete(viewModel.id)
       .subscribe((id: string) => {
+        this.changesSaved();
         this.back();
       });
-
-    this.changesSaved();
   }
 
   public back(): void {

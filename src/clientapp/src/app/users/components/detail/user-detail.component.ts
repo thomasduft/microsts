@@ -46,13 +46,13 @@ export class UserDetailComponent implements OnInit {
   public submitted(viewModel: User): void {
     this.user$ = this.service.update(viewModel)
       .subscribe(() => {
+        this.changesSaved();
         this.back();
       });
-
-    this.changesSaved();
   }
 
   public deleted(viewModel: User): void {
+    // TODO: delete user???
     this.changesSaved();
   }
 
