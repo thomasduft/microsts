@@ -17,9 +17,14 @@ import { FormdefService } from './formdef.service';
   <form [formGroup]="form"
         (ngSubmit)="onSubmit()">
     <tw-slot *ngIf="slot"
-             [slot]="slot"
-             [form]="form">
+        [slot]="slot"
+        [form]="form">
     </tw-slot>
+
+    <tw-validation-summary
+      [errors]="errors">
+    </tw-validation-summary>
+
     <div class="button__bar">
       <button *ngIf="showSave"
               type="submit"
@@ -74,6 +79,9 @@ export class FormdefComponent implements OnInit {
   @Input()
   public showDelete = false;
 
+  @Input()
+  public errors: Array<string>;
+
   @Output()
   public submitted: EventEmitter<any> = new EventEmitter<any>();
 
@@ -98,14 +106,14 @@ export class FormdefComponent implements OnInit {
   }
 
   public constructor(
-    private _formdefService: FormdefService
+    private formdefService: FormdefService
   ) { }
 
   public ngOnInit(): void {
     if (!this.viewModel) { return; }
 
-    this.form = this._formdefService.toGroup(this.key, this.viewModel);
-    this.slot = this._formdefService.getSlot(this.key);
+    this.form = this.formdefService.toGroup(this.key, this.viewModel);
+    this.slot = this.formdefService.getSlot(this.key);
   }
 
   public onSubmit(): void {

@@ -56,15 +56,9 @@ export class StatusMessage extends MessageBase {
   }
 }
 
-
-export interface IdentityError {
-  code: string;
-  description: string;
-}
-
 export interface IdentityResult {
   succeeded: boolean;
-  errors: Array<IdentityError>;
+  errors: Array<string>;
 }
 
 export class ResponseErrorHandler {

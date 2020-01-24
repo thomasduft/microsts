@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel } from '../../../shared';
+import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel, IdentityResult } from '../../../shared';
 import { RefreshMessage } from '../../../core';
 
 import { RegisterUserSlot, RegisterUser } from '../../models';
@@ -23,6 +23,7 @@ export class RegisterUserComponent implements OnInit {
 
   public key = RegisterUserSlot.KEY;
   public viewModel: RegisterUser;
+  public errors: Array<string> = [];
 
   public constructor(
     private router: Router,
@@ -47,6 +48,9 @@ export class RegisterUserComponent implements OnInit {
       .subscribe(() => {
         this.changesSaved();
         this.back();
+      }, (error: IdentityResult) => {
+        console.log(error);
+        this.errors = error.errors;
       });
   }
 

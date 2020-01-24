@@ -9,6 +9,7 @@ import {
   HttpRequest
 } from '@angular/common/http';
 
+import { IdentityResult } from './models';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -72,6 +73,12 @@ export class HttpWrapperService {
   public handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occured:', error.error.message);
+    } else if (error.status === 400) {
+      const identityResult: IdentityResult = {
+        succeeded: false,
+        errors: error.error['']
+      };
+      return throwError(identityResult);
     } else {
       console.error(`Backend returned code ${error.status}: ${error.error.title}`);
     }
