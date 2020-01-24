@@ -9,7 +9,7 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <Authors>Thomas Duft</Authors>
     <Company>tomWare SOLUTIONS</Company>
-    <Copyright>2018 tomWare SOLUTIONS</Copyright>
+    <Copyright>2020 tomWare SOLUTIONS</Copyright>
     <RepositoryType>git</RepositoryType>
     <LangVersion>Latest</LangVersion>
     <AssemblyVersion>$(Version)</AssemblyVersion>
