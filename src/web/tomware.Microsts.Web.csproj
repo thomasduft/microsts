@@ -4,7 +4,16 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>tomware.Microsts.Web</AssemblyName>
     <RootNamespace>tomware.Microsts.Web</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/thomasduft/sts</RepositoryUrl>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <Authors>Thomas Duft</Authors>
+    <Company>tomWare SOLUTIONS</Company>
+    <Copyright>2018 tomWare SOLUTIONS</Copyright>
+    <RepositoryType>git</RepositoryType>
     <LangVersion>Latest</LangVersion>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <FileVersion>$(Version)</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
