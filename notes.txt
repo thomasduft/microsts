@@ -1,11 +1,12 @@
 ToDo:
-- new user via admin app
+- self sign cert for https and signing tokens 
 - sending mails
 - setup razor ui class library
   - https://wakeupandcode.com/your-first-razor-ui-library-with-asp-net-core/
 
 
 Done:
+- new user via admin app
 - styling
   - css grid based
   - admin app
@@ -20,9 +21,7 @@ Links:
 - https://damienbod.com/2016/10/01/identityserver4-webapi-and-angular2-in-a-single-asp-net-core-project/
 - https://github.com/aspnet/Identity/blob/master/src/UI/Areas/Identity/Pages/V4/Account/Login.cshtml
 - https://github.com/IdentityServer/IdentityServer4.Demo/blob/master/src/IdentityServer4Demo/Startup.cs
-
 - https://blogs.taiga.nl/martijn/2017/11/24/building-and-asp-net-core-mvc-app-with-npm-and-webpack-asp-net-core-2-0-edition/
-
 - https://deblokt.com/2019/09/27/05-identityserver4-adding-custom-properties-to-user/
 
 Docs:
@@ -32,12 +31,9 @@ Docs:
 Docker:
 - version: 1.0.0
 - docker run -it --rm -p 5000:5000 --name microsts tomware/microsts:<version>
-- docker run -it --rm -p 5000:5000 -v /home/tom/work/docker/microsts/data:/app/data --name microsts tomware/microsts:<version>
 - docker run -it --rm -p 5000:5000 -v C:/work/docker/microsts/data:/app/data -v C:/work/docker/microsts/logs:/app/logs -v C:/work/docker/microsts/appsettings.json:/app/appsettings.json -v C:/work/docker/microsts/clients.json:/app/clients.json --name microsts tomware/microsts:<version>
 
 - docker push <image>
-
-
 ----------------------------------------------------------------------------------------------------
 
 
