@@ -28,6 +28,10 @@ namespace tomware.Microsts.Web
         optional: true
       )
       .AddJsonFile(
+        $"clients.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
+        optional: true
+      )
+      .AddJsonFile(
         $"identities.json",
         optional: true
       )

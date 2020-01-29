@@ -29,6 +29,17 @@ Docs:
 - https://manfredsteyer.github.io/angular-oauth2-oidc/docs/index.html
 
 ----------------------------------------------------------------------------------------------------
+Docker:
+- version: 1.0.0
+- docker run -it --rm -p 5000:5000 --name microsts tomware/microsts:<version>
+- docker run -it --rm -p 5000:5000 -v /home/tom/work/docker/microsts/data:/app/data --name microsts tomware/microsts:<version>
+- docker run -it --rm -p 5000:5000 -v C:/work/docker/microsts/data:/app/data --name microsts tomware/microsts:<version>
+
+- docker push <image>
+
+
+----------------------------------------------------------------------------------------------------
+
 
 certs:
  - https://github.com/RubenVermeulen/generate-trusted-ssl-certificate/blob/master/openssl-custom.cnf
