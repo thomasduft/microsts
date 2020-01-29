@@ -1,5 +1,8 @@
 ToDo:
-- self sign cert for https and signing tokens 
+- self sign cert for https and signing tokens
+  - https://mohitgoyal.co/2018/09/25/use-ssl-certificates-for-dotnet-core-application-in-docker-containers/
+- build.sh script
+  - builds client then styles
 - sending mails
 - setup razor ui class library
   - https://wakeupandcode.com/your-first-razor-ui-library-with-asp-net-core/
