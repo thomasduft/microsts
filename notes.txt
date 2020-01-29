@@ -33,7 +33,7 @@ Docker:
 - version: 1.0.0
 - docker run -it --rm -p 5000:5000 --name microsts tomware/microsts:<version>
 - docker run -it --rm -p 5000:5000 -v /home/tom/work/docker/microsts/data:/app/data --name microsts tomware/microsts:<version>
-- docker run -it --rm -p 5000:5000 -v C:/work/docker/microsts/data:/app/data --name microsts tomware/microsts:<version>
+- docker run -it --rm -p 5000:5000 -v C:/work/docker/microsts/data:/app/data -v C:/work/docker/microsts/logs:/app/logs -v C:/work/docker/microsts/appsettings.json:/app/appsettings.json -v C:/work/docker/microsts/clients.json:/app/clients.json --name microsts tomware/microsts:<version>
 
 - docker push <image>
 

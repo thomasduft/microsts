@@ -69,7 +69,8 @@ export class AppComponent implements OnInit {
       responseType: config.responseType || undefined,
       scope: config.scope,
       loginUrl: config.loginUrl,
-      logoutUrl: config.logoutUrl
+      logoutUrl: config.logoutUrl,
+      requireHttps: false
     });
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.events.subscribe((e: OAuthEvent) => {

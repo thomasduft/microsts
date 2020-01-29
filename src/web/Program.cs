@@ -20,15 +20,7 @@ namespace tomware.Microsts.Web
         reloadOnChange: true
       )
       .AddJsonFile(
-        $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
-        optional: true
-      )
-      .AddJsonFile(
         $"clients.json",
-        optional: true
-      )
-      .AddJsonFile(
-        $"clients.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
         optional: true
       )
       .AddJsonFile(
