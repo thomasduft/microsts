@@ -66,7 +66,7 @@ namespace tomware.Microsts.Web
           };
         })
         .AddInMemoryIdentityResources(Config.GetIdentityResources())
-        .AddInMemoryApiResources(Config.GetApiResources())
+        .AddInMemoryApiResources(configuration.GetSection("IdentityServer:ApiResources"))
         .AddInMemoryClients(configuration.GetSection("IdentityServer:Clients"))
         // .AddConfigurationStore()
         // .AddOperationalStore()
