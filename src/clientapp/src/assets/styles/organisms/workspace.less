@@ -11,6 +11,32 @@
 
   .workspace__status {
     font-size: .8em;
+    position: fixed;
+    right: 5px;
+    top: 5px;
+    width: 40%;
+    min-height: 50px;
+    padding: 5px;
+    border-radius: 4px;
+    &-close {
+      float: right;
+    }
+    &--info {
+      background: @info-color;
+      color: @font-color;
+    }
+    &--success {
+      background: @success-color;
+      color: @font-color-white;
+    }
+    &--warning {
+      background: @warning-color;
+      color: @font-color-white;
+    }
+    &--danger {
+      background: @danger-color;
+      color: @font-color-white;
+    }
   }
 
   .workspace__content {

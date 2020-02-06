@@ -9,46 +9,40 @@ import { StatusBarService } from './statusbar.service';
     StatusBarService
   ],
   template: `
-  <div *ngIf="displayStatusBar()" [class]="statusClass">
-    <button type="button" class="close"(click)="close()">
-      <span>&times;</span>
-    </button>
-    <button *ngIf="hasAction"
-            type="button"
-            class="close"
-            (click)="action()">
-      <span aria-hidden="true">action</span>
-    </button>
-    <strong *ngIf="status.title">{{ status.title }}:</strong>{{ status.message }}
+  <div *ngIf="displayStatusBar()">
+    <div *ngIf="hasAction">
+      <button type="button"
+              class="close"
+              (click)="action()">
+        <tw-icon name="bolt"></tw-icon>
+      </button>
+    </div>
+    <div>
+      {{ statusMessage }}
+      <span class="workspace__status-close">
+        <button type="button" class="close"(click)="close()">
+          <span>&times;</span>
+        </button>
+      </span>
+    </div>
   </div>`
 })
 export class StatusBarComponent implements OnInit {
   private message: StatusMessage;
 
-  @HostBinding('class') workspaceNotification = 'workspace__status';
+  @HostBinding('class')
+  public styles = this.getStyles();
 
   public hasAction = false;
 
-  public get status(): StatusMessage {
-    return this.message;
+  public get statusMessage(): string {
+    return this.status && this.status.title && this.status.title.length > 0
+      ? `${this.status.title}: ${this.status.message}`
+      : this.status.message;
   }
 
-  public get statusClass(): string {
-    let s = 'success';
-
-    switch (this.message.level) {
-      case StatusLevel.Info:
-        s = 'info';
-        break;
-      case StatusLevel.Warning:
-        s = 'warning';
-        break;
-      case StatusLevel.Danger:
-        s = 'danger';
-        break;
-    }
-
-    return `alert alert-${s}`;
+  public get status(): StatusMessage {
+    return this.message;
   }
 
   public constructor(
@@ -66,6 +60,8 @@ export class StatusBarComponent implements OnInit {
         this.message = status;
         this.hasAction = this.message.hasAction;
         this.fadeOut();
+
+        this.styles = this.getStyles(this.getStatusClass());
       });
   }
 
@@ -75,10 +71,12 @@ export class StatusBarComponent implements OnInit {
 
   public close(): void {
     this.message.viewed = true;
+    this.styles = this.getStyles();
   }
 
   public action(): void {
     this.message.action();
+    this.close();
   }
 
   private fadeOut(): void {
@@ -88,7 +86,33 @@ export class StatusBarComponent implements OnInit {
     }
 
     setTimeout(() => {
-      this.message.viewed = true;
-    }, 3000);
+      this.close();
+    }, 5000);
+  }
+
+  private getStyles(status: string = null): string {
+    if (status) {
+      return `workspace__status ${status}`;
+    }
+
+    return 'workspace__status';
+  }
+
+  private getStatusClass(): string {
+    let s = 'success';
+
+    switch (this.message.level) {
+      case StatusLevel.Info:
+        s = 'info';
+        break;
+      case StatusLevel.Warning:
+        s = 'warning';
+        break;
+      case StatusLevel.Danger:
+        s = 'danger';
+        break;
+    }
+
+    return `workspace__status--${s}`;
   }
 }

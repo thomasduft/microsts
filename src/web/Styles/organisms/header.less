@@ -3,7 +3,7 @@
 .header {
   grid-area: header;
   color: @header-color;
-  background-color: @header-background;
+  border-bottom: 1px solid @header-background;
   padding: 1em 0.5em;
 
   display: grid;
@@ -17,12 +17,8 @@
     flex-direction: row;
     align-items: flex-start;
     align-self: center;
-    color: #fff;
     font-weight: bold;
     font-size: 1.6em;
-    a {
-      color: #fff
-    }
   }
 
   &__login-info {
@@ -31,8 +27,5 @@
     flex-direction: row;
     align-items: flex-end;
     align-self: center;
-    a {
-      color: #fff
-    }
   }
 }
