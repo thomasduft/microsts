@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { Input, Directive } from '@angular/core';
 import {
   ValidatorFn,
   Validators,
@@ -71,6 +71,7 @@ export class FormdefValidator {
   }
 }
 
+@Directive()
 export class BaseSlotComponent {
   @Input()
   public slot: Slot;
