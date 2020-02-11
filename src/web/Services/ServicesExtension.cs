@@ -76,7 +76,7 @@ namespace tomware.Microsts.Web
       X509Certificate2 cert = GetCertificate(configuration);
       if (cert == null)
       {
-        builder.AddDeveloperSigningCredential();
+        builder.AddDeveloperSigningCredential(persistKey: false);
       }
       else
       {
@@ -84,7 +84,7 @@ namespace tomware.Microsts.Web
       }
 
       services
-        .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+        .AddAuthentication()
         // .AddIdentityServerAuthentication(o =>
         // {
         //   o.Authority = GetAuthority(configuration);

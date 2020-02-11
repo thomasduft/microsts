@@ -19,6 +19,10 @@ export class SidebarComponent {
     return this.user.isAuthenticated;
   }
 
+  public get isAdmin(): boolean {
+    return this.user.hasClaim('Administrator');
+  }
+
   public get userName(): string {
     return this.user.userName;
   }
