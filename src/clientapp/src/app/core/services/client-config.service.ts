@@ -16,7 +16,7 @@ export class ClientConfigProvider {
   ) { }
 
   public load(): Promise<any> {
-    const clientId = 'spaclient';
+    const clientId = 'spaclient-code';
     return this.http.get<ClientConfiguration>(`client/config/${clientId}`)
       .toPromise()
       .then((data: ClientConfiguration) => {

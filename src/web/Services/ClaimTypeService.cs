@@ -51,6 +51,7 @@ namespace tomware.Microsts.Web
     {
       if (model == null) throw new ArgumentNullException(nameof(model));
 
+      // TODO: Check whether name already exists
       var claimType = ClaimType.Create(model.Name, model.Description);
 
       this.context.ClaimTypes.Add(claimType);
