@@ -36,6 +36,9 @@ namespace tomware.Microsts.Web
     {
       await this.context.Database.MigrateAsync();
 
+      // if AddConfigurationStore
+      // await this.configurationDbContext.Database.MigrateAsync();
+
       // Ensure roles
       await this.EnsureRole(Roles.ADMINISTRATOR_ROLE);
 

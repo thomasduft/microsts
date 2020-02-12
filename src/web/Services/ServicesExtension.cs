@@ -2,9 +2,11 @@ using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 
 namespace tomware.Microsts.Web
@@ -68,7 +70,16 @@ namespace tomware.Microsts.Web
         .AddInMemoryIdentityResources(Config.GetIdentityResources())
         .AddInMemoryApiResources(configuration.GetSection("IdentityServer:ApiResources"))
         .AddInMemoryClients(configuration.GetSection("IdentityServer:Clients"))
-        // .AddConfigurationStore()
+        // .AddConfigurationStore(options =>
+        // {
+        //     options.ConfigureDbContext = builder =>
+        //         builder.UseSqlite(configuration["ConnectionString"],
+        //             sql => sql.MigrationsAssembly(typeof(ServicesExtension)
+        //               .GetTypeInfo()
+        //               .Assembly
+        //               .GetName()
+        //               .Name));
+        // })
         // .AddOperationalStore()
         .AddAspNetIdentity<ApplicationUser>()
         .AddProfileService<ProfileService>();
