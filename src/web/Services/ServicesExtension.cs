@@ -34,8 +34,8 @@ namespace tomware.Microsts.Web
        {
          o.User.RequireUniqueEmail = true;
        })
-       .AddEntityFrameworkStores<STSContext>();
-      // .AddDefaultTokenProviders();
+       .AddEntityFrameworkStores<STSContext>()
+       .AddDefaultTokenProviders();
 
       services.Configure<IdentityOptions>(options =>
       {
