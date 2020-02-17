@@ -17,13 +17,6 @@ namespace tomware.Microsts.Web
       this IServiceCollection services
     )
     {
-      services.AddScoped<IMigrationService, MigrationService>();
-      services.AddTransient<IAccountService, AccountService>();
-      services.AddTransient<IClaimTypeService, ClaimTypeService>();
-      services.AddTransient<IRoleService, RoleService>();
-      services.AddTransient<IClientConfigurationService, ClientConfigurationService>();
-      services.AddTransient<IEmailSender, LogEmailSender>();
-
       var configuration = services
         .BuildServiceProvider()
         .GetRequiredService<IConfiguration>();
@@ -117,6 +110,14 @@ namespace tomware.Microsts.Web
               .RequireRole(Roles.ADMINISTRATOR_ROLE)
           );
         });
+
+      // own services
+      services.AddScoped<IMigrationService, MigrationService>();
+      services.AddTransient<IAccountService, AccountService>();
+      services.AddTransient<IClaimTypeService, ClaimTypeService>();
+      services.AddTransient<IRoleService, RoleService>();
+      services.AddTransient<IClientConfigurationService, ClientConfigurationService>();
+      services.AddTransient<IEmailSender, LogEmailSender>();
 
       return services;
     }
