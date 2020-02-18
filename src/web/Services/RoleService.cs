@@ -30,7 +30,9 @@ namespace tomware.Microsts.Web
 
     public async Task<IEnumerable<RoleViewModel>> GetRolesAsync()
     {
-      var items = this.manager.Roles.ToList();
+      var items = this.manager.Roles
+        .OrderBy(r => r.Name)
+        .ToList();
 
       var models = items.Select(c => ToModel(c));
 
