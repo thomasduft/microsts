@@ -6,6 +6,7 @@ ToDo:
 - build.sh script
   - builds client then styles
 - sending mails
+  - email confirmation: https://code-maze.com/email-confirmation-aspnet-core-identity/
 - setup razor ui class library
   - https://wakeupandcode.com/your-first-razor-ui-library-with-asp-net-core/
 
