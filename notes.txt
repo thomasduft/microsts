@@ -1,6 +1,6 @@
 ToDo:
-- confirmation popup
 - global alert approach
+- good home route!!!
 - self sign cert for https and signing tokens
   - https://mohitgoyal.co/2018/09/25/use-ssl-certificates-for-dotnet-core-application-in-docker-containers/
 - build.sh script
@@ -12,6 +12,7 @@ ToDo:
 
 
 Done:
+- confirmation popup
 - new user via admin app
 - styling
   - css grid based

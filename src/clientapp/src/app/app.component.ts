@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  private configure() {
+  private async configure() {
     const config = this.clientConfigProvider.config;
 
     this.oauthService.configure({
@@ -73,8 +73,15 @@ export class AppComponent implements OnInit {
       requireHttps: false
     });
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oauthService.events.subscribe((e: OAuthEvent) => {
+    this.oauthService.events.subscribe(async (e: OAuthEvent) => {
+      // console.log(e);
       if (e.type === 'token_received' || e.type === 'token_refreshed') {
+        this.user.setProperties(this.oauthService.getAccessToken());
+      }
+
+      if (e.type === 'discovery_document_loaded' && this.oauthService.hasValidAccessToken()) {
+        // const userInfo = await this.oauthService.loadUserProfile();
+        // console.log(userInfo);
         this.user.setProperties(this.oauthService.getAccessToken());
       }
     });

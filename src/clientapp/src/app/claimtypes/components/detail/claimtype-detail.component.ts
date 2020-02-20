@@ -1,9 +1,18 @@
 import { Subscription } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel } from '../../../shared';
+import {
+  AutoUnsubscribe,
+  MessageBus,
+  StatusMessage,
+  StatusLevel,
+  Popover,
+  DeleteConfirmationComponent,
+  PopoverCloseEvent,
+  DeleteConfirmation
+} from '../../../shared';
 import { RefreshMessage } from '../../../core';
 
 import { ClaimtypeDetailSlot, ClaimType } from '../../models';
@@ -31,6 +40,8 @@ export class ClaimtypeDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private service: ClaimTypesService,
+    private popup: Popover,
+    private element: ElementRef,
     private messageBus: MessageBus
   ) { }
 
@@ -65,13 +76,28 @@ export class ClaimtypeDetailComponent implements OnInit {
     if (this.isNew) {
       return;
     }
+    const origin = this.element.nativeElement;
 
-    // TODO: confirm???
+    const popoverRef = this.popup
+      .open<DeleteConfirmation>({
+        content: DeleteConfirmationComponent,
+        origin,
+        hasBackdrop: false,
+        data: {
+          confirm: false,
+          itemText: viewModel.name
+        }
+      });
 
-    this.claimtype$ = this.service.delete(viewModel.id)
-      .subscribe((id: string) => {
-        this.changesSaved();
-        this.back();
+    popoverRef.afterClosed$
+      .subscribe((res: PopoverCloseEvent<DeleteConfirmation>) => {
+        if (res.data.confirm) {
+          this.claimtype$ = this.service.delete(viewModel.id)
+            .subscribe((id: string) => {
+              this.changesSaved();
+              this.back();
+            });
+        }
       });
   }
 

@@ -6,6 +6,7 @@ import { ExpanderModule } from './expander/expander.module';
 import { IconModule } from './icon/icon.module';
 import { ListModule } from './list/list.module';
 import { PaneModule } from './pane/pane.module';
+import { PopoverModule } from './popover/popover.module';
 import { TabModule } from './tab/tab.module';
 
 import { ForbiddenComponent } from './components/forbidden.component';
@@ -21,6 +22,7 @@ import { FilterPipe } from './pipes';
     IconModule,
     ListModule,
     PaneModule,
+    PopoverModule,
     TabModule
   ],
   declarations: [
@@ -35,6 +37,7 @@ import { FilterPipe } from './pipes';
     IconModule,
     ListModule,
     PaneModule,
+    PopoverModule,
     TabModule,
     FilterPipe
   ]
