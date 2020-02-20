@@ -1,5 +1,8 @@
 ToDo:
-- global alert approach
+- proper error handling in api
+  - i.e. key already present
+  - i.e. not found
+  - etc.
 - good home route!!!
 - self sign cert for https and signing tokens
   - https://mohitgoyal.co/2018/09/25/use-ssl-certificates-for-dotnet-core-application-in-docker-containers/
@@ -12,6 +15,7 @@ ToDo:
 
 
 Done:
+- global alert approach
 - confirmation popup
 - new user via admin app
 - styling

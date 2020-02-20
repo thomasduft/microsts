@@ -1,3 +1,4 @@
+import { MessageBus } from './messageBus.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -15,6 +16,7 @@ import {
   HttpResponse,
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
+import { StatusMessage, StatusLevel } from './models';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +41,8 @@ export class AuthInterceptor implements HttpInterceptor {
 })
 export class HttpErrorInterceptor implements HttpInterceptor {
   public constructor(
-    private router: Router
+    private router: Router,
+    private messageBus: MessageBus
   ) { }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -55,6 +58,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           }
           if (err.status === 403) {
             this.router.navigate(['forbidden']);
+          }
+          if (err.status >= 500) {
+            console.log(err);
+            this.messageBus.publish(new StatusMessage(
+              err.statusText,
+              err.message,
+              StatusLevel.Danger
+            ));
           }
         }
       }));
@@ -87,6 +98,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 }
 
 export const httpInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
 ];

@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { SharedModule } from './shared/shared.module';
-import { ForbiddenComponent, PageNotFoundComponent } from './shared';
+import { ForbiddenComponent, PageNotFoundComponent, httpInterceptorProviders } from './shared';
 
 import { CoreModule } from './core/core.module';
 import { clientConfigProviderFactory, ClientConfigProvider } from './core';
@@ -48,7 +48,8 @@ const ROUTES: Routes = [
       useFactory: clientConfigProviderFactory,
       deps: [ClientConfigProvider],
       multi: true
-    }
+    },
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

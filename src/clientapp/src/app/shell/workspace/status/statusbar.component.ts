@@ -18,10 +18,10 @@ import { StatusBarService } from './statusbar.service';
       </button>
     </div>
     <div>
-      {{ statusMessage }}
       <span class="workspace__status-close">
-          <span (click)="close()">&times;</span>
+        <span (click)="close()">&times;</span>
       </span>
+      {{ statusMessage }}
     </div>
   </div>`
 })
