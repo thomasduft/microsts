@@ -1,12 +1,8 @@
-import { MessageBus } from './messageBus.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, CanActivateChild } from '@angular/router';
-
-import { OAuthService } from 'angular-oauth2-oidc';
-
 import {
   HttpInterceptor,
   HttpHandler,
@@ -16,7 +12,11 @@ import {
   HttpResponse,
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
+
+import { OAuthService } from 'angular-oauth2-oidc';
+
 import { StatusMessage, StatusLevel } from './models';
+import { MessageBus } from './messageBus.service';
 
 @Injectable({
   providedIn: 'root'
