@@ -4,7 +4,7 @@
       {
         "ClientId": "spaclient-code",
         "Issuer": "http://localhost:5000",
-        "RedirectUri": "http://localhost:4200",
+        "RedirectUri": "http://localhost:5000",
         "ResponseType": "code",
         "Scope": "openid profile email sts_api",
         "loginUrl": "http://localhost:5000/identity/account/login",
