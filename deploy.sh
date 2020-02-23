@@ -26,7 +26,7 @@ dotnet publish src/web/tomware.Microsts.Web.csproj -c Release -r linux-x64 -o ./
 
 echo Building docker image tomware/microsts:$1
 #echo $PWD
-docker build --build-arg source=publish/linux-x64 -t tomware/microsts:$1 .
+docker build --build-arg source=publish/linux-x64 -f docker/dockerfile -t tomware/microsts:$1 .
 # docker build --build-arg source=publish/linux-arm -t tomware/microsts:$1-linux-arm .
 
 #echo Cleaning up
