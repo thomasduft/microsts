@@ -59,7 +59,7 @@ namespace tomware.Microsts.Web
       // Allow razor pages
       services.AddControllers()
         .AddNewtonsoftJson()
-        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+        .SetCompatibilityVersion(CompatibilityVersion.Latest);
       services.AddRazorPages()
         .AddRazorPagesOptions(options =>
         {
@@ -69,8 +69,7 @@ namespace tomware.Microsts.Web
             Policies.ADMIN_POLICY
           );
         })
-        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-      // services.AddMvc();
+        .SetCompatibilityVersion(CompatibilityVersion.Latest);
     }
 
     public void Configure(
