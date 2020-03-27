@@ -1,4 +1,10 @@
 ToDo:
+- managing clients in the UI
+  - AddConfigurationStore
+- prevent admin from:
+  - deleting roles that are still assigned somewhere
+  - deleting claims that are still assigned somewhere
+
 - proper error handling in api
   - i.e. key already present
   - i.e. not found
