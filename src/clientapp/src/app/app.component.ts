@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { OAuthService, JwksValidationHandler, OAuthEvent } from 'angular-oauth2-oidc';
+import { OAuthService, OAuthEvent } from 'angular-oauth2-oidc';
 
 import { UserService } from './shared';
 import { ClientConfigProvider } from './core';
@@ -72,7 +72,6 @@ export class AppComponent implements OnInit {
       logoutUrl: config.logoutUrl,
       requireHttps: false
     });
-    this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.events.subscribe(async (e: OAuthEvent) => {
       // console.log(e);
       if (e.type === 'token_received' || e.type === 'token_refreshed') {
