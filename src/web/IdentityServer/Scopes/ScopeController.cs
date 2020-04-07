@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,34 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace tomware.Microsts.Web
 {
-  [Route("api/roles")]
+  [Route("api/scopes")]
   [SecurityHeaders]
   [Authorize(Policies.ADMIN_POLICY)]
-  public class RoleController : Controller
+  public class ScopeController : Controller
   {
-    private readonly IRoleService service;
+    private readonly IScopeService service;
 
-    public RoleController(IRoleService service)
+    public ScopeController(IScopeService service)
     {
       this.service = service;
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<RoleViewModel>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetRolesAsync()
+    [ProducesResponseType(typeof(IEnumerable<ScopeViewModel>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetClaimTypesAsync()
     {
-      var result = await this.service.GetRolesAsync();
+      var result = await this.service.GetScopesAsync();
 
       return Ok(result);
     }
 
-    [HttpGet("{id}")]
-    [ProducesResponseType(typeof(RoleViewModel), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAsync(string id)
+    [HttpGet("{name}")]
+    [ProducesResponseType(typeof(ScopeViewModel), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAsync(string name)
     {
-      if (id == null) return BadRequest();
+      if (name == null) return BadRequest();
 
-      var result = await this.service.GetAsync(id);
+      var result = await this.service.GetAsync(name);
       if (result == null) return NotFound();
 
       return Ok(result);
@@ -42,21 +41,19 @@ namespace tomware.Microsts.Web
 
     [HttpPost]
     [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateAsync([FromBody]RoleViewModel model)
+    public async Task<IActionResult> CreateAsync([FromBody]ScopeViewModel model)
     {
       if (model == null) return BadRequest();
       if (!ModelState.IsValid) return BadRequest(ModelState);
 
       var result = await this.service.CreateAsync(model);
 
-      var id = new Guid(result);
-
-      return Created($"api/role/{id}", id);
+      return Created($"api/scopes/{result}", result);
     }
 
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> UpdateAsync([FromBody]RoleViewModel model)
+    public async Task<IActionResult> UpdateAsync([FromBody]ScopeViewModel model)
     {
       if (model == null) return BadRequest();
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -66,13 +63,13 @@ namespace tomware.Microsts.Web
       return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{name}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> DeleteAsync(string id)
+    public async Task<IActionResult> DeleteAsync(string name)
     {
-      if (id == null) return BadRequest();
+      if (name == null) return BadRequest();
 
-      await this.service.DeleteAsync(id);
+      await this.service.DeleteAsync(name);
 
       return NoContent();
     }

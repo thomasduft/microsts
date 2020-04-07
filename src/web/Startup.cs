@@ -52,6 +52,7 @@ namespace tomware.Microsts.Web
       );
 
       services.AddSTSServices();
+      services.AddIdentityServerServices();
 
       // Swagger
       services.AddSwaggerDocumentation();

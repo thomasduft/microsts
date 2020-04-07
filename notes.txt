@@ -61,3 +61,4 @@ certs:
 ----------------------------------------------------------------------------------------------------
 - dotnet ef migrations add "ClaimTypes" -c STSContext -o Data/Migrations
 - dotnet ef database update -c STSContext
+- dotnet ef database update -c ConfigurationDbContext

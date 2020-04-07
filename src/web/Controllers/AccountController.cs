@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace tomware.Microsts.Web
 {
-  [Route("api/account")]
+  [Route("api/accounts")]
   [SecurityHeaders]
   [Authorize(Policies.ADMIN_POLICY)]
   public class AccountController : Controller

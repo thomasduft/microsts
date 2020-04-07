@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace tomware.Microsts.Web
 {
-  [Route("api/claimtype")]
+  [Route("api/claimtypes")]
   [SecurityHeaders]
   [Authorize(Policies.ADMIN_POLICY)]
   public class ClaimTypeController : Controller

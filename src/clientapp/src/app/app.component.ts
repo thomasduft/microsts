@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { OAuthService, OAuthEvent } from 'angular-oauth2-oidc';
@@ -65,7 +65,9 @@ export class AppComponent implements OnInit {
     this.oauthService.configure({
       clientId: config.clientId,
       issuer: config.issuer,
-      redirectUri: config.redirectUri || window.location.origin,
+      redirectUri: isDevMode ?
+        'http://localhost:4200'
+        : config.redirectUri || window.location.origin,
       responseType: config.responseType || undefined,
       scope: config.scope,
       loginUrl: config.loginUrl,
