@@ -61,5 +61,19 @@ export class MenuComponent implements OnInit {
       route: '/claimtypes',
       icon: 'key'
     });
+
+    this.service.register({
+      id: '4',
+      name: 'Resources',
+      route: '/resources',
+      icon: 'lock'
+    });
+
+    this.service.register({
+      id: '5',
+      name: 'Clients',
+      route: '/clients',
+      icon: 'desktop'
+    });
   }
 }

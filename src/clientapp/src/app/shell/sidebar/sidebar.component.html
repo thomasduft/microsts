@@ -7,9 +7,9 @@
 </div>
 <div class="sidebar__content">
   <ul>
-    <li routerLinkActive="active" class="menu__item">
-      <a routerLink="/">
-        <!-- <tw-icon name="home"></tw-icon> -->
+    <li *ngIf="isAuthenticated" routerLinkActive="active" class="menu__item">
+      <a routerLink="/users">
+        <!-- "<tw-icon name="home"></tw-icon> -->
         {{ userName }}
       </a>
     </li>

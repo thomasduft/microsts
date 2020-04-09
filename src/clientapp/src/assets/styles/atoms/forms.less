@@ -32,7 +32,7 @@
     padding: 5px;
     width: 100%;
     background-color: @form-control-background-color;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     box-sizing: border-box;
     box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
     -webkit-box-sizing: border-box;
@@ -68,8 +68,14 @@
     border-radius: 15px 15px 15px 0px;
   }
 
+  &__validation--error {
+    font-weight: bold;
+    color: @danger-color;
+    margin-bottom: 10px;
+  }
+
   &__validation-summary {
-    color: red;
+    color: @danger-color;
     margin: 10px 0px;
     li {
       margin: 0;

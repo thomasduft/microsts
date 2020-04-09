@@ -29,7 +29,7 @@ export const VALUE_BINDING_BEHAVIOR = 'value';
   providers: [DROPDOWN_CONTROL_VALUE_ACCESSOR]
 })
 export class MultiSelectComponent implements ControlValueAccessor {
-  public _data: Array<ListItem> = [];
+  public listItems: Array<ListItem> = [];
 
   public filter: ListItem = new ListItem(this.data);
   public selectedItems: Array<ListItem> = [];
@@ -45,9 +45,9 @@ export class MultiSelectComponent implements ControlValueAccessor {
   @Input()
   public set data(value: Array<{ key: string | number, value: string }>) {
     if (!value) {
-      this._data = [];
+      this.listItems = [];
     } else {
-      this._data = value
+      this.listItems = value
         .map((item: any) => new ListItem(item));
     }
   }
@@ -59,7 +59,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
   public dropDownClose: EventEmitter<ListItem> = new EventEmitter<any>();
 
   @Output()
-  public select: EventEmitter<ListItem> = new EventEmitter<ListItem>();
+  public onSelect: EventEmitter<ListItem> = new EventEmitter<ListItem>();
 
   @Output()
   public selectAll: EventEmitter<Array<ListItem>> = new EventEmitter<Array<ListItem>>();
@@ -111,9 +111,9 @@ export class MultiSelectComponent implements ControlValueAccessor {
       }
 
       if (this.bindingBehavior === KEY_BINDING_BEHAVIOR) {
-        this.selectedItems = value.map((item: any) => ListItem.byKey(item, this._data));
+        this.selectedItems = value.map((item: any) => ListItem.byKey(item, this.listItems));
       } else {
-        this.selectedItems = value.map((item: any) => ListItem.byValue(item, this._data));
+        this.selectedItems = value.map((item: any) => ListItem.byValue(item, this.listItems));
       }
     } else {
       this.selectedItems = [];
@@ -166,7 +166,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
   }
 
   public isAllItemsSelected(): boolean {
-    return this._data.length === this.selectedItems.length;
+    return this.listItems.length === this.selectedItems.length;
   }
 
   public showButton(): boolean {
@@ -186,7 +186,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
     }
 
     this.onChangeCallback(this.emittedValue(this.selectedItems));
-    this.select.emit(this.emittedValue(item));
+    this.onSelect.emit(this.emittedValue(item));
   }
 
   public removeSelected(itemSel: ListItem): void {
@@ -270,7 +270,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
     }
 
     if (!this.isAllItemsSelected()) {
-      this.selectedItems = this._data.slice();
+      this.selectedItems = this.listItems.slice();
       this.selectAll.emit(this.emittedValue(this.selectedItems));
     } else {
       this.selectedItems = [];

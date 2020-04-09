@@ -16,6 +16,7 @@ import { HomeModule } from './home/home.module';
 import { ClaimtypesModule } from './claimtypes/claimtypes.module';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
+import { ResourcesModule } from './resources/resources.module';
 
 import { AppComponent } from './app.component';
 
@@ -40,7 +41,8 @@ const ROUTES: Routes = [
     HomeModule,
     ClaimtypesModule,
     RolesModule,
-    UsersModule
+    UsersModule,
+    ResourcesModule
   ],
   providers: [
     {

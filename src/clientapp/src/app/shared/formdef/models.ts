@@ -71,7 +71,6 @@ export class FormdefValidator {
   }
 }
 
-@Directive()
 export class BaseSlotComponent {
   @Input()
   public slot: Slot;

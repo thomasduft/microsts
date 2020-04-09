@@ -49,9 +49,7 @@ namespace tomware.Microsts.Web
 
       var result = await this.service.CreateAsync(model);
 
-      var id = new Guid(result);
-
-      return Created($"api/role/{id}", id);
+      return Created($"api/role/{result}", this.Json(result));
     }
 
     [HttpPut]

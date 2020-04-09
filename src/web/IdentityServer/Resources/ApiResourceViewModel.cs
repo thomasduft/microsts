@@ -5,7 +5,8 @@ namespace tomware.Microsts.Web
 {
   public class ApiResourceViewModel
   {
-    [Required]
+    public int? Id { get; set; }
+    
     public bool Enabled { get; set; }
 
     [Required]

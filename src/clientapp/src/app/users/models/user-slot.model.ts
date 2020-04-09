@@ -21,12 +21,12 @@ export class UserDetailSlot implements Slot {
     claims: Array<string>,
     roles: Array<string>
   ) {
-    const claimOptions = claims.map((a: string) => {
-      return { key: a, value: a };
+    const claimOptions = claims.map((c: string) => {
+      return { key: c, value: c };
     });
 
-    const roleOptions = roles.map((a: string) => {
-      return { key: a, value: a };
+    const roleOptions = roles.map((r: string) => {
+      return { key: r, value: r };
     });
 
     this.editors = [

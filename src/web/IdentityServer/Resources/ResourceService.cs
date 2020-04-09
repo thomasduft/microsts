@@ -123,13 +123,14 @@ namespace tomware.Microsts.Web
     {
       return new ApiResourceViewModel
       {
+        Id = entity.Id,
         Enabled = entity.Enabled,
         Name = entity.Name,
         DisplayName = entity.DisplayName,
         Scopes = entity.Scopes
           .Select(x => x.Name).ToList(),
-        // UserClaims = entity.UserClaims
-        //   .Select(x => x.ApiResource.Name).ToList()
+        UserClaims = entity.UserClaims
+          .Select(x => x.Type).ToList()
       };
     }
 
@@ -149,6 +150,7 @@ namespace tomware.Microsts.Web
           ApiResource = apiResource,
           Name = s
         }).ToList();
+
       apiResource.UserClaims = model.UserClaims
         .Select(x => new ApiResourceClaim
         {

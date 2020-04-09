@@ -49,7 +49,7 @@ namespace tomware.Microsts.Web
 
       var result = await this.service.CreateAsync(model);
 
-      return Created($"api/claimtypes/{result}", result);
+      return Created($"api/claimtypes/{result}", this.Json(result));
     }
 
     [HttpPut]

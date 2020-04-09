@@ -1,6 +1,7 @@
 ToDo:
 - managing clients in the UI
   - AddConfigurationStore
+
 - prevent admin from:
   - deleting roles that are still assigned somewhere
   - deleting claims that are still assigned somewhere

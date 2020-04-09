@@ -48,7 +48,7 @@ namespace tomware.Microsts.Web
 
       var result = await this.service.CreateApiResourceAsync(model);
 
-      return Created($"api/resources/{result}", result);
+      return Created($"api/resources/{result}", this.Json(result));
     }
 
     [HttpPut]

@@ -28,7 +28,7 @@
         <div *ngIf="!isAllItemsSelected()" i18n>select all</div>
         <div *ngIf="isAllItemsSelected()" i18n>unselect all</div>
       </li>
-      <li class="filter-textbox" *ngIf="_data.length > 0">
+      <li class="filter-textbox" *ngIf="listItems.length > 0">
         <input type="text" 
                aria-label="multiselect-search"
                i18n-placeholder [placeholder]="'Search'"
@@ -38,7 +38,7 @@
       </li>
     </ul>
     <ul>
-      <li *ngFor="let item of _data | tw2ListFilter:filter" 
+      <li *ngFor="let item of listItems | tw2ListFilter:filter" 
         (click)="onItemClick(item)" class="multiselect-item-checkbox"
         (keydown)="onKeyDown($event, item)"
         tabindex="0">
@@ -48,7 +48,7 @@
                [disabled]="disabled || !isSelected(item)" />
         <div>{{ item.value }}</div>
       </li>
-      <li class='no-data' *ngIf="_data.length == 0">
+      <li class='no-data' *ngIf="listItems.length == 0">
         <h5 i18n>No data!</h5>
       </li>
     </ul>

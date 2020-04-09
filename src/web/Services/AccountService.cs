@@ -137,7 +137,7 @@ namespace tomware.Microsts.Web
       // assigning claims
       return await this.manager.AddClaimsAsync(
         user,
-        model.Claims.Select(c => new Claim("tw", c))
+        model.Claims.Select(c => new Claim("tw", c)) // TODO: make claimtype value configurable?
       );
     }
 

@@ -71,8 +71,10 @@ export class HttpWrapperService {
   }
 
   public handleError(error: HttpErrorResponse) {
+    console.log('Raw error', error);
+
     if (error.error instanceof ErrorEvent) {
-      console.error('An error occured:', error.error.message);
+      console.error('An error occured:', error);
     } else if (error.status === 400) {
       const identityResult: IdentityResult = {
         succeeded: false,
