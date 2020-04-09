@@ -142,7 +142,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
 
   @HostListener('window:keydown', ['$event'])
   public shortCuts(event: KeyboardEvent): void {
-    if(event.keyCode === 13) {
+    if (event.keyCode === 13) {
       // return
       event.preventDefault();
 
@@ -150,6 +150,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
     }
   }
 
+  // tslint:disable-next-line:variable-name
   public trackByFn(_index, item: ListItem): any {
     return item.key;
   }
