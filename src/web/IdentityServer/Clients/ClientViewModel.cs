@@ -5,6 +5,8 @@ namespace tomware.Microsts.Web
 {
   public class ClientViewModel
   {
+    public int? Id { get; set; }
+
     [Required]
     public bool Enabled { get; set; }
 
@@ -15,6 +17,8 @@ namespace tomware.Microsts.Web
     public string ClientName { get; set; }
 
     public bool RequireClientSecret { get; set; }
+
+    public string ClientSecret { get; set; }
 
     public bool RequirePkce { get; set; }
 

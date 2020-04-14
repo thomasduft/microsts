@@ -57,6 +57,7 @@ import { Editor } from './models';
                     [formControlName]="editor.key"
                     [singleSelection]="editor.singleSelection"
                     [bindingBehavior]="editor.bindingBehaviour"
+                    [allowAddingItems]="editor.allowAddingItems"
                     [data]="editor.options">
    </tw-multi-select>
 

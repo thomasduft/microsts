@@ -57,7 +57,8 @@ export class ResourceDetailSlot implements Slot {
         label: 'Scopes',
         options: scopeOptions,
         singleSelection: false,
-        bindingBehaviour: VALUE_BINDING_BEHAVIOR
+        bindingBehaviour: VALUE_BINDING_BEHAVIOR,
+        allowAddingItems: true
       },
       {
         key: 'userClaims',
@@ -65,7 +66,8 @@ export class ResourceDetailSlot implements Slot {
         label: 'User claims',
         options: claimOptions,
         singleSelection: false,
-        bindingBehaviour: VALUE_BINDING_BEHAVIOR
+        bindingBehaviour: VALUE_BINDING_BEHAVIOR,
+        allowAddingItems: true
       }
     ];
   }

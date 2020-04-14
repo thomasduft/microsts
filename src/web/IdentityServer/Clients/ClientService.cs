@@ -77,11 +77,13 @@ namespace tomware.Microsts.Web
     public async Task UpdateAsync(ClientViewModel model)
     {
       if (model == null) throw new ArgumentNullException(nameof(model));
+      if (model.Id == null) throw new ArgumentNullException(nameof(model.Id));
 
-      var client = await this.GetClientByClientId(model.ClientId);
+      var client = await this.GetClientById(model.Id.Value);
       if (client == null) throw new ArgumentNullException(nameof(client));
 
       client.Enabled = model.Enabled;
+      client.ClientId = model.ClientId;
       client.ClientName = model.ClientName;
       client.RequireClientSecret = model.RequireClientSecret;
       client.RequirePkce = model.RequirePkce;
@@ -99,7 +101,7 @@ namespace tomware.Microsts.Web
     {
       if (clientId == null) throw new ArgumentNullException(nameof(clientId));
 
-      var client = await this.GetClientByClientId(clientId);;
+      var client = await this.GetClientByClientId(clientId); ;
 
       this.context.Clients.Remove(client);
 
@@ -126,10 +128,20 @@ namespace tomware.Microsts.Web
       return items.Count() == 1 ? items.First() : null;
     }
 
+    private async Task<Client> GetClientById(int id)
+    {
+      List<Client> items = await this.LoadAll()
+        .Where(x => x.Id == id)
+        .ToListAsync();
+
+      return items.Count() == 1 ? items.First() : null;
+    }
+
     private ClientViewModel ToModel(Client entity)
     {
       return new ClientViewModel
       {
+        Id = entity.Id,
         Enabled = entity.Enabled,
         ClientId = entity.ClientId,
         ClientName = entity.ClientName,
@@ -137,6 +149,9 @@ namespace tomware.Microsts.Web
         RequirePkce = entity.RequirePkce,
         RequireConsent = entity.RequireConsent,
         AllowAccessTokensViaBrowser = entity.AllowAccessTokensViaBrowser,
+        ClientSecret = entity.ClientSecrets != null && entity.ClientSecrets.Count() > 0
+          ? entity.ClientSecrets.FirstOrDefault().Value
+          : null,
         AllowedGrantTypes = entity.AllowedGrantTypes
           .Select(x => x.GrantType).ToList(),
         RedirectUris = entity.RedirectUris
@@ -158,6 +173,7 @@ namespace tomware.Microsts.Web
       if (client.PostLogoutRedirectUris != null) client.PostLogoutRedirectUris.Clear();
       if (client.AllowedCorsOrigins != null) client.AllowedCorsOrigins.Clear();
       if (client.AllowedScopes != null) client.AllowedScopes.Clear();
+      if (client.ClientSecrets != null) client.ClientSecrets.Clear();
 
       // assign them
       client.AllowedGrantTypes = model.AllowedGrantTypes
@@ -194,6 +210,17 @@ namespace tomware.Microsts.Web
           Client = client,
           Scope = s
         }).ToList();
+
+      if (model.ClientSecret != null)
+      {
+        client.ClientSecrets = new List<ClientSecret> {
+          new ClientSecret {
+            Client = client,
+            Type = "tw",
+            Value = model.ClientSecret
+          }
+        };
+      }
     }
   }
 }

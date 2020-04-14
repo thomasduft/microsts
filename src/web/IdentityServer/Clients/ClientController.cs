@@ -11,15 +11,12 @@ namespace tomware.Microsts.Web
   public class ClientController : Controller
   {
     private readonly IClientService service;
-    private readonly IClientConfigurationService configurationService;
 
     public ClientController(
-      IClientService service,
-      IClientConfigurationService configurationService
+      IClientService service
     )
     {
       this.service = service;
-      this.configurationService = configurationService;
     }
 
     [HttpGet]
@@ -55,7 +52,7 @@ namespace tomware.Microsts.Web
 
       var result = await this.service.CreateAsync(model);
 
-      return Created($"api/clients/{result}", result);
+      return Created($"api/clients/{result}", this.Json(result));
     }
 
     [HttpPut]
@@ -81,21 +78,6 @@ namespace tomware.Microsts.Web
       await this.service.DeleteAsync(clientId);
 
       return NoContent();
-    }
-
-    // #############################################################################################
-    // TODO: will be deprecated...or refactore to sth. like hardcode FrontendConfig endpoint
-
-    [HttpGet("config/{clientId}")]
-    [ProducesResponseType(typeof(ClientConfigurationViewModel), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Config(string clientId)
-    {
-      if (clientId is null) return BadRequest();
-
-      var result = await this.configurationService.GetClient(clientId);
-      if (result == null) return NotFound();
-
-      return Ok(result);
     }
   }
 }

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -9,7 +9,6 @@ import { SharedModule } from './shared/shared.module';
 import { ForbiddenComponent, PageNotFoundComponent, httpInterceptorProviders } from './shared';
 
 import { CoreModule } from './core/core.module';
-import { clientConfigProviderFactory, ClientConfigProvider } from './core';
 
 import { ShellModule } from './shell/shell.module';
 import { HomeModule } from './home/home.module';
@@ -17,6 +16,7 @@ import { ClaimtypesModule } from './claimtypes/claimtypes.module';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
 import { ResourcesModule } from './resources/resources.module';
+import { ClientsModule } from './clients/clients.module';
 
 import { AppComponent } from './app.component';
 
@@ -42,15 +42,10 @@ const ROUTES: Routes = [
     ClaimtypesModule,
     RolesModule,
     UsersModule,
-    ResourcesModule
+    ResourcesModule,
+    ClientsModule
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: clientConfigProviderFactory,
-      deps: [ClientConfigProvider],
-      multi: true
-    },
     httpInterceptorProviders
   ],
   bootstrap: [AppComponent]

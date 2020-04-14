@@ -11,7 +11,6 @@ namespace tomware.Microsts.Web
       // own services
       services.AddTransient<IClaimTypeService, ClaimTypeService>();
       services.AddTransient<IClientService, ClientService>();
-      services.AddTransient<IClientConfigurationService, ClientConfigurationService>();
       services.AddTransient<IResourceService, ResourceService>();
       services.AddTransient<IScopeService, ScopeService>();
 

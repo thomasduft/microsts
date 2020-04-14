@@ -36,11 +36,30 @@ export class MultiSelectComponent implements ControlValueAccessor {
   public isDropdownOpen = false;
   public disabled = false;
 
+  public get sortedSelectedItems(): Array<ListItem> {
+    return this.selectedItems.sort((a: ListItem, b: ListItem) => {
+      if (a.key < b.key) { return -1; }
+      if (a.key > b.key) { return 1; }
+      return 0;
+    });
+  }
+
+  public get sortedListItems(): Array<ListItem> {
+    return this.listItems.sort((a: ListItem, b: ListItem) => {
+      if (a.key < b.key) { return -1; }
+      if (a.key > b.key) { return 1; }
+      return 0;
+    });
+  }
+
   @Input()
   public singleSelection = false;
 
   @Input()
   public bindingBehavior: 'key' | 'value' = 'key';
+
+  @Input()
+  public allowAddingItems = false;
 
   @Input()
   public set data(value: Array<{ key: string | number, value: string }>) {
@@ -176,6 +195,12 @@ export class MultiSelectComponent implements ControlValueAccessor {
     } else {
       return false;
     }
+  }
+
+  public addItem(value: string): void {
+    const item = new ListItem(value);
+
+    this.listItems.push(item);
   }
 
   public addSelected(item: ListItem): void {
