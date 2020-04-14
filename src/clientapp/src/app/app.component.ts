@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
 
   private async configure() {
     this.oauthService.configure({
-      clientId: 'adminclient',
+      clientId: 'stsclient',
       issuer: isDevMode
         ? 'http://localhost:5000'
         : window.location.origin,

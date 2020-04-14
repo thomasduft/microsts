@@ -12,6 +12,8 @@ namespace tomware.Microsts.Web
   {
     Task<IEnumerable<ApiResourceViewModel>> GetApiResourcesAsync();
 
+    Task<IEnumerable<string>> GetResourceNamesAsync();
+
     Task<ApiResourceViewModel> GetApiResourceAsync(string name);
 
     Task<string> CreateApiResourceAsync(ApiResourceViewModel model);
@@ -39,6 +41,23 @@ namespace tomware.Microsts.Web
         .ToListAsync();
 
       return items.Select(x => ToModel(x));
+    }
+
+    public async Task<IEnumerable<string>> GetResourceNamesAsync()
+    {
+      var apiResources = await this.context.ApiResources
+        .OrderBy(x => x.Name)
+        .AsNoTracking()
+        .ToListAsync();
+
+      var identityResources = await this.context.IdentityResources
+        .OrderBy(x => x.Name)
+        .AsNoTracking()
+        .ToListAsync();
+
+      return apiResources.Select(x => x.Name)
+        .Union(identityResources.Select(x => x.Name))
+        .Distinct();
     }
 
     public async Task<ApiResourceViewModel> GetApiResourceAsync(string name)

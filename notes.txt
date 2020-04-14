@@ -1,6 +1,8 @@
 ToDo:
 - managing clients in the UI
-  - AddConfigurationStore
+  [x] AddConfigurationStore
+  [-] client -> allowed scopes (better naming would be: allowed resources)
+    - consists of ApiResource->name and IdentityResources->Name
 
 - prevent admin from:
   - deleting roles that are still assigned somewhere

@@ -8,6 +8,7 @@ namespace tomware.Microsts.Web
 {
   [Route("api/clients")]
   [SecurityHeaders]
+  [Authorize(Policies.ADMIN_POLICY)]
   public class ClientController : Controller
   {
     private readonly IClientService service;
@@ -20,7 +21,6 @@ namespace tomware.Microsts.Web
     }
 
     [HttpGet]
-    // [Authorize(Policies.ADMIN_POLICY)]
     [ProducesResponseType(typeof(IEnumerable<ClientViewModel>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetClientsAsync()
     {
@@ -30,7 +30,6 @@ namespace tomware.Microsts.Web
     }
 
     [HttpGet("{clientId}")]
-    // [Authorize(Policies.ADMIN_POLICY)]
     [ProducesResponseType(typeof(ClientViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAsync(string clientId)
     {
@@ -43,7 +42,6 @@ namespace tomware.Microsts.Web
     }
 
     [HttpPost]
-    // [Authorize(Policies.ADMIN_POLICY)]
     [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateAsync([FromBody]ClientViewModel model)
     {
@@ -56,7 +54,6 @@ namespace tomware.Microsts.Web
     }
 
     [HttpPut]
-    // [Authorize(Policies.ADMIN_POLICY)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> UpdateAsync([FromBody]ClientViewModel model)
     {
@@ -69,7 +66,6 @@ namespace tomware.Microsts.Web
     }
 
     [HttpDelete("{clientId}")]
-    // [Authorize(Policies.ADMIN_POLICY)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteAsync(string clientId)
     {

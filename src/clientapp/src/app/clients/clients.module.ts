@@ -7,6 +7,8 @@ import { AuthGuard } from '../shared';
 import { SharedModule } from '../shared/shared.module';
 import { FormdefModule } from '../shared/formdef/formdef.module';
 
+import { ResourcesModule } from '../resources/resources.module';
+
 import { ClientService } from './services';
 import { ClientListComponent } from './components/list/client-list.component';
 import { ClientDetailComponent } from './components/detail/client-detail.component';
@@ -32,7 +34,8 @@ const ROUTES: Routes = [
     FormsModule,
     RouterModule.forChild(ROUTES),
     SharedModule,
-    FormdefModule
+    FormdefModule,
+    ResourcesModule
   ],
   declarations: [
     ClientListComponent,

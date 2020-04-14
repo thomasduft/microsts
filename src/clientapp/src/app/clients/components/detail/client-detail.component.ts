@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -15,6 +15,7 @@ import {
 } from '../../../shared';
 import { FormdefRegistry } from '../../../shared/formdef';
 import { RefreshMessage } from '../../../core';
+import { ResourceService } from '../../../resources/services/resource.service';
 
 import { ClientDetailSlot, Client } from '../../models';
 import { ClientService } from '../../services';
@@ -25,7 +26,8 @@ import { ClientService } from '../../services';
   templateUrl: './client-detail.component.html',
   styleUrls: ['./client-detail.component.less'],
   providers: [
-    ClientService
+    ClientService,
+    ResourceService
   ]
 })
 export class ClientDetailComponent implements OnInit {
@@ -41,6 +43,7 @@ export class ClientDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private service: ClientService,
+    private resourceService: ResourceService,
     private slotRegistry: FormdefRegistry,
     private popup: Popover,
     private element: ElementRef,
@@ -116,18 +119,20 @@ export class ClientDetailComponent implements OnInit {
 
   private load(clientId: string): void {
     this.isNew = false;
-    this.client$ = this.service.client(clientId)
-      .subscribe((result: Client) => {
+    this.client$ = forkJoin({
+      resources: this.resourceService.resourcenames(),
+      client: this.service.client(clientId)
+    }).subscribe((result: any) => {
         this.slotRegistry.register(new ClientDetailSlot(
-          result.allowedGrantTypes,
-          result.redirectUris,
-          result.postLogoutRedirectUris,
-          result.allowedCorsOrigins,
-          result.allowedScopes
+          result.client.allowedGrantTypes,
+          result.client.redirectUris,
+          result.client.postLogoutRedirectUris,
+          result.client.allowedCorsOrigins,
+          result.resources
         ));
 
         this.key = ClientDetailSlot.KEY;
-        this.viewModel = result;
+        this.viewModel = result.client;
       });
   }
 

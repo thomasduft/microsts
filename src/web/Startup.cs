@@ -44,10 +44,6 @@ namespace tomware.Microsts.Web
         .AddDbContext<STSContext>(o => o.UseSqlite(connection));
 
       // STS Services
-      services.Configure<IdentityConfiguration>(
-        this.Configuration.GetSection("Identities")
-      );
-
       services.AddSTSServices();
       services.AddIdentityServerServices();
 
@@ -112,7 +108,9 @@ namespace tomware.Microsts.Web
         "/claimtypes",
         "/roles",
         "/users",
-        "/users/register"
+        "/users/register",
+        "/resources",
+        "/clients"
       };
 
       app.Use(async (context, next) =>

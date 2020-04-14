@@ -8,7 +8,7 @@ namespace tomware.Microsts.Web
 {
   [Route("api/resources")]
   [SecurityHeaders]
-  // [Authorize(Policies.ADMIN_POLICY)]
+  [Authorize(Policies.ADMIN_POLICY)]
   public class ResourceController : Controller
   {
     private readonly IResourceService service;
@@ -23,6 +23,15 @@ namespace tomware.Microsts.Web
     public async Task<IActionResult> GetApiResourcesAsync()
     {
       var result = await this.service.GetApiResourcesAsync();
+
+      return Ok(result);
+    }
+
+    [HttpGet("names")]
+    [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetResourceNamesAsync()
+    {
+      var result = await this.service.GetResourceNamesAsync();
 
       return Ok(result);
     }

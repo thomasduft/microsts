@@ -59,16 +59,16 @@ export class ResourceDetailSlot implements Slot {
         singleSelection: false,
         bindingBehaviour: VALUE_BINDING_BEHAVIOR,
         allowAddingItems: true
-      },
-      {
-        key: 'userClaims',
-        type: MULTI_SELECT_EDITOR,
-        label: 'User claims',
-        options: claimOptions,
-        singleSelection: false,
-        bindingBehaviour: VALUE_BINDING_BEHAVIOR,
-        allowAddingItems: true
       }
+      // {
+      //   key: 'userClaims',
+      //   type: MULTI_SELECT_EDITOR,
+      //   label: 'User claims',
+      //   options: claimOptions,
+      //   singleSelection: false,
+      //   bindingBehaviour: VALUE_BINDING_BEHAVIOR,
+      //   allowAddingItems: true
+      // }
     ];
   }
 }

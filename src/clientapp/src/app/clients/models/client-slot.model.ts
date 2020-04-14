@@ -139,7 +139,7 @@ export class ClientDetailSlot implements Slot {
         options: allowedScopesOptions,
         singleSelection: false,
         bindingBehaviour: VALUE_BINDING_BEHAVIOR,
-        allowAddingItems: true
+        allowAddingItems: false
       }
     ];
   }
