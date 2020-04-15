@@ -3,6 +3,7 @@ using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,30 +20,37 @@ namespace tomware.Microsts.Web
     private readonly ConfigurationDbContext configurationDbContext;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly RoleManager<IdentityRole> roleManager;
+    private readonly IConfiguration config;
 
     public MigrationService(
       STSContext context,
       ConfigurationDbContext configurationDbContext,
       UserManager<ApplicationUser> userManager,
-      RoleManager<IdentityRole> roleManager
+      RoleManager<IdentityRole> roleManager,
+      IConfiguration config
       )
     {
       this.context = context;
       this.configurationDbContext = configurationDbContext;
       this.userManager = userManager;
       this.roleManager = roleManager;
+      this.config = config;
     }
 
     public async Task EnsureMigrationAsync()
     {
       await this.context.Database.MigrateAsync();
-      
+
       await this.EnsureAdministratorRole();
       await this.EnsureAdministratorUser();
 
       // IdentityServer
       await this.configurationDbContext.Database.MigrateAsync();
-      await this.SeedDefaultConfiguration(this.configurationDbContext);
+
+      await this.SeedDefaultConfiguration(
+        this.configurationDbContext,
+        Program.GetUrls(this.config)
+      );
     }
 
     private async Task EnsureAdministratorRole()
@@ -74,11 +82,11 @@ namespace tomware.Microsts.Web
       await this.userManager.AddToRoleAsync(applicationUser, Roles.ADMINISTRATOR_ROLE);
     }
 
-    private async Task SeedDefaultConfiguration(IConfigurationDbContext context)
+    private async Task SeedDefaultConfiguration(IConfigurationDbContext context, string authority)
     {
       if (!context.Clients.Any())
       {
-        foreach (var client in Config.Clients.ToList())
+        foreach (var client in Config.GetClients(authority))
         {
           context.Clients.Add(client.ToEntity());
         }
@@ -88,7 +96,7 @@ namespace tomware.Microsts.Web
 
       if (!context.IdentityResources.Any())
       {
-        foreach (var resource in Config.Ids.ToList())
+        foreach (var resource in Config.GetIds())
         {
           context.IdentityResources.Add(resource.ToEntity());
         }
@@ -98,7 +106,7 @@ namespace tomware.Microsts.Web
 
       if (!context.ApiResources.Any())
       {
-        foreach (var resource in Config.Apis.ToList())
+        foreach (var resource in Config.GetApis())
         {
           context.ApiResources.Add(resource.ToEntity());
         }

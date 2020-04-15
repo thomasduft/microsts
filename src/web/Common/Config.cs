@@ -6,21 +6,26 @@ namespace tomware.Microsts.Web
 {
   public class Config
   {
-    public static IEnumerable<IdentityResource> Ids =>
-      new List<IdentityResource>
-        {
-          new IdentityResources.OpenId(),
-          new IdentityResources.Profile()
-        };
+    public static IEnumerable<IdentityResource> GetIds()
+    {
+      return new List<IdentityResource>
+      {
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile()
+      };
+    }
 
-    public static IEnumerable<ApiResource> Apis =>
-      new List<ApiResource>
-        {
-          new ApiResource("sts_api", "STS API")
-        };
+    public static IEnumerable<ApiResource> GetApis()
+    {
+      return new List<ApiResource>
+      {
+        new ApiResource("sts_api", "STS API")
+      };
+    }
 
-    public static IEnumerable<Client> Clients =>
-      new List<Client>
+    public static IEnumerable<Client> GetClients(string authority)
+    {
+      return new List<Client>
       {
         new Client
         {
@@ -33,15 +38,15 @@ namespace tomware.Microsts.Web
           AllowedGrantTypes = GrantTypes.Code,
           AllowOfflineAccess = true,
           RedirectUris = {
-            "http://localhost:5000",
+            authority,
             "http://localhost:4200"
           },
           PostLogoutRedirectUris = {
-            "http://localhost:5000",
+            authority,
             "http://localhost:4200"
           },
           AllowedCorsOrigins = {
-            "http://localhost:5000",
+            authority,
             "http://localhost:4200"
           },
           AllowedScopes = {
@@ -50,5 +55,6 @@ namespace tomware.Microsts.Web
           }
         }
       };
+    }
   }
 }
