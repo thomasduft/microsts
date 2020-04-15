@@ -9,8 +9,6 @@ import { ClaimTypesService } from '../../claimtypes/services';
 import { RoleService } from '../../roles/services';
 
 import {
-  AssignClaims,
-  AssignRoles,
   ChangePassword,
   RegisterUser,
   User,

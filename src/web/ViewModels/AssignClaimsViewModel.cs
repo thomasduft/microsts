@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace tomware.Microsts.Web
 {
@@ -9,6 +10,6 @@ namespace tomware.Microsts.Web
     public string UserName { get; set; }
 
     [Required]
-    public IList<string> Claims { get; set; } = new List<string>();
+    public IList<Claim> Claims { get; set; } = new List<Claim>();
   }
 }

@@ -41,7 +41,7 @@ namespace tomware.Microsts.Web
 
     public async Task<IdentityResult> RegisterAsync(ApplicationUser user, string password)
     {
-       return await this.manager.CreateAsync(user, password);
+      return await this.manager.CreateAsync(user, password);
     }
 
     public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordViewModel model)
@@ -87,7 +87,11 @@ namespace tomware.Microsts.Web
         Email = user.Email,
         LockoutEnabled = user.LockoutEnabled,
         IsLockedOut = isLockedOut,
-        Claims = new List<string>(claims.ToList().Select(c => c.Value)),
+        Claims = new List<ClaimViewModel>(claims.ToList().Select(x => new ClaimViewModel
+        {
+          Type = x.Type,
+          Value = x.Value
+        })),
         Roles = roles.ToList()
       };
     }
@@ -103,58 +107,58 @@ namespace tomware.Microsts.Web
       user.LockoutEnabled = model.LockoutEnabled;
 
       var result = await this.manager.UpdateAsync(user);
-
-      result = await this.AssignClaimsAsync(user, new AssignClaimsViewModel
-      {
-        UserName = user.UserName,
-        Claims = model.Claims
-      });
-
       if (!result.Succeeded)
       {
         return result;
       }
 
-      result = await this.AssignRolesAsync(user, new AssignRolesViewModel
+      result = await this.AssignClaimsAsync(
+        user,
+        model.Claims.Select(x => new Claim(x.Type, x.Value)).ToList()
+      );
+      if (!result.Succeeded)
       {
-        UserName = user.UserName,
-        Roles = model.Roles
-      });
+        return result;
+      }
+
+      result = await this.AssignRolesAsync(user, model.Roles);
+      if (!result.Succeeded)
+      {
+        return result;
+      }
 
       return result;
     }
 
     private async Task<IdentityResult> AssignClaimsAsync(
       ApplicationUser user,
-      AssignClaimsViewModel model
+      IEnumerable<Claim> claims
     )
     {
-      var claims = await this.manager.GetClaimsAsync(user);
-
       // removing all claims
-      await this.manager.RemoveClaimsAsync(user, claims.Where(c => c.Type == "tw"));
+      var existingClaims = await this.manager.GetClaimsAsync(user);
+      await this.manager.RemoveClaimsAsync(user, existingClaims);
 
       // assigning claims
       return await this.manager.AddClaimsAsync(
         user,
-        model.Claims.Select(c => new Claim("tw", c)) // TODO: make claimtype value configurable?
+        claims
       );
     }
 
     private async Task<IdentityResult> AssignRolesAsync(
       ApplicationUser user,
-      AssignRolesViewModel model
+      IEnumerable<string> roles
     )
     {
-      var roles = await this.manager.GetRolesAsync(user);
-
       // removing all roles
-      await this.manager.RemoveFromRolesAsync(user, roles);
+      var existingRoles = await this.manager.GetRolesAsync(user);
+      await this.manager.RemoveFromRolesAsync(user, existingRoles);
 
       // assigning roles
       return await this.manager.AddToRolesAsync(
         user,
-        model.Roles
+        roles
       );
     }
   }

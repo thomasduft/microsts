@@ -1,7 +1,7 @@
 ToDo:
 - managing clients in the UI
   [x] AddConfigurationStore
-  [-] client -> allowed scopes (better naming would be: allowed resources)
+  [x] client -> allowed scopes (better naming would be: allowed resources)
     - consists of ApiResource->name and IdentityResources->Name
 
 - prevent admin from:
@@ -24,6 +24,7 @@ ToDo:
 
 
 Done:
+- allow claims with values for user
 - global alert approach
 - confirmation popup
 - new user via admin app

@@ -6,7 +6,9 @@ import {
   TEXT_EDITOR,
   CHECKBOX_EDITOR,
   MULTI_SELECT_EDITOR,
-  VALUE_BINDING_BEHAVIOR
+  VALUE_BINDING_BEHAVIOR,
+  ARRAY_SLOT,
+  SELECT_EDITOR
 } from '../../shared/formdef';
 
 export class UserDetailSlot implements Slot {
@@ -16,6 +18,7 @@ export class UserDetailSlot implements Slot {
   public type = SINGLE_SLOT;
   public title = 'Detail';
   public editors: Editor[];
+  public children: Array<Slot>;
 
   public constructor(
     claims: Array<string>,
@@ -60,15 +63,6 @@ export class UserDetailSlot implements Slot {
         isReadOnly: true
       },
       {
-        key: 'claims',
-        type: MULTI_SELECT_EDITOR,
-        label: 'Claims',
-        required: false,
-        options: claimOptions,
-        singleSelection: false,
-        bindingBehaviour: VALUE_BINDING_BEHAVIOR
-      },
-      {
         key: 'roles',
         type: MULTI_SELECT_EDITOR,
         label: 'Roles',
@@ -76,6 +70,31 @@ export class UserDetailSlot implements Slot {
         options: roleOptions,
         singleSelection: false,
         bindingBehaviour: VALUE_BINDING_BEHAVIOR
+      }
+    ];
+
+    this.children = [
+      {
+        key: 'claims',
+        type: ARRAY_SLOT,
+        title: 'Claims',
+        editors: [
+          {
+            key: 'type',
+            type: SELECT_EDITOR,
+            label: 'Claims',
+            required: true,
+            options: claimOptions,
+            singleSelection: true,
+            bindingBehaviour: VALUE_BINDING_BEHAVIOR
+          },
+          {
+            key: 'value',
+            type: TEXT_EDITOR,
+            label: 'Value',
+            required: true
+          }
+        ]
       }
     ];
   }
