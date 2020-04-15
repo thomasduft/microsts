@@ -47,9 +47,12 @@ namespace tomware.Microsts.Web
       // IdentityServer
       await this.configurationDbContext.Database.MigrateAsync();
 
+      var authority = !string.IsNullOrWhiteSpace(this.config["AuthorityForDocker"])
+        ? this.config["AuthorityForDocker"]
+        : Program.GetUrls(this.config);
       await this.SeedDefaultConfiguration(
         this.configurationDbContext,
-        Program.GetUrls(this.config)
+        authority
       );
     }
 
