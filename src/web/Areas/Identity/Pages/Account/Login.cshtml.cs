@@ -16,11 +16,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
   [AllowAnonymous]
   public class LoginModel : PageModel
   {
-    private readonly ILogger<LoginModel> _logger;
-    private readonly IEventService _eventService;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IIdentityServerInteractionService _interaction;
+    private readonly ILogger<LoginModel> logger;
+    private readonly IEventService eventService;
+    private readonly UserManager<ApplicationUser> userManager;
+    private readonly SignInManager<ApplicationUser> signInManager;
+    private readonly IIdentityServerInteractionService interaction;
 
     public LoginModel(
       ILogger<LoginModel> logger,
@@ -30,11 +30,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       IIdentityServerInteractionService interaction
     )
     {
-      _logger = logger;
-      _eventService = eventService;
-      _userManager = userManager;
-      _signInManager = signInManager;
-      _interaction = interaction;
+      this.logger = logger;
+      this.eventService = eventService;
+      this.userManager = userManager;
+      this.signInManager = signInManager;
+      this.interaction = interaction;
     }
 
     [BindProperty]
@@ -74,7 +74,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       // Clear the existing external cookie to ensure a clean login process
       await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-      ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+      ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
       ReturnUrl = returnUrl;
     }
@@ -83,13 +83,13 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     {
       returnUrl = returnUrl ?? Url.Content("~/");
 
-      var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+      var context = await interaction.GetAuthorizationContextAsync(returnUrl);
 
       if (ModelState.IsValid)
       {
         // This doesn't count login failures towards account lockout
         // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        var result = await _signInManager.PasswordSignInAsync(
+        var result = await signInManager.PasswordSignInAsync(
           Input.Email,
           Input.Password,
           Input.RememberMe,
@@ -97,10 +97,10 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
         );
         if (result.Succeeded)
         {
-          _logger.LogInformation("User logged in.");
+          logger.LogInformation("User logged in.");
 
-          var user = await _userManager.FindByNameAsync(Input.Email);
-          await _eventService.RaiseAsync(new UserLoginSuccessEvent(
+          var user = await userManager.FindByNameAsync(Input.Email);
+          await eventService.RaiseAsync(new UserLoginSuccessEvent(
             user.UserName,
             user.Id,
             user.UserName,
@@ -119,7 +119,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
         }
         if (result.IsLockedOut)
         {
-          _logger.LogWarning("User account locked out.");
+          logger.LogWarning("User account locked out.");
           return RedirectToPage("./Lockout");
         }
         else

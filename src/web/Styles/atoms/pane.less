@@ -6,14 +6,13 @@
 	grid-template-rows: 1fr;
 	grid-template-areas: 'pane-content pane-aside';
 
+
   &__content {
     grid-area: pane-content;
-    // background: lightblue;
   }
 
   &__aside {
     grid-area: pane-aside;
-    // background: lightgreen;;
   }
 }
 
@@ -21,9 +20,13 @@
   .pane {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
       'pane-content'
       'pane-aside';
+
+    &__aside {
+     margin-top: 15px;
+    }
   }
 }
