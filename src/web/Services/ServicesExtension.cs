@@ -118,6 +118,7 @@ namespace tomware.Microsts.Web
       services.AddTransient<IAccountService, AccountService>();
       services.AddTransient<IRoleService, RoleService>();
       services.AddTransient<IEmailSender, LogEmailSender>();
+      services.AddSingleton<ITitleService, TitleService>();
 
       return services;
     }
