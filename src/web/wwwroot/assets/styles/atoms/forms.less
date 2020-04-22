@@ -3,11 +3,12 @@
 .form {
   fieldset {
     border: none;
+    margin-bottom: 10px;
   }
   legend {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
+    &:hover {
+      cursor: pointer;
+    }
   }
   label {
     display: block;
@@ -69,6 +70,7 @@
   }
 
   &__validation--error {
+    font-size: 0.8em;
     font-weight: bold;
     color: @danger-color;
     margin-bottom: 10px;
