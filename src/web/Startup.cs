@@ -1,13 +1,18 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace tomware.Microsts.Web
@@ -43,6 +48,24 @@ namespace tomware.Microsts.Web
         .AddEntityFrameworkSqlite()
         .AddDbContext<STSContext>(o => o.UseSqlite(connection));
 
+      // localization
+      services.AddSingleton<IdentityLocalizationService>();
+      // services.AddSingleton<SharedLocalizationService>();
+      services.AddLocalization(options => options.ResourcesPath = "Resources");
+      services.Configure<RequestLocalizationOptions>(
+        options =>
+        {
+          var supportedCultures = new List<CultureInfo>
+            {
+            new CultureInfo("en-US"),
+            new CultureInfo("de-CH")
+          };
+          options.DefaultRequestCulture = new RequestCulture(culture: "de-CH", uiCulture: "de-CH");
+          options.SupportedCultures = supportedCultures;
+          options.SupportedUICultures = supportedCultures;
+          options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+        });
+
       // STS Services
       services.AddSTSServices();
       services.AddIdentityServerServices();
@@ -63,7 +86,16 @@ namespace tomware.Microsts.Web
             Policies.ADMIN_POLICY
           );
         })
-        .SetCompatibilityVersion(CompatibilityVersion.Latest);
+        .SetCompatibilityVersion(CompatibilityVersion.Latest)
+        .AddViewLocalization()
+        .AddDataAnnotationsLocalization(options =>
+        {
+          options.DataAnnotationLocalizerProvider = (type, factory) =>
+          {
+            var assemblyName = new AssemblyName(typeof(IdentityResource).GetTypeInfo().Assembly.FullName);
+            return factory.Create("IdentityResource", assemblyName.Name);
+          };
+        });
     }
 
     public void Configure(
@@ -81,6 +113,10 @@ namespace tomware.Microsts.Web
 
       ConsiderSpaRoutes(app);
 
+      var locOptions = app.ApplicationServices
+        .GetService<IOptions<RequestLocalizationOptions>>();
+      app.UseRequestLocalization(locOptions.Value);
+
       app.UseDefaultFiles();
       app.UseStaticFiles();
 
@@ -94,8 +130,8 @@ namespace tomware.Microsts.Web
 
       app.UseEndpoints(endpoints =>
       {
-        endpoints.MapControllers();
         endpoints.MapRazorPages();
+        endpoints.MapDefaultControllerRoute();
       });
     }
 

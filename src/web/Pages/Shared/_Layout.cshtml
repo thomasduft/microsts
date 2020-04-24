@@ -21,11 +21,18 @@
       <partial name="_LoginPartial" />
     </div>
   </header>
+
   <main class="content" role="main">
     @RenderBody()
   </main>
+
   <footer class="footer">
-    @* Copyright tomware SOLUTION *@
+    <div class="footer__left">
+      <a href="https://www.tomware.ch" target="_blank">tomware SOLUTION</a>
+    </div>
+    <div class="footer__right">
+      <partial name="_LanguagePartial" />
+    </div>
   </footer>
 </body>
 

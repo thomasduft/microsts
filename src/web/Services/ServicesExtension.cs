@@ -1,4 +1,3 @@
-using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -8,8 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
-using IdentityServer4.Models;
-using System.Collections.Generic;
 
 namespace tomware.Microsts.Web
 {
@@ -62,7 +59,7 @@ namespace tomware.Microsts.Web
             CookieSlidingExpiration = true
           };
         })
-        .AddInMemoryIdentityResources(GetIdentityResources())
+        .AddInMemoryIdentityResources(Config.GetIds())
         .AddInMemoryPersistedGrants()
         // .AddInMemoryCaching()
         // .AddOperationalStore()
@@ -121,16 +118,6 @@ namespace tomware.Microsts.Web
       services.AddSingleton<ITitleService, TitleService>();
 
       return services;
-    }
-
-    private static IEnumerable<IdentityResource> GetIdentityResources()
-    {
-      return new List<IdentityResource>
-      {
-        new IdentityResources.OpenId(),
-        // new IdentityResources.Profile(),
-        new IdentityResources.Email()
-      };
     }
 
     private static string GetAuthority(IConfiguration configuration)

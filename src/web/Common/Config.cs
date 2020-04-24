@@ -6,12 +6,12 @@ namespace tomware.Microsts.Web
 {
   public class Config
   {
-    public static IEnumerable<IdentityResource> GetIds()
+    public static IEnumerable<IdentityServer4.Models.IdentityResource> GetIds()
     {
-      return new List<IdentityResource>
+      return new List<IdentityServer4.Models.IdentityResource>
       {
-        new IdentityResources.OpenId(),
-        new IdentityResources.Profile()
+        new IdentityServer4.Models.IdentityResources.OpenId(),
+        new IdentityServer4.Models.IdentityResources.Profile()
       };
     }
 
