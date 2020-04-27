@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
@@ -21,13 +22,15 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     private readonly UserManager<ApplicationUser> userManager;
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly IIdentityServerInteractionService interaction;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public LoginModel(
       ILogger<LoginModel> logger,
       IEventService eventService,
       UserManager<ApplicationUser> userManager,
       SignInManager<ApplicationUser> signInManager,
-      IIdentityServerInteractionService interaction
+      IIdentityServerInteractionService interaction,
+      IdentityLocalizationService identityLocalizationService
     )
     {
       this.logger = logger;
@@ -35,6 +38,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       this.userManager = userManager;
       this.signInManager = signInManager;
       this.interaction = interaction;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [BindProperty]
@@ -49,16 +53,15 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 
     public class InputModel
     {
-      [Required]
+      [Required(ErrorMessage = "USERNAME_REQUIRED")]
       [Display(Name = "Username")]
       // [EmailAddress]
-      public string Email { get; set; }
+      public string Username { get; set; }
 
-      [Required]
+      [Required(ErrorMessage = "PASSWORD_REQUIRED")]
       [DataType(DataType.Password)]
       public string Password { get; set; }
 
-      [Display(Name = "Remember me?")]
       public bool RememberMe { get; set; }
     }
 
@@ -90,7 +93,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
         // This doesn't count login failures towards account lockout
         // To enable password failures to trigger account lockout, set lockoutOnFailure: true
         var result = await signInManager.PasswordSignInAsync(
-          Input.Email,
+          Input.Username,
           Input.Password,
           Input.RememberMe,
           lockoutOnFailure: true
@@ -99,7 +102,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
         {
           logger.LogInformation("User logged in.");
 
-          var user = await userManager.FindByNameAsync(Input.Email);
+          var user = await userManager.FindByNameAsync(Input.Username);
           await eventService.RaiseAsync(new UserLoginSuccessEvent(
             user.UserName,
             user.Id,
@@ -124,7 +127,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
         }
         else
         {
-          ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+          ModelState.AddModelError(
+            string.Empty,
+            identityLocalizationService.GetLocalizedHtmlString("INVALID_LOGIN_ATTEMPT")
+          );
+
           return Page();
         }
       }

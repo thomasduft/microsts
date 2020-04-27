@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Localization;
 using System.Reflection;
 
-namespace tomware.Microsts.Web
+namespace tomware.Microsts.Web.Resources
 {
   public class SharedLocalizationService
   {
@@ -9,10 +9,10 @@ namespace tomware.Microsts.Web
 
     public SharedLocalizationService(IStringLocalizerFactory factory)
     {
-      var type = typeof(IdentityResource);
+      var type = typeof(SharedResource);
       var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
       
-      localizer = factory.Create("SharedResource", assemblyName.Name);
+      localizer = factory.Create(nameof(IdentityResource), assemblyName.Name);
     }
 
     public LocalizedString GetLocalizedHtmlString(string key)

@@ -1,4 +1,4 @@
-namespace tomware.Microsts.Web
+namespace tomware.Microsts.Web.Resources
 {
   /// <summary>
   /// Dummy class to group shared resources

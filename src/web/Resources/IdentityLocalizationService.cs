@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Localization;
 using System.Reflection;
 
-namespace tomware.Microsts.Web
+namespace tomware.Microsts.Web.Resources
 {
   public class IdentityLocalizationService
   {
@@ -12,7 +12,7 @@ namespace tomware.Microsts.Web
       var type = typeof(IdentityResource);
       var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
 
-      localizer = factory.Create("IdentityResource", assemblyName.Name);
+      localizer = factory.Create(nameof(IdentityResource), assemblyName.Name);
     }
 
     public LocalizedString GetLocalizedHtmlString(string key)

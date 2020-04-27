@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web
 {
@@ -50,7 +51,8 @@ namespace tomware.Microsts.Web
 
       // localization
       services.AddSingleton<IdentityLocalizationService>();
-      // services.AddSingleton<SharedLocalizationService>();
+      services.AddSingleton<SharedLocalizationService>();
+
       services.AddLocalization(options => options.ResourcesPath = "Resources");
       services.Configure<RequestLocalizationOptions>(
         options =>
@@ -60,7 +62,7 @@ namespace tomware.Microsts.Web
             new CultureInfo("en-US"),
             new CultureInfo("de-CH")
           };
-          options.DefaultRequestCulture = new RequestCulture(culture: "de-CH", uiCulture: "de-CH");
+          options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
           options.SupportedCultures = supportedCultures;
           options.SupportedUICultures = supportedCultures;
           options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
@@ -92,8 +94,8 @@ namespace tomware.Microsts.Web
         {
           options.DataAnnotationLocalizerProvider = (type, factory) =>
           {
-            var assemblyName = new AssemblyName(typeof(IdentityResource).GetTypeInfo().Assembly.FullName);
-            return factory.Create("IdentityResource", assemblyName.Name);
+            var name = new AssemblyName(typeof(IdentityResource).GetTypeInfo().Assembly.FullName);
+            return factory.Create(nameof(IdentityResource), name.Name);
           };
         });
     }
