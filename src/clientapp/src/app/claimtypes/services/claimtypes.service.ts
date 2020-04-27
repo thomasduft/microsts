@@ -17,32 +17,32 @@ export class ClaimTypesService {
 
   public claimtypes(): Observable<Array<ClaimType>> {
     return this.http
-      .get<Array<ClaimType>>('claimtype')
+      .get<Array<ClaimType>>('claimtypes')
       .pipe(catchError(this.http.handleError));
   }
 
   public claimtype(id: string): Observable<ClaimType> {
     return this.http
-      .get<ClaimType>(`claimtype/${id}`)
+      .get<ClaimType>(`claimtypes/${id}`)
       .pipe(catchError(this.http.handleError));
   }
 
   public create(model: ClaimType): Observable<string> {
     model.id = undefined;
     return this.http
-      .post<string>('claimtype', model)
+      .post<string>('claimtypes', model)
       .pipe(catchError(this.http.handleError));
   }
 
   public update(model: ClaimType): Observable<any> {
     return this.http
-      .put<ClaimType>('claimtype', model)
+      .put<ClaimType>('claimtypes', model)
       .pipe(catchError(this.http.handleError));
   }
 
   public delete(id: string): Observable<any> {
     return this.http
-      .delete<any>(`claimtype/${id}`)
+      .delete<any>(`claimtypes/${id}`)
       .pipe(catchError(this.http.handleError));
   }
 }

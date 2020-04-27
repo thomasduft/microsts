@@ -10,31 +10,35 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
   [AllowAnonymous]
   public class LoginModel : PageModel
   {
-    private readonly ILogger<LoginModel> _logger;
-    private readonly IEventService _eventService;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IIdentityServerInteractionService _interaction;
+    private readonly ILogger<LoginModel> logger;
+    private readonly IEventService eventService;
+    private readonly UserManager<ApplicationUser> userManager;
+    private readonly SignInManager<ApplicationUser> signInManager;
+    private readonly IIdentityServerInteractionService interaction;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public LoginModel(
       ILogger<LoginModel> logger,
       IEventService eventService,
       UserManager<ApplicationUser> userManager,
       SignInManager<ApplicationUser> signInManager,
-      IIdentityServerInteractionService interaction
+      IIdentityServerInteractionService interaction,
+      IdentityLocalizationService identityLocalizationService
     )
     {
-      _logger = logger;
-      _eventService = eventService;
-      _userManager = userManager;
-      _signInManager = signInManager;
-      _interaction = interaction;
+      this.logger = logger;
+      this.eventService = eventService;
+      this.userManager = userManager;
+      this.signInManager = signInManager;
+      this.interaction = interaction;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [BindProperty]
@@ -49,16 +53,15 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 
     public class InputModel
     {
-      [Required]
+      [Required(ErrorMessage = "USERNAME_REQUIRED")]
       [Display(Name = "Username")]
       // [EmailAddress]
-      public string Email { get; set; }
+      public string Username { get; set; }
 
-      [Required]
+      [Required(ErrorMessage = "PASSWORD_REQUIRED")]
       [DataType(DataType.Password)]
       public string Password { get; set; }
 
-      [Display(Name = "Remember me?")]
       public bool RememberMe { get; set; }
     }
 
@@ -74,7 +77,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       // Clear the existing external cookie to ensure a clean login process
       await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-      ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+      ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
       ReturnUrl = returnUrl;
     }
@@ -83,24 +86,24 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     {
       returnUrl = returnUrl ?? Url.Content("~/");
 
-      var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+      var context = await interaction.GetAuthorizationContextAsync(returnUrl);
 
       if (ModelState.IsValid)
       {
         // This doesn't count login failures towards account lockout
         // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        var result = await _signInManager.PasswordSignInAsync(
-          Input.Email,
+        var result = await signInManager.PasswordSignInAsync(
+          Input.Username,
           Input.Password,
           Input.RememberMe,
           lockoutOnFailure: true
         );
         if (result.Succeeded)
         {
-          _logger.LogInformation("User logged in.");
+          logger.LogInformation("User logged in.");
 
-          var user = await _userManager.FindByNameAsync(Input.Email);
-          await _eventService.RaiseAsync(new UserLoginSuccessEvent(
+          var user = await userManager.FindByNameAsync(Input.Username);
+          await eventService.RaiseAsync(new UserLoginSuccessEvent(
             user.UserName,
             user.Id,
             user.UserName,
@@ -119,12 +122,16 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
         }
         if (result.IsLockedOut)
         {
-          _logger.LogWarning("User account locked out.");
+          logger.LogWarning("User account locked out.");
           return RedirectToPage("./Lockout");
         }
         else
         {
-          ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+          ModelState.AddModelError(
+            string.Empty,
+            identityLocalizationService.GetLocalizedHtmlString("INVALID_LOGIN_ATTEMPT")
+          );
+
           return Page();
         }
       }

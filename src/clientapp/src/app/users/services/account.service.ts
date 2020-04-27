@@ -9,8 +9,6 @@ import { ClaimTypesService } from '../../claimtypes/services';
 import { RoleService } from '../../roles/services';
 
 import {
-  AssignClaims,
-  AssignRoles,
   ChangePassword,
   RegisterUser,
   User,
@@ -27,13 +25,13 @@ export class AccountService {
 
   public users(): Observable<Array<User>> {
     return this.http
-      .get<Array<User>>('account/users')
+      .get<Array<User>>('accounts/users')
       .pipe(catchError(this.http.handleError));
   }
 
   public user(id: string): Observable<UserDetail> {
     return forkJoin({
-      user: this.http.get<User>(`account/user/${id}`),
+      user: this.http.get<User>(`accounts/user/${id}`),
       claims: this.claimsService.claimtypes(),
       roles: this.roleService.roles()
     })
@@ -49,37 +47,37 @@ export class AccountService {
 
   public register(model: RegisterUser): Observable<IdentityResult> {
     return this.http
-      .post<IdentityResult>('account/register', model)
+      .post<IdentityResult>('accounts/register', model)
       .pipe(catchError(this.http.handleError));
   }
 
   public changePassword(model: ChangePassword): Observable<IdentityResult> {
     return this.http
-      .post<IdentityResult>('account/changepassword', model)
+      .post<IdentityResult>('accounts/changepassword', model)
       .pipe(catchError(this.http.handleError));
   }
 
   public update(model: User): Observable<IdentityResult> {
     return this.http
-      .put<IdentityResult>('account/user', model)
+      .put<IdentityResult>('accounts/user', model)
       .pipe(catchError(this.http.handleError));
   }
 
   public delete(id: string): Observable<any> {
     return this.http
-      .delete<any>(`account/user/${id}`)
+      .delete<any>(`accounts/user/${id}`)
       .pipe(catchError(this.http.handleError));
   }
 
   // public assignClaims(model: AssignClaims): Observable<IdentityResult> {
   //   return this.http
-  //     .put<IdentityResult>('account/assignclaims', model)
+  //     .put<IdentityResult>('accounts/assignclaims', model)
   //     .pipe(catchError(this.http.handleError));
   // }
 
   // public assignRoles(model: AssignRoles): Observable<IdentityResult> {
   //   return this.http
-  //     .put<IdentityResult>('account/assignroles', model)
+  //     .put<IdentityResult>('accounts/assignroles', model)
   //     .pipe(catchError(this.http.handleError));
   // }
 }

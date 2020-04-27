@@ -1,7 +1,7 @@
 import { User } from './user.model';
 
 export interface UserDetail {
-  user: User,
+  user: User;
   claims: Array<string>;
   roles: Array<string>;
 }

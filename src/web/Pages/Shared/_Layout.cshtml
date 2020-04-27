@@ -1,3 +1,7 @@
+@using tomware.Microsts.Web
+
+@inject ITitleService TitleService
+
 <!DOCTYPE html>
 <html>
 
@@ -11,17 +15,24 @@
 <body class="shell">
   <header class="header">
     <div class="header__logo">
-      <a href="/">STS</a>
+      <a style="text-decoration: none;" href="/">@TitleService.Title</a>
     </div>
     <div class="header__login-info">
       <partial name="_LoginPartial" />
     </div>
   </header>
+
   <main class="content" role="main">
     @RenderBody()
   </main>
+
   <footer class="footer">
-    @* copyright tomware SOLUTION *@
+    <div class="footer__left">
+      <p>by <a href="https://www.tomware.ch" target="_blank">tomware SOLUTIONS</a></p>
+    </div>
+    <div class="footer__right">
+      <partial name="_LanguagePartial" />
+    </div>
   </footer>
 </body>
 

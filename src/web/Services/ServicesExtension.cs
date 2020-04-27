@@ -1,4 +1,3 @@
-using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -56,24 +55,24 @@ namespace tomware.Microsts.Web
           options.UserInteraction.LogoutUrl = "/Identity/Account/Logout";
           options.Authentication = new AuthenticationOptions()
           {
-            CookieLifetime = TimeSpan.FromHours(10), // ID server cookie timeout set to 10 hours
+            CookieLifetime = TimeSpan.FromHours(8), // ID server cookie timeout set to 10 hours
             CookieSlidingExpiration = true
           };
         })
-        .AddInMemoryIdentityResources(Config.GetIdentityResources())
-        .AddInMemoryApiResources(configuration.GetSection("IdentityServer:ApiResources"))
-        .AddInMemoryClients(configuration.GetSection("IdentityServer:Clients"))
-        // .AddConfigurationStore(options =>
-        // {
-        //     options.ConfigureDbContext = builder =>
-        //         builder.UseSqlite(configuration["ConnectionString"],
-        //             sql => sql.MigrationsAssembly(typeof(ServicesExtension)
-        //               .GetTypeInfo()
-        //               .Assembly
-        //               .GetName()
-        //               .Name));
-        // })
+        .AddInMemoryIdentityResources(Config.GetIds())
+        .AddInMemoryPersistedGrants()
+        // .AddInMemoryCaching()
         // .AddOperationalStore()
+        .AddConfigurationStore(options =>
+        {
+          options.ConfigureDbContext = builder =>
+              builder.UseSqlite(configuration["ConnectionString"],
+                  sql => sql.MigrationsAssembly(typeof(ServicesExtension)
+                    .GetTypeInfo()
+                    .Assembly
+                    .GetName()
+                    .Name));
+        })
         .AddAspNetIdentity<ApplicationUser>()
         .AddProfileService<ProfileService>();
 
@@ -114,10 +113,9 @@ namespace tomware.Microsts.Web
       // own services
       services.AddScoped<IMigrationService, MigrationService>();
       services.AddTransient<IAccountService, AccountService>();
-      services.AddTransient<IClaimTypeService, ClaimTypeService>();
       services.AddTransient<IRoleService, RoleService>();
-      services.AddTransient<IClientConfigurationService, ClientConfigurationService>();
       services.AddTransient<IEmailSender, LogEmailSender>();
+      services.AddSingleton<ITitleService, TitleService>();
 
       return services;
     }

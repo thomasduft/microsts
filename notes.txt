@@ -1,6 +1,9 @@
 ToDo:
 - managing clients in the UI
-  - AddConfigurationStore
+  [x] AddConfigurationStore
+  [x] client -> allowed scopes (better naming would be: allowed resources)
+    - consists of ApiResource->name and IdentityResources->Name
+
 - prevent admin from:
   - deleting roles that are still assigned somewhere
   - deleting claims that are still assigned somewhere
@@ -20,7 +23,13 @@ ToDo:
   - https://wakeupandcode.com/your-first-razor-ui-library-with-asp-net-core/
 
 
+- localization
+  - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-3.1
+  - https://andrewlock.net/adding-localisation-to-an-asp-net-core-application/
+  - https://damienbod.com/2018/07/03/adding-localization-to-the-asp-net-core-identity-pages/
+
 Done:
+- allow claims with values for user
 - global alert approach
 - confirmation popup
 - new user via admin app
@@ -61,3 +70,4 @@ certs:
 ----------------------------------------------------------------------------------------------------
 - dotnet ef migrations add "ClaimTypes" -c STSContext -o Data/Migrations
 - dotnet ef database update -c STSContext
+- dotnet ef database update -c ConfigurationDbContext

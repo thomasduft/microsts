@@ -13,11 +13,13 @@ import { SlotComponent } from './slot.component';
   selector: 'tw-arrayslot',
   template: `
   <fieldset>
-    <legend (click)="toggle()">{{ slot.title }}</legend>
+    <legend class="title" (click)="toggle()">{{ slot.title }}</legend>
     <ng-container *ngIf="!collapsed">
       <div>
         <button type="button"
                 class="button--secondary"
+                title="add"
+                i18n-title
                 (click)="add()">+</button>
       </div>
       <div>
@@ -34,6 +36,8 @@ import { SlotComponent } from './slot.component';
               <td>
                 <button type="button"
                         class="button--secondary"
+                        title="remove"
+                        i18n-title
                         (click)="remove(idx)">-</button>
               </td>
             </tr>

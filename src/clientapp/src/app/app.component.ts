@@ -1,10 +1,9 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { OAuthService, OAuthEvent } from 'angular-oauth2-oidc';
 
 import { UserService } from './shared';
-import { ClientConfigProvider } from './core';
 
 @Component({
   selector: 'tw-root',
@@ -32,8 +31,7 @@ export class AppComponent implements OnInit {
   public constructor(
     private router: Router,
     private user: UserService,
-    private oauthService: OAuthService,
-    private clientConfigProvider: ClientConfigProvider
+    private oauthService: OAuthService
   ) {
   }
 
@@ -60,16 +58,26 @@ export class AppComponent implements OnInit {
   }
 
   private async configure() {
-    const config = this.clientConfigProvider.config;
+    const redirUri = isDevMode()
+      ? 'http://localhost:4200'
+      : window.location.origin;
+
+    console.log('Redirect uri:', redirUri);
 
     this.oauthService.configure({
-      clientId: config.clientId,
-      issuer: config.issuer,
-      redirectUri: config.redirectUri || window.location.origin,
-      responseType: config.responseType || undefined,
-      scope: config.scope,
-      loginUrl: config.loginUrl,
-      logoutUrl: config.logoutUrl,
+      clientId: 'stsclient',
+      issuer: isDevMode()
+        ? 'http://localhost:5000'
+        : window.location.origin,
+      redirectUri: redirUri,
+      responseType: 'code',
+      scope: 'openid sts_api',
+      loginUrl: isDevMode()
+        ? 'http://localhost:5000/identity/account/login'
+        : window.location.origin + 'identity/account/login',
+      logoutUrl: isDevMode()
+        ? 'http://localhost:5000/identity/account/logout'
+        : window.location.origin + '/identity/account/logout',
       requireHttps: false
     });
     this.oauthService.events.subscribe(async (e: OAuthEvent) => {

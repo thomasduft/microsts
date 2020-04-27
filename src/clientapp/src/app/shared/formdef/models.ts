@@ -34,6 +34,7 @@ export interface Editor {
   max?: number;
   minLength?: number;
   maxLength?: number;
+  allowAddingItems?: boolean;
 }
 
 export const SINGLE_SLOT = 'single';
@@ -71,7 +72,6 @@ export class FormdefValidator {
   }
 }
 
-@Directive()
 export class BaseSlotComponent {
   @Input()
   public slot: Slot;

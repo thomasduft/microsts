@@ -1,6 +1,7 @@
 @using Microsoft.AspNetCore.Identity
 @using tomware.Microsts.Web
 
+@inject SharedLocalizationService SharedLocalizer
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -19,10 +20,10 @@
   else
   {
     @*<li>
-      <a id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+      <a id="register" asp-area="Identity" asp-page="/Account/Register">@SharedLocalizer.GetLocalizedHtmlString("REGISTER")</a>
     </li>*@
     <li>
-      <a id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+      <a id="login" asp-area="Identity" asp-page="/Account/Login">@SharedLocalizer.GetLocalizedHtmlString("LOGIN")</a>
     </li>
   }
 </ul>

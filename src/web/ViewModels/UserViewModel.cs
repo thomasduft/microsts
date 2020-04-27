@@ -1,8 +1,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace tomware.Microsts.Web
 {
+  public class ClaimViewModel
+  {
+    public string Type { get; set; }
+    public string Value { get; set; }
+  }
+
   public class UserViewModel
   {
     [Required]
@@ -18,7 +25,7 @@ namespace tomware.Microsts.Web
 
     public bool IsLockedOut { get; set; }
 
-    public List<string> Claims { get; set; }
+    public List<ClaimViewModel> Claims { get; set; }
 
     public List<string> Roles { get; set; }
   }

@@ -1,4 +1,4 @@
-﻿@page
+@page
 
 @using Microsoft.AspNetCore.Identity
 @using tomware.Microsts.Web
@@ -14,10 +14,10 @@
 {
   <section>
     <p>Would you like to logout of STS?</p>
-    <form asp-action="Logout">
+    <form class="form" id="logout" method="post">
       <input type="hidden" name="logoutId" value="@Model.LogoutId" />
       <div class="form-group">
-        <button class="btn btn-primary">Yes</button>
+        <button type="submit" class="btn btn-primary">Yes</button>
       </div>
     </form>
   </section>

@@ -14,8 +14,7 @@ import { Editor } from './models';
   template: `
   <div [ngSwitch]="editor.type"
        [formGroup]="form"
-       [ngClass]="{ 'has-danger': control(editor.key).invalid,
-                    'form-group': editor.type !== 'checkbox',
+       [ngClass]="{ 'form-group': editor.type !== 'checkbox',
                     'checkbox': editor.type === 'checkbox' }">
     <label *ngIf="(!hideLabel && editor.type !== 'checkbox' && editor.type !== 'hidden')"
            [attr.for]="editor.key">
@@ -58,6 +57,7 @@ import { Editor } from './models';
                     [formControlName]="editor.key"
                     [singleSelection]="editor.singleSelection"
                     [bindingBehavior]="editor.bindingBehaviour"
+                    [allowAddingItems]="editor.allowAddingItems"
                     [data]="editor.options">
    </tw-multi-select>
 
@@ -77,7 +77,7 @@ import { Editor } from './models';
           [attr.id]="editor.key"
           [formControlName]="editor.key" />
 
-    <div *ngIf="control(editor.key).invalid" class="alert alert-danger">
+    <div *ngIf="control(editor.key).invalid" class="form__validation--error">
       <div *ngIf="control(editor.key).hasError('required')" i18n>
         {{ editor.label }} required.
       </div>

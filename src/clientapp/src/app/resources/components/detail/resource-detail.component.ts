@@ -1,0 +1,157 @@
+import { Subscription } from 'rxjs';
+
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+
+import {
+  AutoUnsubscribe,
+  MessageBus,
+  StatusMessage,
+  StatusLevel,
+  Popover,
+  DeleteConfirmationComponent,
+  PopoverCloseEvent,
+  DeleteConfirmation
+} from '../../../shared';
+import { FormdefRegistry } from '../../../shared/formdef';
+import { RefreshMessage } from '../../../core';
+
+import { ResourceDetailSlot, Resource } from '../../models';
+import { ResourceService } from '../../services';
+
+@AutoUnsubscribe
+@Component({
+  selector: 'tw-resource-detail',
+  templateUrl: './resource-detail.component.html',
+  styleUrls: ['./resource-detail.component.less'],
+  providers: [
+    ResourceService
+  ]
+})
+export class ResourceDetailComponent implements OnInit {
+  private routeParams$: Subscription;
+  private resource$: Subscription;
+
+  public key = ResourceDetailSlot.KEY;
+  public viewModel: Resource;
+
+  public isNew = false;
+
+  public constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private service: ResourceService,
+    private slotRegistry: FormdefRegistry,
+    private popup: Popover,
+    private element: ElementRef,
+    private messageBus: MessageBus
+  ) { }
+
+  public ngOnInit(): void {
+    this.routeParams$ = this.route.params
+      .subscribe((params: Params) => {
+        if (params.name) {
+          this.init(params.name);
+        }
+      });
+  }
+
+  public submitted(viewModel: Resource): void {
+    if (this.isNew) {
+      this.resource$ = this.service.create(viewModel)
+        .subscribe(() => {
+          this.changesSaved();
+          this.back();
+        });
+    } else {
+      this.resource$ = this.service.update(viewModel)
+        .subscribe(() => {
+          this.changesSaved();
+          this.back();
+        });
+    }
+  }
+
+  public deleted(viewModel: Resource): void {
+    if (this.isNew) {
+      return;
+    }
+
+    const origin = this.element.nativeElement;
+
+    const popoverRef = this.popup
+      .open<DeleteConfirmation>({
+        content: DeleteConfirmationComponent,
+        origin,
+        hasBackdrop: false,
+        data: {
+          confirm: false,
+          itemText: viewModel.name
+        }
+      });
+
+    popoverRef.afterClosed$
+      .subscribe((res: PopoverCloseEvent<DeleteConfirmation>) => {
+        if (res.data.confirm) {
+          this.resource$ = this.service.delete(viewModel.name)
+            .subscribe((id: string) => {
+              this.changesSaved();
+              this.back();
+            });
+        }
+      });
+  }
+
+  public back(): void {
+    this.router.navigate(['resources']);
+  }
+
+  private init(name?: string): void {
+    if (name !== 'new') {
+      this.load(name);
+    } else {
+      this.create();
+    }
+  }
+
+  private load(name: string): void {
+    this.isNew = false;
+    this.resource$ = this.service.resource(name)
+      .subscribe((result: Resource) => {
+        this.slotRegistry.register(new ResourceDetailSlot(
+          result.scopes,
+          result.userClaims
+        ));
+
+        this.key = ResourceDetailSlot.KEY;
+        this.viewModel = result;
+      });
+  }
+
+  private create(): void {
+    this.isNew = true;
+    this.viewModel = {
+      id: 0,
+      enabled: true,
+      name: 'new',
+      displayName: undefined,
+      scopes: [],
+      userClaims: []
+    };
+    this.slotRegistry.register(new ResourceDetailSlot(
+      this.viewModel.scopes,
+      this.viewModel.userClaims
+    ));
+  }
+
+  private changesSaved(): void {
+    this.messageBus.publish(
+      new StatusMessage(
+        undefined,
+        'Your changes have been saved...',
+        StatusLevel.Success
+      ));
+
+    this.messageBus.publish(new RefreshMessage('resource'));
+  }
+}

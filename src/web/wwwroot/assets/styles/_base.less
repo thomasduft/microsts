@@ -24,6 +24,42 @@ ul, li {
 	list-style-position: inside;
 }
 
+table {
+  width: 100%;
+}
+
+td {
+	// border: 1px solid black;
+  text-align: left;
+	vertical-align: top;
+
+	input[type="text"],
+  input[type="password"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="email"],
+  input[type="number"],
+  input[type="search"],
+  input[type="time"],
+  input[type="url"],
+  textarea,
+  select {
+		margin-bottom: 0;
+		padding: 0;
+		-webkit-appearance: menulist-button;
+    height: 35px;
+	}
+}
+
+.title {
+	width: 100%;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid @sidebar-background;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 6px;

@@ -18,10 +18,10 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
   [Authorize]
   public class RegisterModel : PageModel
   {
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ILogger<RegisterModel> _logger;
-    private readonly IEmailSender _emailSender;
+    private readonly SignInManager<ApplicationUser> signInManager;
+    private readonly UserManager<ApplicationUser> userManager;
+    private readonly ILogger<RegisterModel> logger;
+    private readonly IEmailSender emailSender;
 
     public RegisterModel(
         UserManager<ApplicationUser> userManager,
@@ -29,10 +29,10 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
         ILogger<RegisterModel> logger,
         IEmailSender emailSender)
     {
-      _userManager = userManager;
-      _signInManager = signInManager;
-      _logger = logger;
-      _emailSender = emailSender;
+      this.userManager = userManager;
+      this.signInManager = signInManager;
+      this.logger = logger;
+      this.emailSender = emailSender;
     }
 
     [BindProperty]
@@ -64,22 +64,22 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     public async Task OnGetAsync(string returnUrl = null)
     {
       ReturnUrl = returnUrl;
-      ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+      ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
     }
 
     public async Task<IActionResult> OnPostAsync(string returnUrl = null)
     {
       returnUrl = returnUrl ?? Url.Content("~/");
-      ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+      ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
       if (ModelState.IsValid)
       {
         var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-        var result = await _userManager.CreateAsync(user, Input.Password);
+        var result = await userManager.CreateAsync(user, Input.Password);
         if (result.Succeeded)
         {
-          _logger.LogInformation("User created a new account with password.");
+          logger.LogInformation("User created a new account with password.");
 
-          var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+          var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
           code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
           var callbackUrl = Url.Page(
               "/Account/ConfirmEmail",
@@ -87,16 +87,16 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
               values: new { area = "Identity", userId = user.Id, code = code },
               protocol: Request.Scheme);
 
-          await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+          await emailSender.SendEmailAsync(Input.Email, "Confirm your email",
               $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-          if (_userManager.Options.SignIn.RequireConfirmedAccount)
+          if (userManager.Options.SignIn.RequireConfirmedAccount)
           {
             return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
           }
           else
           {
-            await _signInManager.SignInAsync(user, isPersistent: false);
+            await signInManager.SignInAsync(user, isPersistent: false);
             return LocalRedirect(returnUrl);
           }
         }

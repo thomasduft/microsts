@@ -3,7 +3,8 @@ import {
   SINGLE_SLOT,
   Editor,
   HIDDEN_EDITOR,
-  TEXT_EDITOR
+  TEXT_EDITOR,
+  TEXT_AREA_EDITOR
 } from '../../shared/formdef';
 
 export class ClaimtypeDetailSlot implements Slot {
@@ -30,8 +31,9 @@ export class ClaimtypeDetailSlot implements Slot {
       },
       {
         key: 'description',
-        type: TEXT_EDITOR,
-        label: 'Description'
+        type: TEXT_AREA_EDITOR,
+        label: 'Description',
+        maxLength: 500
       }
     ];
   }
