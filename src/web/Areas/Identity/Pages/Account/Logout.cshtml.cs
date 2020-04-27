@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
@@ -41,7 +41,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       this.LogoutId = logoutId;
     }
 
-    public async Task<IActionResult> OnPost(string returnUrl = null)
+    public async Task<IActionResult> OnPost()
     {
       // see: https://github.com/IdentityServer/IdentityServer4.Quickstart.UI/blob/master/Quickstart/Account/AccountController.cs
       // see: https://github.com/IdentityServer/IdentityServer4.Quickstart.UI/blob/master/Views/Account/LoggedOut.cshtml
