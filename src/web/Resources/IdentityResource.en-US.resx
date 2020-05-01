@@ -132,6 +132,12 @@
   <data name="CREATE_A_NEW_ACCOUNT" xml:space="preserve">
     <value>Create a new account.</value>
   </data>
+  <data name="MANAGE_EMAIL" xml:space="preserve">
+    <value>Manage E-Mail</value>
+  </data>
+  <data name="MANAGE_EMAIL_NEW" xml:space="preserve">
+    <value>New E-Mail</value>
+  </data>
   <data name="EMAIL" xml:space="preserve">
     <value>E-Mail</value>
   </data>
@@ -206,6 +212,12 @@
   </data>
   <data name="CONFIRM_YOUR_EMAIL_TEXT" xml:space="preserve">
     <value>Please confirm your account by &lt;a href='{0}'&gt;clicking here&lt;/a&gt;.</value>
+  </data>
+  <data name="CONFIRM_YOUR_EMAIL_STATUS_TEXT" xml:space="preserve">
+    <value>Confirmation link to change email sent. Please check your email.</value>
+  </data>
+  <data name="CONFIRM_YOUR_EMAIL_UNCHANGED_TEXT" xml:space="preserve">
+    <value>Your email is unchanged.</value>
   </data>
   <data name="FORGOT_PASSWORD_CONFIRMATION" xml:space="preserve">
     <value>Forgot password confirmation</value>
@@ -411,6 +423,9 @@
   <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
     <value>Verification code is invalid.</value>
   </data>
+  <data name="AUTHENTICATOR_IS_VERFIFIED" xml:space="preserve">
+    <value>Your authenticator app has been verified.</value>
+  </data>
   <data name="OR" xml:space="preserve">
     <value>or</value>
   </data>
@@ -545,6 +560,9 @@
   </data>
   <data name="STATUS_EXTERNAL_LOGIN_REMOVED" xml:space="preserve">
     <value>The external login was removed.</value>
+  </data>
+  <data name="STATUS_EXTERNAL_LOGIN_NOT_REMOVED" xml:space="preserve">
+    <value>The external login was not removed.</value>
   </data>
   <data name="STATUS_GENERATE_CODES" xml:space="preserve">
     <value>You have generated new recovery codes.</value>

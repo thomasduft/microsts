@@ -165,8 +165,20 @@
   <data name="CONFIRM_YOUR_EMAIL_TEXT" xml:space="preserve">
     <value>Bitte bestätigen Sie Ihr Konto, indem Sie hier &lt;a href='{0}'&gt;klicken&lt;/a&gt;. </value>
   </data>
+  <data name="CONFIRM_YOUR_EMAIL_STATUS_TEXT" xml:space="preserve">
+    <value>Ein Bestätigungs link wurde an Iher E-Mail Adresse geschickt.</value>
+  </data>
+  <data name="CONFIRM_YOUR_EMAIL_UNCHANGED_TEXT" xml:space="preserve">
+    <value>Ihre E-Mail Adresse wurde nicht geändert.</value>
+  </data>
   <data name="CREATE_A_NEW_ACCOUNT" xml:space="preserve">
     <value>Neues Konto erstellen</value>
+  </data>
+  <data name="MANAGE_EMAIL" xml:space="preserve">
+    <value>E-Mail ändern</value>
+  </data>
+  <data name="MANAGE_EMAIL_NEW" xml:space="preserve">
+    <value>Neue E-Mail Adresse</value>
   </data>
   <data name="EMAIL" xml:space="preserve">
     <value>E-Mail</value>
@@ -411,6 +423,9 @@
   <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
     <value>Der Bestätigungscode ist ungültig.</value>
   </data>
+  <data name="AUTHENTICATOR_IS_VERFIFIED" xml:space="preserve">
+    <value>Ihre Authenticator Applikation wurde verifiziert.</value>
+  </data>
   <data name="OR" xml:space="preserve">
     <value>oder</value>
   </data>
@@ -539,6 +554,9 @@
   </data>
   <data name="STATUS_EXTERNAL_LOGIN_REMOVED" xml:space="preserve">
     <value>Die externe Anmeldung wurde entfernt.</value>
+  </data>
+  <data name="STATUS_EXTERNAL_LOGIN_NOT_REMOVED" xml:space="preserve">
+    <value>Die externe Anmeldung wurde nicht entfernt..</value>
   </data>
   <data name="STATUS_GENERATE_CODES" xml:space="preserve">
     <value>Sie haben neue Wiederherstellungscodes generiert.</value>
