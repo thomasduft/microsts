@@ -183,11 +183,23 @@
   <data name="ACCOUNT_USE_LOCAL_ACCOUNT_TO_LOG_IN" xml:space="preserve">
     <value>Use a local account to log in.</value>
   </data>
+  <data name="ACCOUNT_USE_ANOTHER_SERVICE_TO_REGISTER" xml:space="preserve">
+    <value>Use another service to register.</value>
+  </data>
   <data name="CONFIRM_EMAIL" xml:space="preserve">
     <value>Confirm email</value>
   </data>
   <data name="CONFIRM_EMAIL_TEXT" xml:space="preserve">
     <value>Thank you for confirming your email.</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE" xml:space="preserve">
+    <value>Confirm email change</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE_TEXT" xml:space="preserve">
+    <value>Thank you for confirming your email change.</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE_ERROR" xml:space="preserve">
+    <value>Error changing email.</value>
   </data>
   <data name="CONFIRM_YOUR_EMAIL" xml:space="preserve">
     <value>Confirm your email</value>
@@ -269,6 +281,9 @@
   </data>
   <data name="INVALID_RECOVERY_CODE" xml:space="preserve">
     <value>Invalid recovery code entered.</value>
+  </data>
+  <data name="LOGOUT_QUESTION" xml:space="preserve">
+    <value>Would you like to logout of the application?</value>
   </data>
   <data name="LOGOUT_TEXT" xml:space="preserve">
     <value>You have successfully logged out of the application.</value>

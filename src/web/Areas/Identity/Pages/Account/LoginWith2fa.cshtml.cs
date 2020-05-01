@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
@@ -13,15 +14,18 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
   public class LoginWith2faModel : PageModel
   {
     private readonly SignInManager<ApplicationUser> signInManager;
+    private readonly IdentityLocalizationService identityLocalizationService;
     private readonly ILogger<LoginWith2faModel> logger;
 
     public LoginWith2faModel(
       ILogger<LoginWith2faModel> logger,
-      SignInManager<ApplicationUser> signInManager
+      SignInManager<ApplicationUser> signInManager,
+      IdentityLocalizationService identityLocalizationService
     )
     {
       this.logger = logger;
       this.signInManager = signInManager;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [BindProperty]
@@ -34,7 +38,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     public class InputModel
     {
       [Required]
-      [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+      [StringLength(
+        7,
+        ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+        MinimumLength = 6
+      )]
       [DataType(DataType.Text)]
       [Display(Name = "Authenticator code")]
       public string TwoFactorCode { get; set; }
@@ -74,7 +82,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
         throw new InvalidOperationException($"Unable to load two-factor authentication user.");
       }
 
-      var authenticatorCode = Input.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
+      var authenticatorCode = Input.TwoFactorCode
+        .Replace(" ", string.Empty).Replace("-", string.Empty);
 
       var result = await signInManager.TwoFactorAuthenticatorSignInAsync(
         authenticatorCode,
@@ -94,8 +103,16 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       }
       else
       {
-        logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
-        ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+        logger.LogWarning(
+          "Invalid authenticator code entered for user with ID '{UserId}'.",
+          user.Id
+        );
+
+        ModelState.AddModelError(
+          string.Empty,
+          this.identityLocalizationService.GetLocalizedHtmlString("INVALID_AUTHENTICATOR_CODE")
+        );
+
         return Page();
       }
     }

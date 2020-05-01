@@ -135,11 +135,23 @@
   <data name="ACCOUNT_USE_LOCAL_ACCOUNT_TO_LOG_IN" xml:space="preserve">
     <value>Verwenden Sie einen lokalen Benutzer um sich anzumelden.</value>
   </data>
+  <data name="ACCOUNT_USE_ANOTHER_SERVICE_TO_REGISTER" xml:space="preserve">
+    <value>Verwenden Sie einen anderen Dienst, um sich zu registrieren.</value>
+  </data>
   <data name="CONFIRM_EMAIL" xml:space="preserve">
     <value>E-Mail Adresse Bestätigung</value>
   </data>
   <data name="CONFIRM_EMAIL_TEXT" xml:space="preserve">
     <value>Vielen Dank für die Bestätigung Ihrer E-Mail.</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE" xml:space="preserve">
+    <value>Bestätigung Ihrer E-Mail Änderung</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE_TEXT" xml:space="preserve">
+    <value>Ihre E-Mail Adresse wurde geändert.</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE_ERROR" xml:space="preserve">
+    <value>Fehler beim Ändern Ihrer E-Mail Adresse.</value>
   </data>
   <data name="CONFIRM_PASSWORD" xml:space="preserve">
     <value>Passwort bestätigen</value>
@@ -217,7 +229,7 @@
     <value>Bitte setzen Sie Ihr Passwort zurück, indem Sie hier &lt;a href='{0}'&gt;klicken&lt;/a&gt;.</value>
   </data>
   <data name="SUBMIT" xml:space="preserve">
-    <value>Einreichen</value>
+    <value>Senden</value>
   </data>
   <data name="EXTERNAL_LOGIN_ASSOCIATE_ACCOUNT" xml:space="preserve">
     <value>Associate your {0} account</value>
@@ -269,6 +281,9 @@
   </data>
   <data name="INVALID_RECOVERY_CODE" xml:space="preserve">
     <value>Ungültiger Wiederherstellungscode eingegeben</value>
+  </data>
+  <data name="LOGOUT_QUESTION" xml:space="preserve">
+    <value>Möchten Sie sich aus der Applikation ausloggen?</value>
   </data>
   <data name="LOGOUT_TEXT" xml:space="preserve">
     <value>Sie haben sich erfolgreich von der Anwendung abgemeldet.</value>

@@ -4,20 +4,21 @@
 @using tomware.Microsts.Web
 
 @inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityLocalizationService IdentityLocalizer
 
 @model LogoutModel
 @{
-  ViewData["Title"] = "Log out";
+  ViewData["Title"] = @IdentityLocalizer.GetLocalizedHtmlString("LOGOUT");
 }
 
 @if (SignInManager.IsSignedIn(User))
 {
   <section>
-    <p>Would you like to logout of STS?</p>
+    <p>@IdentityLocalizer.GetLocalizedHtmlString("LOGOUT_QUESTION")</p>
     <form class="form" id="logout" method="post">
       <input type="hidden" name="logoutId" value="@Model.LogoutId" />
       <div class="form-group">
-        <button type="submit" class="btn btn-primary">Yes</button>
+        <button type="submit">@IdentityLocalizer.GetLocalizedHtmlString("SUBMIT")</button>
       </div>
     </form>
   </section>
@@ -25,6 +26,6 @@
 else
 {
   <section>
-    <p>You have successfully logged out of the application.</p>
+    <p>@IdentityLocalizer.GetLocalizedHtmlString("LOGOUT_TEXT")</p>
   </section>
 }

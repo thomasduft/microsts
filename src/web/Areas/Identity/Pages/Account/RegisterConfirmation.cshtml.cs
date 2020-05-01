@@ -15,7 +15,10 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IEmailSender sender;
 
-    public RegisterConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender sender)
+    public RegisterConfirmationModel(
+      UserManager<ApplicationUser> userManager,
+      IEmailSender sender
+    )
     {
       this.userManager = userManager;
       this.sender = sender;
