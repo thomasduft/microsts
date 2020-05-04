@@ -27,7 +27,7 @@ ToDo:
   - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-3.1
   - https://andrewlock.net/adding-localisation-to-an-asp-net-core-application/
   - https://damienbod.com/2018/07/03/adding-localization-to-the-asp-net-core-identity-pages/
-    - GenerateRecoveryCodes
+
 
 Done:
 - allow claims with values for user

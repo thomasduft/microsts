@@ -11,7 +11,7 @@
   <div>
     <form class="form" method="post" asp-route-returnUrl="@Model.ReturnUrl">
       <input asp-for="RememberMe" type="hidden" />
-      @* <div class="form__validation-summary" asp-validation-summary="All"></div> *@
+      <div class="form__validation-summary" asp-validation-summary="All"></div>
       <div class="form__group">
         <label asp-for="Input.TwoFactorCode">>@IdentityLocalizer.GetLocalizedHtmlString("ACCOUNT_LOGIN_AUTHENTICATOR_CODE")</label>
         <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />

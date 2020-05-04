@@ -11,7 +11,7 @@
   <div class="pane__content" >
     <h4>@IdentityLocalizer.GetLocalizedHtmlString("ACCOUNT_USE_LOCAL_ACCOUNT_TO_LOG_IN")</h4>
     <form class="form" id="account" method="post">
-      @* <div class="form__validation-summary" asp-validation-summary="All"></div> *@
+      <div class="form__validation-summary" asp-validation-summary="All"></div>
       <div class="form__group">
         <label asp-for="Input.Username">@IdentityLocalizer.GetLocalizedHtmlString("USERNAME")</label>
         <input asp-for="Input.Username" />

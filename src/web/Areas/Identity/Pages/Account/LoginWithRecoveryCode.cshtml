@@ -11,7 +11,7 @@
 <div>
   <div>
     <form class="form" method="post">
-      @* <div class="form__validation-summary" asp-validation-summary="All"></div> *@
+      <div class="form__validation-summary" asp-validation-summary="All"></div>
       <div class="form__group">
         <label asp-for="Input.RecoveryCode">@IdentityLocalizer.GetLocalizedHtmlString("ACCOUNT_RECOVERY_CODE")</label>
         <input asp-for="Input.RecoveryCode" autocomplete="off" />

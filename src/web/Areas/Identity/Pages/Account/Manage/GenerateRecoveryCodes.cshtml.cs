@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -12,13 +13,17 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
   {
     private readonly UserManager<ApplicationUser> userManager;
     private readonly ILogger<GenerateRecoveryCodesModel> logger;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public GenerateRecoveryCodesModel(
-        UserManager<ApplicationUser> userManager,
-        ILogger<GenerateRecoveryCodesModel> logger)
+      UserManager<ApplicationUser> userManager,
+      ILogger<GenerateRecoveryCodesModel> logger,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.logger = logger;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [TempData]
@@ -32,7 +37,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       var isTwoFactorEnabled = await userManager.GetTwoFactorEnabledAsync(user);
@@ -50,7 +56,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       var isTwoFactorEnabled = await userManager.GetTwoFactorEnabledAsync(user);
@@ -68,7 +75,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
         userId
       );
 
-      StatusMessage = "You have generated new recovery codes.";
+      StatusMessage = this.identityLocalizationService
+                        .GetLocalizedHtmlString("STATUS_GENERATE_CODES");
 
       return RedirectToPage("./ShowRecoveryCodes");
     }

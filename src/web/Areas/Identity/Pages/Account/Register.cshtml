@@ -9,7 +9,7 @@
   <div class="pane__content" >
     <form class="form" asp-route-returnUrl="@Model.ReturnUrl" method="post">
       <h4>@IdentityLocalizer.GetLocalizedHtmlString("CREATE_A_NEW_ACCOUNT")</h4>
-      @* <div class="form__validation-summary" asp-validation-summary="All"></div> *@
+      <div class="form__validation-summary" asp-validation-summary="All"></div>
       <div class="form__group">
         <label asp-for="Input.Email">@IdentityLocalizer.GetLocalizedHtmlString("EMAIL")</label>
         <input asp-for="Input.Email" />

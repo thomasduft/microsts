@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -11,15 +12,19 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
     UserManager<ApplicationUser> userManager;
     private readonly SignInManager<ApplicationUser> signInManager;
     ILogger<ResetAuthenticatorModel> logger;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public ResetAuthenticatorModel(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
-        ILogger<ResetAuthenticatorModel> logger)
+      UserManager<ApplicationUser> userManager,
+      SignInManager<ApplicationUser> signInManager,
+      ILogger<ResetAuthenticatorModel> logger,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.signInManager = signInManager;
       this.logger = logger;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [TempData]
@@ -30,7 +35,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       return Page();
@@ -41,7 +47,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       await userManager.SetTwoFactorEnabledAsync(user, false);
@@ -49,8 +56,9 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
 
       await signInManager.RefreshSignInAsync(user);
-      
-      StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
+
+      StatusMessage = this.identityLocalizationService
+                        .GetLocalizedHtmlString("RESET_AUTHENTICATOR_STATUS");
 
       return RedirectToPage("./EnableAuthenticator");
     }
