@@ -12,7 +12,7 @@ namespace tomware.Microsts.Web.Resources
       var type = typeof(SharedResource);
       var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
       
-      localizer = factory.Create(nameof(IdentityResource), assemblyName.Name);
+      localizer = factory.Create(nameof(SharedResource), assemblyName.Name);
     }
 
     public LocalizedString GetLocalizedHtmlString(string key)
