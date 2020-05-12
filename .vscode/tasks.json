@@ -31,8 +31,9 @@
       "type": "process",
       "args": [
         "watch",
-        "run",
+        "--project",
         "${workspaceFolder}/src/web/tomware.Microsts.Web.csproj",
+        "run",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
