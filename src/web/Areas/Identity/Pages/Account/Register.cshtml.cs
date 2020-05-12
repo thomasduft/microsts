@@ -16,7 +16,6 @@ using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
-  [AllowAnonymous]
   public class RegisterModel : PageModel
   {
     private readonly SignInManager<ApplicationUser> signInManager;

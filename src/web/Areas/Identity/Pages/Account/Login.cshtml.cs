@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly IIdentityServerInteractionService interaction;
     private readonly IdentityLocalizationService identityLocalizationService;
+    private readonly IConfiguration config;
 
     public LoginModel(
       ILogger<LoginModel> logger,
@@ -30,7 +32,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       UserManager<ApplicationUser> userManager,
       SignInManager<ApplicationUser> signInManager,
       IIdentityServerInteractionService interaction,
-      IdentityLocalizationService identityLocalizationService
+      IdentityLocalizationService identityLocalizationService,
+      IConfiguration config
     )
     {
       this.logger = logger;
@@ -39,6 +42,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       this.signInManager = signInManager;
       this.interaction = interaction;
       this.identityLocalizationService = identityLocalizationService;
+      this.config = config;
     }
 
     [BindProperty]
@@ -47,6 +51,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
     public string ReturnUrl { get; set; }
+
+    public bool AllowSelfRegister { get; set; } = false;
 
     [TempData]
     public string ErrorMessage { get; set; }
@@ -80,6 +86,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
       ReturnUrl = returnUrl;
+
+      AllowSelfRegister = this.config.GetValue<bool>("AllowSelfRegister");
     }
 
     public async Task<IActionResult> OnPostAsync(string returnUrl = null)

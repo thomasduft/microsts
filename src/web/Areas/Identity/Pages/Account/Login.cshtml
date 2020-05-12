@@ -37,9 +37,12 @@
         <p>
           <a id="forgot-password" asp-page="./ForgotPassword">@IdentityLocalizer.GetLocalizedHtmlString("FORGOT_YOUR_PASSWORD")</a>
         </p>
-        <p>
-          <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@IdentityLocalizer.GetLocalizedHtmlString("REGISTER_AS_NEW_USER")</a>
-        </p>
+        @if (@Model.AllowSelfRegister)
+        {
+          <p>
+            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@IdentityLocalizer.GetLocalizedHtmlString("REGISTER_AS_NEW_USER")</a>
+          </p>
+        }
       </div>
     </form>
   </div>

@@ -79,15 +79,8 @@ namespace tomware.Microsts.Web
       services.AddControllers()
         .AddNewtonsoftJson()
         .SetCompatibilityVersion(CompatibilityVersion.Latest);
-      services.AddRazorPages()
-        .AddRazorPagesOptions(options =>
-        {
-          options.Conventions.AuthorizeAreaPage(
-            "identity",
-            "/account/register",
-            Policies.ADMIN_POLICY
-          );
-        })
+
+      var builder = services.AddRazorPages()
         .SetCompatibilityVersion(CompatibilityVersion.Latest)
         .AddViewLocalization()
         .AddDataAnnotationsLocalization(options =>
@@ -98,6 +91,19 @@ namespace tomware.Microsts.Web
             return factory.Create(nameof(IdentityResource), name.Name);
           };
         });
+
+      var allowSelfRegister = this.Configuration.GetValue<bool>("AllowSelfRegister");
+      if (!allowSelfRegister)
+      {
+        builder.AddRazorPagesOptions(options =>
+        {
+          options.Conventions.AuthorizeAreaPage(
+            "identity",
+            "/account/register",
+            Policies.ADMIN_POLICY
+          );
+        });
+      }
     }
 
     public void Configure(
