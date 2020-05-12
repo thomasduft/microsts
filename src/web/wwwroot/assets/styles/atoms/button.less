@@ -10,16 +10,17 @@ button,
   border: 1px solid @button-primary-background-color;
   color: white;
   text-decoration: none;
-  padding: .25rem 1rem;
+  padding: .25em 1em;
   vertical-align: middle;
   white-space: nowrap;
   cursor: pointer;
-  margin: .25rem 0;
   font-size: 0.8em;
   border-radius: @button-border-radius;
+
   &:hover {
     background: lighten(@button-primary-background-color, 10%)
   }
+
   &:disabled {
     background: lighten(@button-primary-background-color, 50%)
   }
@@ -31,6 +32,11 @@ button,
   &:hover {
     background: lighten(@button-secondary-background-color, 10%)
   }
+}
+
+.button--squared {
+  padding: .5em 0.75em;
+  border-radius: 2px;
 }
 
 .button--disabled {
