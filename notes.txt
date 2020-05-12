@@ -1,8 +1,5 @@
 ToDo:
-- managing clients in the UI
-  [x] AddConfigurationStore
-  [x] client -> allowed scopes (better naming would be: allowed resources)
-    - consists of ApiResource->name and IdentityResources->Name
+- better structuring of what is identityserver and what is custom built
 
 - prevent admin from:
   - deleting roles that are still assigned somewhere
@@ -12,24 +9,27 @@ ToDo:
   - i.e. key already present
   - i.e. not found
   - etc.
+
 - good home route!!!
+
 - self sign cert for https and signing tokens
   - https://mohitgoyal.co/2018/09/25/use-ssl-certificates-for-dotnet-core-application-in-docker-containers/
+
 - build.sh script
   - builds client then styles
+
 - sending mails
   - email confirmation: https://code-maze.com/email-confirmation-aspnet-core-identity/
+
 - setup razor ui class library
   - https://wakeupandcode.com/your-first-razor-ui-library-with-asp-net-core/
 
 
-- localization
-  - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-3.1
-  - https://andrewlock.net/adding-localisation-to-an-asp-net-core-application/
-  - https://damienbod.com/2018/07/03/adding-localization-to-the-asp-net-core-identity-pages/
-
-
 Done:
+- managing clients in the UI
+  [x] AddConfigurationStore
+  [x] client -> allowed scopes (better naming would be: allowed resources)
+    - consists of ApiResource->name and IdentityResources->Name
 - allow claims with values for user
 - global alert approach
 - confirmation popup
@@ -43,6 +43,12 @@ Done:
 - load oidc config for spaclient via APP_INITIALIZER
 - add config IClientStore
   - see: http://docs.identityserver.io/en/latest/topics/clients.html
+- localization
+  - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-3.1
+  - https://andrewlock.net/adding-localisation-to-an-asp-net-core-application/
+  - https://damienbod.com/2018/07/03/adding-localization-to-the-asp-net-core-identity-pages/
+- add docker compose file with value mappings
+
 
 Links:
 - https://damienbod.com/2016/10/01/identityserver4-webapi-and-angular2-in-a-single-asp-net-core-project/
@@ -53,6 +59,7 @@ Links:
 
 Docs:
 - https://manfredsteyer.github.io/angular-oauth2-oidc/docs/index.html
+
 
 ----------------------------------------------------------------------------------------------------
 Docker:
