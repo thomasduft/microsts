@@ -24,6 +24,8 @@ ToDo:
 - setup razor ui class library
   - https://wakeupandcode.com/your-first-razor-ui-library-with-asp-net-core/
 
+- audit entities
+  - https://github.com/thepirat000/Audit.NET/blob/master/src/Audit.EntityFramework/README.md
 
 Done:
 - managing clients in the UI
