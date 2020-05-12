@@ -188,7 +188,7 @@
     <value>Associate your {0} account</value>
   </data>
   <data name="EXTERNAL_LOGIN_TEXT" xml:space="preserve">
-    <value>Sie haben sich erfolgreich mit {0} authentifiziert. Bitte geben Sie unten eine E-Mail-Adresse für diese Seite ein und klicken Sie auf die Registrierenknopf, um die Anmeldung abzuschließen.</value>
+    <value>Sie haben sich erfolgreich mit {0} authentifiziert. Bitte geben Sie unten eine E-Mail-Adresse für diese Seite ein und klicken Sie Registrieren, um die Anmeldung abzuschliessen.</value>
   </data>
   <data name="EXTERNAL_PROVIDER_ERROR" xml:space="preserve">
     <value>Fehler von externem Anbieter: {0}</value>
@@ -251,7 +251,7 @@
     <value>Dein Passwort wurde zurück gesetzt. Bitte</value>
   </data>
   <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
-    <value>Das  {0} muss mindestens  {2} und darf höchstens  {1} Zeichen lang sein.</value>
+    <value>Das {0} muss mindestens {2} und darf höchstens {1} Zeichen lang sein.</value>
   </data>
   <data name="2FA" xml:space="preserve">
     <value>Zwei-Faktor-Authentifizierung</value>
@@ -332,7 +332,7 @@
     <value>Löschen Sie persönliche Daten</value>
   </data>
   <data name="DELETE_PERSONAL_DATA_AND_CLOSE" xml:space="preserve">
-    <value>Löschen Sie Daten und schließen Sie mein Konto</value>
+    <value>Löschen Sie Daten und schliessen Sie mein Konto</value>
   </data>
   <data name="DELETE_PERSONAL_DATA_TEXT" xml:space="preserve">
     <value>Durch das Löschen dieser Daten wird Ihr Konto dauerhaft gelöscht. Dies kann nicht wiederhergestellt werden.</value>
@@ -347,7 +347,7 @@
     <value>2FA wurde deaktiviert. Sie können 2FA aktivieren, wenn Sie eine Authenticator-App einrichten</value>
   </data>
   <data name="DISABLE_2FA_TEXT_DETAILS" xml:space="preserve">
-    <value>Durch das Deaktivieren von 2FA werden die in Authenticator-Apps verwendeten Schlüssel nicht geändert. Wenn Sie den in einer Authenticator-App verwendeten Schlüssel ändern möchten, sollten Sie Ihre Authentifizierungsschlüssel</value>
+    <value>Durch das Deaktivieren von 2FA werden der in Authenticator-Apps verwendeten Schlüssel nicht geändert. Wenn Sie den in einer Authenticator-App verwendeten Schlüssel ändern möchten, sollten Sie Ihre Authentifizierungsschlüssel</value>
   </data>
   <data name="DISABLE_2FA_TEXT_DETAILS_LINK" xml:space="preserve">
     <value>zurücksetzen.</value>
@@ -470,7 +470,7 @@
     <value>Ihr Authentifikator-App-Schlüssel wurde zurückgesetzt. Sie müssen Ihre Authentifikator-App mit dem neuen Schlüssel konfigurieren.</value>
   </data>
   <data name="RESET_AUTHENTICATOR_TEXT" xml:space="preserve">
-    <value>Dieser Prozess deaktiviert 2FA, bis Sie Ihre Authentifikator-App überprüft haben. Wenn Sie Ihre Authentifikator-App-Konfiguration nicht abschließen, verlieren Sie möglicherweise den Zugriff auf Ihr Konto.</value>
+    <value>Dieser Prozess deaktiviert 2FA, bis Sie Ihre Authentifikator-App überprüft haben. Wenn Sie Ihre Authentifikator-App-Konfiguration nicht abschliessen, verlieren Sie möglicherweise den Zugriff auf Ihr Konto.</value>
   </data>
   <data name="RESET_RECOVERY_CODES" xml:space="preserve">
     <value>Setzen Sie die Wiederherstellungscodes zurück</value>
