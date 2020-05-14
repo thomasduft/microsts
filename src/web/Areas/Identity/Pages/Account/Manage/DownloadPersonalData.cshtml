@@ -1,7 +1,8 @@
 ﻿@page
 @model DownloadPersonalDataModel
+@inject IdentityLocalizationService IdentityLocalizer
 @{
-    ViewData["Title"] = "Download Your Data";
+    ViewData["Title"] = @IdentityLocalizer.GetLocalizedHtmlString("DOWNLOAD_YOUR_DATA");
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 

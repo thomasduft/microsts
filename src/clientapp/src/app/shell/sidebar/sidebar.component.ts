@@ -2,7 +2,8 @@ import {
   Component,
   HostBinding,
   Output,
-  EventEmitter
+  EventEmitter,
+  isDevMode
 } from '@angular/core';
 
 import { UserService } from '../../shared';
@@ -48,6 +49,14 @@ export class SidebarComponent {
 
   public logout(): void {
     this.loginClick.next('logout');
+  }
+
+  public openProfile(): void {
+    window.location.replace(
+      isDevMode()
+        ? 'http://localhost:5000/identity/account/manage'
+        : window.location.origin + '/identity/account/manage'
+    );
   }
 
   private getClassList(): string {

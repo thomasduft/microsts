@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -15,13 +16,17 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
   {
     private readonly UserManager<ApplicationUser> userManager;
     private readonly ILogger<DownloadPersonalDataModel> logger;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public DownloadPersonalDataModel(
-        UserManager<ApplicationUser> userManager,
-        ILogger<DownloadPersonalDataModel> logger)
+      UserManager<ApplicationUser> userManager,
+      ILogger<DownloadPersonalDataModel> logger,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.logger = logger;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -29,7 +34,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+          .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       logger.LogInformation(

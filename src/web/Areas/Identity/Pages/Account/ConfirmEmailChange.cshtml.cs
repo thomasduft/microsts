@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
@@ -13,14 +14,17 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
   {
     private readonly UserManager<ApplicationUser> userManager;
     private readonly SignInManager<ApplicationUser> signInManager;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public ConfirmEmailChangeModel(
       UserManager<ApplicationUser> userManager,
-      SignInManager<ApplicationUser> signInManager
+      SignInManager<ApplicationUser> signInManager,
+      IdentityLocalizationService identityLocalizationService
     )
     {
       this.userManager = userManager;
       this.signInManager = signInManager;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [TempData]
@@ -43,21 +47,23 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       var result = await userManager.ChangeEmailAsync(user, email, code);
       if (!result.Succeeded)
       {
-        StatusMessage = "Error changing email.";
+        StatusMessage = identityLocalizationService.GetLocalizedHtmlString("CONFIRM_EMAIL_CHANGE_ERROR");
         return Page();
       }
 
-      // In our UI email and user name are one and the same, so when we update the email
-      // we need to update the user name.
-      var setUserNameResult = await userManager.SetUserNameAsync(user, email);
-      if (!setUserNameResult.Succeeded)
-      {
-        StatusMessage = "Error changing user name.";
-        return Page();
-      }
+      // // In our UI email and user name are one and the same, so when we update the email
+      // // we need to update the user name.
+      // var setUserNameResult = await userManager.SetUserNameAsync(user, email);
+      // if (!setUserNameResult.Succeeded)
+      // {
+      //   StatusMessage = "Error changing user name.";
+      //   return Page();
+      // }
 
       await signInManager.RefreshSignInAsync(user);
-      StatusMessage = "Thank you for confirming your email change.";
+
+      StatusMessage = identityLocalizationService.GetLocalizedHtmlString("CONFIRM_EMAIL_CHANGE_TEXT");
+
       return Page();
     }
   }

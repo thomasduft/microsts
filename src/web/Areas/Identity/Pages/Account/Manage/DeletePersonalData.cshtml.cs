@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -13,15 +14,19 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
     private readonly UserManager<ApplicationUser> userManager;
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly ILogger<DeletePersonalDataModel> logger;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public DeletePersonalDataModel(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
-        ILogger<DeletePersonalDataModel> logger)
+      UserManager<ApplicationUser> userManager,
+      SignInManager<ApplicationUser> signInManager,
+      ILogger<DeletePersonalDataModel> logger,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.signInManager = signInManager;
       this.logger = logger;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [BindProperty]
@@ -41,10 +46,12 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+          .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       RequirePassword = await userManager.HasPasswordAsync(user);
+
       return Page();
     }
 
@@ -53,7 +60,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+          .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       RequirePassword = await userManager.HasPasswordAsync(user);
@@ -61,7 +69,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       {
         if (!await userManager.CheckPasswordAsync(user, Input.Password))
         {
-          ModelState.AddModelError(string.Empty, "Incorrect password.");
+          ModelState.AddModelError(
+            string.Empty,
+            this.identityLocalizationService.GetLocalizedHtmlString("INCORRECT_PASSWORD")
+          );
+
           return Page();
         }
       }

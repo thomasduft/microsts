@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
@@ -19,18 +20,22 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IEmailSender emailSender;
+    private readonly IdentityLocalizationService identityLocalizationService;
     private readonly ILogger<ExternalLoginModel> logger;
 
     public ExternalLoginModel(
-        SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager,
-        ILogger<ExternalLoginModel> logger,
-        IEmailSender emailSender)
+      SignInManager<ApplicationUser> signInManager,
+      UserManager<ApplicationUser> userManager,
+      ILogger<ExternalLoginModel> logger,
+      IEmailSender emailSender,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.signInManager = signInManager;
       this.userManager = userManager;
       this.logger = logger;
       this.emailSender = emailSender;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [BindProperty]
@@ -68,13 +73,13 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       returnUrl = returnUrl ?? Url.Content("~/");
       if (remoteError != null)
       {
-        ErrorMessage = $"Error from external provider: {remoteError}";
+        ErrorMessage = this.identityLocalizationService.GetLocalizedHtmlString("EXTERNAL_PROVIDER_ERROR", remoteError);
         return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
       }
       var info = await signInManager.GetExternalLoginInfoAsync();
       if (info == null)
       {
-        ErrorMessage = "Error loading external login information.";
+        ErrorMessage = this.identityLocalizationService.GetLocalizedHtmlString("EXTERNAL_PROVIDER_ERROR_INFO");
         return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
       }
 
@@ -112,7 +117,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       var info = await signInManager.GetExternalLoginInfoAsync();
       if (info == null)
       {
-        ErrorMessage = "Error loading external login information during confirmation.";
+        ErrorMessage = this.identityLocalizationService.GetLocalizedHtmlString("EXTERNAL_PROVIDER_ERROR_CONFIRMATION");
         return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
       }
 
@@ -143,8 +148,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: Request.Scheme);
 
-            await emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            await emailSender.SendEmailAsync(
+              Input.Email,
+              this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL"),
+              this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL_TEXT", HtmlEncoder.Default.Encode(callbackUrl))
+            );
 
             return LocalRedirect(returnUrl);
           }
@@ -157,6 +165,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 
       LoginProvider = info.LoginProvider;
       ReturnUrl = returnUrl;
+
       return Page();
     }
   }

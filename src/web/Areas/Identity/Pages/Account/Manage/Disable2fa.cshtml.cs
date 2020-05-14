@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -11,13 +12,17 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
   {
     private readonly UserManager<ApplicationUser> userManager;
     private readonly ILogger<Disable2faModel> logger;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public Disable2faModel(
-        UserManager<ApplicationUser> userManager,
-        ILogger<Disable2faModel> logger)
+      UserManager<ApplicationUser> userManager,
+      ILogger<Disable2faModel> logger,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.logger = logger;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [TempData]
@@ -28,7 +33,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+          .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       if (!await userManager.GetTwoFactorEnabledAsync(user))
@@ -44,7 +50,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+          .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       var disable2faResult = await userManager.SetTwoFactorEnabledAsync(user, false);
@@ -54,8 +61,9 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       }
 
       logger.LogInformation("User with ID '{UserId}' has disabled 2fa.", userManager.GetUserId(User));
-      StatusMessage = "2fa has been disabled. You can reenable 2fa when you setup an authenticator app";
-      
+
+      StatusMessage = this.identityLocalizationService.GetLocalizedHtmlString("DISABLE_2FA_STATUS");
+
       return RedirectToPage("./TwoFactorAuthentication");
     }
   }

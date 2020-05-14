@@ -1,10 +1,11 @@
 ﻿@page
 @model AccessDeniedModel
+@inject IdentityLocalizationService IdentityLocalizer
 @{
-  ViewData["Title"] = "Access denied";
+  ViewData["Title"] = @IdentityLocalizer.GetLocalizedHtmlString("ACCESS_DENIED");
 }
 
 <header>
-  <h1 class="text-danger">@ViewData["Title"]</h1>
-  <p class="text-danger">You do not have access to this resource.</p>
+  <h1>@ViewData["Title"]</h1>
+  <p>@IdentityLocalizer.GetLocalizedHtmlString("ACCESS_DENIED_TEXT")</p>
 </header>

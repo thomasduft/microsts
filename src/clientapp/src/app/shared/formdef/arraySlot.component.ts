@@ -15,12 +15,14 @@ import { SlotComponent } from './slot.component';
   <fieldset>
     <legend class="title" (click)="toggle()">{{ slot.title }}</legend>
     <ng-container *ngIf="!collapsed">
-      <div>
+      <div class="button__bar">
         <button type="button"
                 class="button--secondary"
                 title="add"
                 i18n-title
-                (click)="add()">+</button>
+                (click)="add()">
+                <strong>+</strong>
+        </button>
       </div>
       <div>
         <table [formGroup]="form">
@@ -35,10 +37,12 @@ import { SlotComponent } from './slot.component';
               </td>
               <td>
                 <button type="button"
-                        class="button--secondary"
+                        class="button--secondary button--squared"
                         title="remove"
                         i18n-title
-                        (click)="remove(idx)">-</button>
+                        (click)="remove(idx)">
+                        <strong>-</strong>
+                </button>
               </td>
             </tr>
           </tbody>

@@ -1,7 +1,8 @@
 ﻿@page
 @model EmailModel
+@inject IdentityLocalizationService IdentityLocalizer
 @{
-    ViewData["Title"] = "Manage Email";
+    ViewData["Title"] = @IdentityLocalizer.GetLocalizedHtmlString("MANAGE_EMAIL");
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
 
@@ -10,7 +11,7 @@
 <form class="form" id="email-form" method="post">
   <div class="form__validation-summary" asp-validation-summary="All"></div>
   <div class="form__group">
-    <label asp-for="Email"></label>
+    <label asp-for="Email">@IdentityLocalizer.GetLocalizedHtmlString("EMAIL")</label>
     @if (Model.IsEmailConfirmed)
     {
       <div>
@@ -20,16 +21,20 @@
         </div>
       </div>
     }
-     else
+    else
     {
       <input asp-for="Email" class="form-control" disabled />
-      <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail">Send verification email</button>
+      <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail">
+        @IdentityLocalizer.GetLocalizedHtmlString("SEND_VERIFICATION_EMAIL")
+      </button>
     }
   </div>
   <div class="form__group">
-    <label asp-for="Input.NewEmail"></label>
+    <label asp-for="Input.NewEmail">@IdentityLocalizer.GetLocalizedHtmlString("MANAGE_EMAIL_NEW")</label>
     <input asp-for="Input.NewEmail" />
     <span asp-validation-for="Input.NewEmail"></span>
   </div>
-  <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail">Change email</button>
+  <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail">
+    @IdentityLocalizer.GetLocalizedHtmlString("SUBMIT")
+  </button>
 </form>

@@ -1,5 +1,12 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
 ARG source
+
+# Install cultures (same approach as Alpine SDK image)
+RUN apk add --no-cache icu-libs
+
+# Disable the invariant mode (set in base image)
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
 ENV ASPNETCORE_ENVIRONMENT=Production
 WORKDIR /app
 EXPOSE 5000

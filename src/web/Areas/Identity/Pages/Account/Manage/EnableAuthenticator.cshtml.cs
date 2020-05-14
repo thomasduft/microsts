@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -15,17 +16,20 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
     private readonly UserManager<ApplicationUser> userManager;
     private readonly ILogger<EnableAuthenticatorModel> logger;
     private readonly UrlEncoder urlEncoder;
-
+    private readonly IdentityLocalizationService identityLocalizationService;
     private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
     public EnableAuthenticatorModel(
-        UserManager<ApplicationUser> userManager,
-        ILogger<EnableAuthenticatorModel> logger,
-        UrlEncoder urlEncoder)
+      UserManager<ApplicationUser> userManager,
+      ILogger<EnableAuthenticatorModel> logger,
+      UrlEncoder urlEncoder,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.logger = logger;
       this.urlEncoder = urlEncoder;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     public string SharedKey { get; set; }
@@ -43,8 +47,12 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 
     public class InputModel
     {
-      [Required]
-      [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+      [Required(ErrorMessage = "VERIFICATION_CODE_REQUIRED")]
+      [StringLength(
+        7,
+        ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+        MinimumLength = 6
+      )]
       [DataType(DataType.Text)]
       [Display(Name = "Verification Code")]
       public string Code { get; set; }
@@ -55,7 +63,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       await LoadSharedKeyAndQrCodeUriAsync(user);
@@ -68,7 +77,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       if (!ModelState.IsValid)
@@ -85,7 +95,10 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 
       if (!is2faTokenValid)
       {
-        ModelState.AddModelError("Input.Code", "Verification code is invalid.");
+        ModelState.AddModelError(
+          "Input.Code",
+          this.identityLocalizationService.GetLocalizedHtmlString("INVALID_VERFICATION_CODE")
+        );
         await LoadSharedKeyAndQrCodeUriAsync(user);
         return Page();
       }
@@ -94,7 +107,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var userId = await userManager.GetUserIdAsync(user);
       logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
 
-      StatusMessage = "Your authenticator app has been verified.";
+      StatusMessage = this.identityLocalizationService
+        .GetLocalizedHtmlString("AUTHENTICATOR_IS_VERFIFIED");
 
       if (await userManager.CountRecoveryCodesAsync(user) == 0)
       {

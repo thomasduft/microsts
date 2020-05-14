@@ -56,7 +56,7 @@ export class TwTemplateDirective {
           *ngTemplateOutlet="itemTemplate; context: {$implicit: rowData, rowIndex: rowIndex}">
         </ng-container>
       </ng-template>
-      <div *ngIf="isEmpty()" i18n>No data!</div>
+      <div *ngIf="isEmpty()" class="list__content--no-data" i18n>No data!</div>
     </div>
     <ng-content select="tw-footer"></ng-content>
   </div>

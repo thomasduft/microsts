@@ -5,34 +5,37 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
-  [Authorize]
   public class RegisterModel : PageModel
   {
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly ILogger<RegisterModel> logger;
     private readonly IEmailSender emailSender;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public RegisterModel(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
-        ILogger<RegisterModel> logger,
-        IEmailSender emailSender)
+      UserManager<ApplicationUser> userManager,
+      SignInManager<ApplicationUser> signInManager,
+      ILogger<RegisterModel> logger,
+      IEmailSender emailSender,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.signInManager = signInManager;
       this.logger = logger;
       this.emailSender = emailSender;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [BindProperty]
@@ -50,7 +53,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       public string Email { get; set; }
 
       [Required]
-      [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+      [StringLength(
+        100,
+        ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+        MinimumLength = 6
+      )]
       [DataType(DataType.Password)]
       [Display(Name = "Password")]
       public string Password { get; set; }
@@ -87,8 +94,14 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
               values: new { area = "Identity", userId = user.Id, code = code },
               protocol: Request.Scheme);
 
-          await emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-              $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+          await emailSender.SendEmailAsync(
+            Input.Email,
+            this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL"),
+            this.identityLocalizationService.GetLocalizedHtmlString(
+              "CONFIRM_YOUR_EMAIL_TEXT",
+              HtmlEncoder.Default.Encode(callbackUrl)
+            )
+          );
 
           if (userManager.Options.SignIn.RequireConfirmedAccount)
           {
@@ -97,6 +110,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
           else
           {
             await signInManager.SignInAsync(user, isPersistent: false);
+
             return LocalRedirect(returnUrl);
           }
         }

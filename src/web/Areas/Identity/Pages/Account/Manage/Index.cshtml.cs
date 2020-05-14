@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -11,13 +12,17 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
   {
     private readonly UserManager<ApplicationUser> userManager;
     private readonly SignInManager<ApplicationUser> signInManager;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public IndexModel(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager)
+      UserManager<ApplicationUser> userManager,
+      SignInManager<ApplicationUser> signInManager,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.signInManager = signInManager;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     public string Username { get; set; }
@@ -53,10 +58,12 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       await LoadAsync(user);
+
       return Page();
     }
 
@@ -65,12 +72,14 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       if (!ModelState.IsValid)
       {
         await LoadAsync(user);
+
         return Page();
       }
 
@@ -86,7 +95,10 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       }
 
       await signInManager.RefreshSignInAsync(user);
-      StatusMessage = "Your profile has been updated";
+
+      StatusMessage = this.identityLocalizationService
+                        .GetLocalizedHtmlString("STATUS_UPDATE_PROFILE_EMAIL_SEND");
+
       return RedirectToPage();
     }
   }

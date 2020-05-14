@@ -1,64 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
-    Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
-    associated with the data types.
-
-    Example:
-
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-
-    There are any number of "resheader" rows that contain simple
-    name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
-    mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
-    extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
-    read any of the formats listed below.
-
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -135,11 +76,23 @@
   <data name="ACCOUNT_USE_LOCAL_ACCOUNT_TO_LOG_IN" xml:space="preserve">
     <value>Verwenden Sie einen lokalen Benutzer um sich anzumelden.</value>
   </data>
+  <data name="ACCOUNT_USE_ANOTHER_SERVICE_TO_REGISTER" xml:space="preserve">
+    <value>Verwenden Sie einen anderen Dienst, um sich zu registrieren.</value>
+  </data>
   <data name="CONFIRM_EMAIL" xml:space="preserve">
     <value>E-Mail Adresse Bestätigung</value>
   </data>
   <data name="CONFIRM_EMAIL_TEXT" xml:space="preserve">
     <value>Vielen Dank für die Bestätigung Ihrer E-Mail.</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE" xml:space="preserve">
+    <value>Bestätigung Ihrer E-Mail Änderung</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE_TEXT" xml:space="preserve">
+    <value>Ihre E-Mail Adresse wurde geändert.</value>
+  </data>
+  <data name="CONFIRM_EMAIL_CHANGE_ERROR" xml:space="preserve">
+    <value>Fehler beim Ändern Ihrer E-Mail Adresse.</value>
   </data>
   <data name="CONFIRM_PASSWORD" xml:space="preserve">
     <value>Passwort bestätigen</value>
@@ -153,8 +106,20 @@
   <data name="CONFIRM_YOUR_EMAIL_TEXT" xml:space="preserve">
     <value>Bitte bestätigen Sie Ihr Konto, indem Sie hier &lt;a href='{0}'&gt;klicken&lt;/a&gt;. </value>
   </data>
+  <data name="CONFIRM_YOUR_EMAIL_STATUS_TEXT" xml:space="preserve">
+    <value>Ein Bestätigungs link wurde an Iher E-Mail Adresse geschickt.</value>
+  </data>
+  <data name="CONFIRM_YOUR_EMAIL_UNCHANGED_TEXT" xml:space="preserve">
+    <value>Ihre E-Mail Adresse wurde nicht geändert.</value>
+  </data>
   <data name="CREATE_A_NEW_ACCOUNT" xml:space="preserve">
     <value>Neues Konto erstellen</value>
+  </data>
+  <data name="MANAGE_EMAIL" xml:space="preserve">
+    <value>E-Mail ändern</value>
+  </data>
+  <data name="MANAGE_EMAIL_NEW" xml:space="preserve">
+    <value>Neue E-Mail Adresse</value>
   </data>
   <data name="EMAIL" xml:space="preserve">
     <value>E-Mail</value>
@@ -217,13 +182,13 @@
     <value>Bitte setzen Sie Ihr Passwort zurück, indem Sie hier &lt;a href='{0}'&gt;klicken&lt;/a&gt;.</value>
   </data>
   <data name="SUBMIT" xml:space="preserve">
-    <value>Einreichen</value>
+    <value>Senden</value>
   </data>
   <data name="EXTERNAL_LOGIN_ASSOCIATE_ACCOUNT" xml:space="preserve">
     <value>Associate your {0} account</value>
   </data>
   <data name="EXTERNAL_LOGIN_TEXT" xml:space="preserve">
-    <value>Sie haben sich erfolgreich mit {0} authentifiziert. Bitte geben Sie unten eine E-Mail-Adresse für diese Seite ein und klicken Sie auf die Registrierenknopf, um die Anmeldung abzuschließen.</value>
+    <value>Sie haben sich erfolgreich mit {0} authentifiziert. Bitte geben Sie unten eine E-Mail-Adresse für diese Seite ein und klicken Sie Registrieren, um die Anmeldung abzuschliessen.</value>
   </data>
   <data name="EXTERNAL_PROVIDER_ERROR" xml:space="preserve">
     <value>Fehler von externem Anbieter: {0}</value>
@@ -270,6 +235,9 @@
   <data name="INVALID_RECOVERY_CODE" xml:space="preserve">
     <value>Ungültiger Wiederherstellungscode eingegeben</value>
   </data>
+  <data name="LOGOUT_QUESTION" xml:space="preserve">
+    <value>Möchten Sie sich aus der Applikation ausloggen?</value>
+  </data>
   <data name="LOGOUT_TEXT" xml:space="preserve">
     <value>Sie haben sich erfolgreich von der Anwendung abgemeldet.</value>
   </data>
@@ -283,7 +251,7 @@
     <value>Dein Passwort wurde zurück gesetzt. Bitte</value>
   </data>
   <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
-    <value>Das  {0} muss mindestens  {2} und darf höchstens  {1} Zeichen lang sein.</value>
+    <value>Das {0} muss mindestens {2} und darf höchstens {1} Zeichen lang sein.</value>
   </data>
   <data name="2FA" xml:space="preserve">
     <value>Zwei-Faktor-Authentifizierung</value>
@@ -364,7 +332,7 @@
     <value>Löschen Sie persönliche Daten</value>
   </data>
   <data name="DELETE_PERSONAL_DATA_AND_CLOSE" xml:space="preserve">
-    <value>Löschen Sie Daten und schließen Sie mein Konto</value>
+    <value>Löschen Sie Daten und schliessen Sie mein Konto</value>
   </data>
   <data name="DELETE_PERSONAL_DATA_TEXT" xml:space="preserve">
     <value>Durch das Löschen dieser Daten wird Ihr Konto dauerhaft gelöscht. Dies kann nicht wiederhergestellt werden.</value>
@@ -379,7 +347,7 @@
     <value>2FA wurde deaktiviert. Sie können 2FA aktivieren, wenn Sie eine Authenticator-App einrichten</value>
   </data>
   <data name="DISABLE_2FA_TEXT_DETAILS" xml:space="preserve">
-    <value>Durch das Deaktivieren von 2FA werden die in Authenticator-Apps verwendeten Schlüssel nicht geändert. Wenn Sie den in einer Authenticator-App verwendeten Schlüssel ändern möchten, sollten Sie Ihre Authentifizierungsschlüssel</value>
+    <value>Durch das Deaktivieren von 2FA werden der in Authenticator-Apps verwendeten Schlüssel nicht geändert. Wenn Sie den in einer Authenticator-App verwendeten Schlüssel ändern möchten, sollten Sie Ihre Authentifizierungsschlüssel</value>
   </data>
   <data name="DISABLE_2FA_TEXT_DETAILS_LINK" xml:space="preserve">
     <value>zurücksetzen.</value>
@@ -395,6 +363,9 @@
   </data>
   <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
     <value>Der Bestätigungscode ist ungültig.</value>
+  </data>
+  <data name="AUTHENTICATOR_IS_VERFIFIED" xml:space="preserve">
+    <value>Ihre Authenticator Applikation wurde verifiziert.</value>
   </data>
   <data name="OR" xml:space="preserve">
     <value>oder</value>
@@ -474,6 +445,9 @@
   <data name="GENERATE_RECOVERY_CODES" xml:space="preserve">
     <value>Generiere Wiederherstellungscodes</value>
   </data>
+  <data name="SHOW_RECOVERY_CODES" xml:space="preserve">
+    <value>Wiederherstellungscodes</value>
+  </data>
   <data name="PERSONAL_DATA_DELETEINFO" xml:space="preserve">
     <value>Durch das Löschen dieser Daten wird Ihr Konto dauerhaft gelöscht. Dies kann nicht wiederhergestellt werden.</value>
   </data>
@@ -496,7 +470,7 @@
     <value>Ihr Authentifikator-App-Schlüssel wurde zurückgesetzt. Sie müssen Ihre Authentifikator-App mit dem neuen Schlüssel konfigurieren.</value>
   </data>
   <data name="RESET_AUTHENTICATOR_TEXT" xml:space="preserve">
-    <value>Dieser Prozess deaktiviert 2FA, bis Sie Ihre Authentifikator-App überprüft haben. Wenn Sie Ihre Authentifikator-App-Konfiguration nicht abschließen, verlieren Sie möglicherweise den Zugriff auf Ihr Konto.</value>
+    <value>Dieser Prozess deaktiviert 2FA, bis Sie Ihre Authentifikator-App überprüft haben. Wenn Sie Ihre Authentifikator-App-Konfiguration nicht abschliessen, verlieren Sie möglicherweise den Zugriff auf Ihr Konto.</value>
   </data>
   <data name="RESET_RECOVERY_CODES" xml:space="preserve">
     <value>Setzen Sie die Wiederherstellungscodes zurück</value>
@@ -524,6 +498,9 @@
   </data>
   <data name="STATUS_EXTERNAL_LOGIN_REMOVED" xml:space="preserve">
     <value>Die externe Anmeldung wurde entfernt.</value>
+  </data>
+  <data name="STATUS_EXTERNAL_LOGIN_NOT_REMOVED" xml:space="preserve">
+    <value>Die externe Anmeldung wurde nicht entfernt..</value>
   </data>
   <data name="STATUS_GENERATE_CODES" xml:space="preserve">
     <value>Sie haben neue Wiederherstellungscodes generiert.</value>

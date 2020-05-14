@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
@@ -16,11 +17,17 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
   {
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IEmailSender emailSender;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
-    public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+    public ForgotPasswordModel(
+      UserManager<ApplicationUser> userManager,
+      IEmailSender emailSender,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.emailSender = emailSender;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [BindProperty]
@@ -56,8 +63,9 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 
         await emailSender.SendEmailAsync(
             Input.Email,
-            "Reset Password",
-            $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            this.identityLocalizationService.GetLocalizedHtmlString("RESET_PASSWORD"),
+            this.identityLocalizationService.GetLocalizedHtmlString("RESET_PASSWORD_EMAIL_TEXT", HtmlEncoder.Default.Encode(callbackUrl))
+          );
 
         return RedirectToPage("./ForgotPasswordConfirmation");
       }

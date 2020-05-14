@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
 {
@@ -14,14 +15,17 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
   {
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly ILogger<LoginWithRecoveryCodeModel> logger;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public LoginWithRecoveryCodeModel(
       SignInManager<ApplicationUser> signInManager,
-      ILogger<LoginWithRecoveryCodeModel> logger
+      ILogger<LoginWithRecoveryCodeModel> logger,
+      IdentityLocalizationService identityLocalizationService
     )
     {
       this.signInManager = signInManager;
       this.logger = logger;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     [BindProperty]
@@ -82,7 +86,12 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
       else
       {
         logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", user.Id);
-        ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
+
+        ModelState.AddModelError(
+          string.Empty,
+          this.identityLocalizationService.GetLocalizedHtmlString("INVALID_RECOVERY_CODE")
+        );
+
         return Page();
       }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using tomware.Microsts.Web.Resources;
 
 namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -15,15 +16,19 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
     private readonly UserManager<ApplicationUser> userManager;
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly IEmailSender emailSender;
+    private readonly IdentityLocalizationService identityLocalizationService;
 
     public EmailModel(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
-        IEmailSender emailSender)
+      UserManager<ApplicationUser> userManager,
+      SignInManager<ApplicationUser> signInManager,
+      IEmailSender emailSender,
+      IdentityLocalizationService identityLocalizationService
+    )
     {
       this.userManager = userManager;
       this.signInManager = signInManager;
       this.emailSender = emailSender;
+      this.identityLocalizationService = identityLocalizationService;
     }
 
     public string Username { get; set; }
@@ -40,9 +45,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
 
     public class InputModel
     {
-      [Required]
+      [Required(ErrorMessage = "EMAIL_REQUIRED")]
       [EmailAddress]
-      [Display(Name = "New email")]
       public string NewEmail { get; set; }
     }
 
@@ -64,10 +68,12 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       await LoadAsync(user);
+
       return Page();
     }
 
@@ -76,12 +82,14 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+         .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       if (!ModelState.IsValid)
       {
         await LoadAsync(user);
+
         return Page();
       }
 
@@ -97,15 +105,16 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
             protocol: Request.Scheme);
         await emailSender.SendEmailAsync(
             Input.NewEmail,
-            "Confirm your email",
-            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL"),
+            this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL_TEXT", HtmlEncoder.Default.Encode(callbackUrl))
+          );
 
-        StatusMessage = "Confirmation link to change email sent. Please check your email.";
+        StatusMessage = this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL_STATUS_TEXT");
 
         return RedirectToPage();
       }
 
-      StatusMessage = "Your email is unchanged.";
+      StatusMessage = this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL_UNCHANGED_TEXT");
 
       return RedirectToPage();
     }
@@ -115,7 +124,8 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
       var user = await userManager.GetUserAsync(User);
       if (user == null)
       {
-        return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+        return NotFound(this.identityLocalizationService
+          .GetLocalizedHtmlString("USER_NOTFOUND", userManager.GetUserId(User)));
       }
 
       if (!ModelState.IsValid)
@@ -135,10 +145,11 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account.Manage
           protocol: Request.Scheme);
       await emailSender.SendEmailAsync(
           email,
-          "Confirm your email",
-          $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL"),
+            this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL_TEXT", HtmlEncoder.Default.Encode(callbackUrl))
+          );
 
-      StatusMessage = "Verification email sent. Please check your email.";
+      StatusMessage = this.identityLocalizationService.GetLocalizedHtmlString("CONFIRM_YOUR_EMAIL_STATUS_TEXT");
 
       return RedirectToPage();
     }
