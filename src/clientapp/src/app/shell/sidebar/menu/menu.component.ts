@@ -66,7 +66,7 @@ export class MenuComponent implements OnInit {
       id: '4',
       name: 'Resources',
       route: '/resources',
-      icon: 'lock'
+      icon: 'server'
     });
 
     this.service.register({
