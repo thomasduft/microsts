@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.117.1/containers/dotnetcore-3.1
 {
-	"name": "MicroSTS remote",
+	"name": "MicroSTS",
 	"dockerFile": "Dockerfile",
 
 	// Set *default* container specific settings.json values on container create.
