@@ -50,7 +50,7 @@ namespace tomware.Microsts.Web
 
     [HttpPost]
     [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateAsync([FromBody]ApiResourceViewModel model)
+    public async Task<IActionResult> CreateAsync([FromBody] ApiResourceViewModel model)
     {
       if (model == null) return BadRequest();
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -62,7 +62,7 @@ namespace tomware.Microsts.Web
 
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> UpdateAsync([FromBody]ApiResourceViewModel model)
+    public async Task<IActionResult> UpdateAsync([FromBody] ApiResourceViewModel model)
     {
       if (model == null) return BadRequest();
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -78,6 +78,7 @@ namespace tomware.Microsts.Web
     {
       if (name == null) return BadRequest();
 
+      // TODO: check if still used anywhere?
       await this.service.DeleteApiResourceAsync(name);
 
       return NoContent();

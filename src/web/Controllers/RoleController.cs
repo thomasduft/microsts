@@ -41,7 +41,7 @@ namespace tomware.Microsts.Web
 
     [HttpPost]
     [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateAsync([FromBody]RoleViewModel model)
+    public async Task<IActionResult> CreateAsync([FromBody] RoleViewModel model)
     {
       if (model == null) return BadRequest();
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -53,7 +53,7 @@ namespace tomware.Microsts.Web
 
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> UpdateAsync([FromBody]RoleViewModel model)
+    public async Task<IActionResult> UpdateAsync([FromBody] RoleViewModel model)
     {
       if (model == null) return BadRequest();
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -69,6 +69,7 @@ namespace tomware.Microsts.Web
     {
       if (id == null) return BadRequest();
 
+      // TODO: check if still used anywhere?
       await this.service.DeleteAsync(id);
 
       return NoContent();
