@@ -37,10 +37,6 @@ import { ValidationSummaryComponent } from './validationsummary.component';
     EditorComponent,
     ValidationSummaryComponent
   ],
-  entryComponents: [
-    SlotComponent,
-    ArraySlotComponent
-  ],
   providers: [
     FormdefRegistry,
     SlotComponentRegistry

@@ -13,10 +13,6 @@ import { PopoverComponent } from './popover.component';
   declarations: [
     DeleteConfirmationComponent,
     PopoverComponent
-  ],
-  entryComponents: [
-    DeleteConfirmationComponent,
-    PopoverComponent
   ]
 })
 export class PopoverModule { }
