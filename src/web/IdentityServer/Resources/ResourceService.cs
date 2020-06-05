@@ -114,7 +114,17 @@ namespace tomware.Microsts.Web
       if (name == null) throw new ArgumentNullException(nameof(name));
 
       var apiResource = await this.context.ApiResources
+        .Include(x => x.Scopes)
         .FirstOrDefaultAsync(c => c.Name == name);
+
+      var clients = await this.context.Clients
+        .Include(x => x.AllowedScopes)
+        .ToListAsync();
+      foreach (var client in clients)
+      {
+        client.AllowedScopes
+          .RemoveAll(x => apiResource.Scopes.Select(s => s.Name).Contains(x.Scope));
+      }
 
       this.context.ApiResources.Remove(apiResource);
 

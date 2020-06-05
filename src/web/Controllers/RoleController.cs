@@ -69,7 +69,6 @@ namespace tomware.Microsts.Web
     {
       if (id == null) return BadRequest();
 
-      // TODO: check if still used anywhere?
       await this.service.DeleteAsync(id);
 
       return NoContent();

@@ -83,6 +83,11 @@ namespace tomware.Microsts.Web
 
       var claimType = await this.context.ClaimTypes.FindAsync(id);
 
+      var userClaims = await this.context.UserClaims
+        .Where(uc => uc.ClaimType == claimType.Name)
+        .ToListAsync();
+      this.context.UserClaims.RemoveRange(userClaims);
+
       this.context.ClaimTypes.Remove(claimType);
 
       await this.context.SaveChangesAsync();

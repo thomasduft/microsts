@@ -78,7 +78,6 @@ namespace tomware.Microsts.Web
     {
       if (name == null) return BadRequest();
 
-      // TODO: check if still used anywhere?
       await this.service.DeleteApiResourceAsync(name);
 
       return NoContent();
