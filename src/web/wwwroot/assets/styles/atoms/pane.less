@@ -10,17 +10,22 @@
 
   &__list {
     grid-area: list;
-    // background-color: lightgreen;
     padding: 5px;
     overflow-y: auto;
+    border-right: 1px solid @sidebar-background;
   }
 
   &__detail {
     grid-area: detail;
-    // background-color: lightblue;
     padding: 5px;
     overflow-y: auto;
-    border-left: 1px solid @sidebar-background;
+  }
+
+  &--onlydetail {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:
+      'detail';
   }
 }
 
@@ -34,8 +39,11 @@
       'detail';
     height: 100vh;
 
-    &__detail {
-      margin-top: 10px;
+    &--onlydetail {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      grid-template-areas:
+        'detail';
     }
   }
 }
