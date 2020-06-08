@@ -10,7 +10,6 @@
 
   &__list {
     grid-area: list;
-    // background-color: lightgreen;
     padding: 5px;
     overflow-y: auto;
     border-right: 1px solid @sidebar-background;
@@ -18,7 +17,6 @@
 
   &__detail {
     grid-area: detail;
-    // background-color: lightblue;
     padding: 5px;
     overflow-y: auto;
   }
@@ -40,10 +38,6 @@
       'list'
       'detail';
     height: 100vh;
-
-    &__detail {
-      margin-top: 10px;
-    }
 
     &--onlydetail {
       grid-template-columns: 1fr;

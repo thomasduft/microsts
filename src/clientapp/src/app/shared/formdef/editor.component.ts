@@ -1,6 +1,7 @@
 import {
   Component,
-  Input
+  Input,
+  HostBinding
 } from '@angular/core';
 import {
   FormGroup,
@@ -97,6 +98,9 @@ import { Editor } from './models';
   </div>`
 })
 export class EditorComponent {
+  @HostBinding('class')
+  public style = 'editor';
+
   @Input()
   public hideLabel = false;
 
