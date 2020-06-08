@@ -8,7 +8,7 @@
 <div class="sidebar__content">
   <ul>
     <li *ngIf="isAuthenticated" class="menu__item">
-      <a (click)="openProfile()">
+      <a routerLink="home">
         <tw-icon name="home"></tw-icon>
         {{ userName }}
       </a>

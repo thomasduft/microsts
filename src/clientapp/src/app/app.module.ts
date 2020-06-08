@@ -21,7 +21,7 @@ import { ClientsModule } from './clients/clients.module';
 import { AppComponent } from './app.component';
 
 const ROUTES: Routes = [
-  { path: '', redirectTo: 'forbidden', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

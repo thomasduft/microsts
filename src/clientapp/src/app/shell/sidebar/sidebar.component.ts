@@ -51,14 +51,6 @@ export class SidebarComponent {
     this.loginClick.next('logout');
   }
 
-  public openProfile(): void {
-    window.location.replace(
-      isDevMode()
-        ? 'http://localhost:5000/identity/account/manage'
-        : window.location.origin + '/identity/account/manage'
-    );
-  }
-
   private getClassList(): string {
     if (this.collapsed) {
       return 'sidebar sidebar--collapsed';

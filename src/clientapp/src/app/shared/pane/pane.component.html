@@ -1,4 +1,4 @@
-<div class="pane__list">
+<div *ngIf="!onlydetail" class="pane__list">
   <ng-content select="[list]"></ng-content>
 </div>
 <div class="pane__detail">

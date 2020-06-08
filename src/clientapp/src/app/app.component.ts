@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
       ? 'http://localhost:4200'
       : window.location.origin;
 
-    console.log('Redirect uri:', redirUri);
+    // console.log('Redirect uri:', redirUri);
 
     this.oauthService.configure({
       clientId: 'stsclient',
