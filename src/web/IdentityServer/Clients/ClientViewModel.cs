@@ -26,6 +26,7 @@ namespace tomware.Microsts.Web
 
     public bool AllowAccessTokensViaBrowser { get; set; }
 
+    [RequireGrantTypeAttribute]
     public List<string> AllowedGrantTypes { get; set; } = new List<string>();
 
     public List<string> RedirectUris { get; set; } = new List<string>();
@@ -35,5 +36,25 @@ namespace tomware.Microsts.Web
     public List<string> AllowedCorsOrigins { get; set; } = new List<string>();
 
     public List<string> AllowedScopes { get; set; } = new List<string>();
+  }
+
+  public class RequireGrantTypeAttribute : ValidationAttribute
+  {
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+      var model = (ClientViewModel)validationContext.ObjectInstance;
+
+      if (model.AllowedGrantTypes.Count == 0)
+      {
+        return new ValidationResult(GetErrorMessage());
+      }
+
+      return ValidationResult.Success;
+    }
+
+    public string GetErrorMessage()
+    {
+      return $"Requires at least one grant type!";
+    }
   }
 }

@@ -11,7 +11,8 @@ import {
   Popover,
   DeleteConfirmationComponent,
   PopoverCloseEvent,
-  DeleteConfirmation
+  DeleteConfirmation,
+  IdentityResult
 } from '../../../shared';
 import { FormdefRegistry } from '../../../shared/formdef';
 import { RefreshMessage } from '../../../core';
@@ -36,7 +37,7 @@ export class ClientDetailComponent implements OnInit {
 
   public key = ClientDetailSlot.KEY;
   public viewModel: Client;
-
+  public errors: Array<string> = [];
   public isNew = false;
 
   public constructor(
@@ -62,16 +63,16 @@ export class ClientDetailComponent implements OnInit {
   public submitted(viewModel: Client): void {
     if (this.isNew) {
       this.client$ = this.service.create(viewModel)
-        .subscribe(() => {
-          this.changesSaved();
-          this.back();
-        });
+        .subscribe(
+          () => this.handleSuccess(),
+          (error: IdentityResult) => this.handleError(error)
+        );
     } else {
       this.client$ = this.service.update(viewModel)
-        .subscribe(() => {
-          this.changesSaved();
-          this.back();
-        });
+        .subscribe(
+          () => this.handleSuccess(),
+          (error: IdentityResult) => this.handleError(error)
+        );
     }
   }
 
@@ -123,17 +124,17 @@ export class ClientDetailComponent implements OnInit {
       resources: this.resourceService.resourcenames(),
       client: this.service.client(clientId)
     }).subscribe((result: any) => {
-        this.slotRegistry.register(new ClientDetailSlot(
-          result.client.allowedGrantTypes,
-          result.client.redirectUris,
-          result.client.postLogoutRedirectUris,
-          result.client.allowedCorsOrigins,
-          result.resources
-        ));
+      this.slotRegistry.register(new ClientDetailSlot(
+        result.client.allowedGrantTypes,
+        result.client.redirectUris,
+        result.client.postLogoutRedirectUris,
+        result.client.allowedCorsOrigins,
+        result.resources
+      ));
 
-        this.key = ClientDetailSlot.KEY;
-        this.viewModel = result.client;
-      });
+      this.key = ClientDetailSlot.KEY;
+      this.viewModel = result.client;
+    });
   }
 
   private create(): void {
@@ -162,6 +163,15 @@ export class ClientDetailComponent implements OnInit {
       this.viewModel.allowedCorsOrigins,
       this.viewModel.allowedScopes
     ));
+  }
+
+  private handleSuccess(): void {
+    this.changesSaved();
+    this.back();
+  }
+
+  private handleError(error: IdentityResult): void {
+    this.errors = error.errors;
   }
 
   private changesSaved(): void {

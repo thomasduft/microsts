@@ -54,23 +54,30 @@ namespace tomware.Microsts.Web
       services.AddSingleton<SharedLocalizationService>();
 
       services.AddLocalization(options => options.ResourcesPath = "Resources");
-      services.Configure<RequestLocalizationOptions>(
-        options =>
-        {
-          var supportedCultures = new List<CultureInfo>
-            {
-            new CultureInfo("en-US"),
-            new CultureInfo("de-CH")
-          };
-          options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
-          options.SupportedCultures = supportedCultures;
-          options.SupportedUICultures = supportedCultures;
-          options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
-        });
+      services.Configure<RequestLocalizationOptions>(options =>
+      {
+        var supportedCultures = new List<CultureInfo>
+          {
+          new CultureInfo("en-US"),
+          new CultureInfo("de-CH")
+        };
+        options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+        options.SupportedCultures = supportedCultures;
+        options.SupportedUICultures = supportedCultures;
+        options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+      });
 
       // STS Services
       services.AddSTSServices();
       services.AddIdentityServerServices();
+
+      services.AddSession(options =>
+      {
+        options.IdleTimeout = TimeSpan.FromMinutes(2);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.None;
+        // options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // TODO: check https or not
+      });
 
       // Swagger
       services.AddSwaggerDocumentation();

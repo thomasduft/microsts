@@ -11,7 +11,8 @@ import {
   Popover,
   DeleteConfirmationComponent,
   PopoverCloseEvent,
-  DeleteConfirmation
+  DeleteConfirmation,
+  IdentityResult
 } from '../../../shared';
 import { FormdefRegistry } from '../../../shared/formdef';
 import { RefreshMessage } from '../../../core';
@@ -34,7 +35,7 @@ export class ResourceDetailComponent implements OnInit {
 
   public key = ResourceDetailSlot.KEY;
   public viewModel: Resource;
-
+  public errors: Array<string> = [];
   public isNew = false;
 
   public constructor(
@@ -59,16 +60,16 @@ export class ResourceDetailComponent implements OnInit {
   public submitted(viewModel: Resource): void {
     if (this.isNew) {
       this.resource$ = this.service.create(viewModel)
-        .subscribe(() => {
-          this.changesSaved();
-          this.back();
-        });
+        .subscribe(
+          () => this.handleSuccess(),
+          (error: IdentityResult) => this.handleError(error)
+        );
     } else {
       this.resource$ = this.service.update(viewModel)
-        .subscribe(() => {
-          this.changesSaved();
-          this.back();
-        });
+        .subscribe(
+          () => this.handleSuccess(),
+          (error: IdentityResult) => this.handleError(error)
+        );
     }
   }
 
@@ -142,6 +143,15 @@ export class ResourceDetailComponent implements OnInit {
       this.viewModel.scopes,
       this.viewModel.userClaims
     ));
+  }
+
+  private handleSuccess(): void {
+    this.changesSaved();
+    this.back();
+  }
+
+  private handleError(error: IdentityResult): void {
+    this.errors = error.errors;
   }
 
   private changesSaved(): void {

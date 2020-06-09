@@ -110,6 +110,7 @@ export class FormdefComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    this.errors = [];
     if (!this.viewModel) { return; }
 
     this.form = this.formdefService.toGroup(this.key, this.viewModel);

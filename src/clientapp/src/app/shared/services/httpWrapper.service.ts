@@ -76,9 +76,16 @@ export class HttpWrapperService {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occured:', error);
     } else if (error.status === 400) {
+      const errors = Array<string>();
+      Object.keys(error.error).forEach(key => {
+        if (Array.isArray(error.error[key])) {
+          error.error[key].forEach(x => errors.push(x));
+        }
+      });
+
       const identityResult: IdentityResult = {
         succeeded: false,
-        errors: error.error['']
+        errors
       };
       return throwError(identityResult);
     } else {

@@ -3,7 +3,13 @@ import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AutoUnsubscribe, MessageBus, StatusMessage, StatusLevel, IdentityResult } from '../../../shared';
+import {
+  AutoUnsubscribe,
+  MessageBus,
+  StatusMessage,
+  StatusLevel,
+  IdentityResult
+} from '../../../shared';
 import { RefreshMessage } from '../../../core';
 
 import { RegisterUserSlot, RegisterUser } from '../../models';
@@ -49,7 +55,6 @@ export class RegisterUserComponent implements OnInit {
         this.changesSaved();
         this.back();
       }, (error: IdentityResult) => {
-        console.log(error);
         this.errors = error.errors;
       });
   }
