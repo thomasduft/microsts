@@ -1,10 +1,7 @@
 ToDo:
 - better structuring of what is identityserver and what is custom built
 
-- proper error handling in api
-  - i.e. key already present
-  - i.e. not found
-  - etc.
+- secure signing tokens with private key
 
 - better home route!!!
   - like a landing page
@@ -15,6 +12,11 @@ ToDo:
 - build.sh script
   - builds client then styles
 
+- proper error handling in api
+  - i.e. key already present
+  - i.e. not found
+  - etc.
+
 - sending mails
   - email confirmation: https://code-maze.com/email-confirmation-aspnet-core-identity/
 
@@ -23,6 +25,7 @@ ToDo:
 
 - audit entities
   - https://github.com/thepirat000/Audit.NET/blob/master/src/Audit.EntityFramework/README.md
+
 
 Done:
 - managing clients in the UI
@@ -58,6 +61,7 @@ Links:
 - https://github.com/IdentityServer/IdentityServer4.Demo/blob/master/src/IdentityServer4Demo/Startup.cs
 - https://blogs.taiga.nl/martijn/2017/11/24/building-and-asp-net-core-mvc-app-with-npm-and-webpack-asp-net-core-2-0-edition/
 - https://deblokt.com/2019/09/27/05-identityserver4-adding-custom-properties-to-user/
+- https://www.youtube.com/watch?v=dDZNDVO5EFQ&feature=youtu.be
 
 Docs:
 - https://manfredsteyer.github.io/angular-oauth2-oidc/docs/index.html
