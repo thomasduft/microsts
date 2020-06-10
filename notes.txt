@@ -1,4 +1,7 @@
 ToDo:
+- security headers middleware
+  - https://www.meziantou.net/security-headers-in-asp-net-core.htm
+
 - better structuring of what is identityserver and what is custom built
 
 - secure signing tokens with private key
