@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace tomware.Microsts.Web
 {
   [Route("api/scopes")]
-  [SecurityHeaders]
   [Authorize(Policies.ADMIN_POLICY)]
   public class ScopeController : Controller
   {

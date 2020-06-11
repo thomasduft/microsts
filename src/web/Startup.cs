@@ -126,6 +126,8 @@ namespace tomware.Microsts.Web
         app.UseDeveloperExceptionPage();
       }
 
+      app.UseMiddleware<SecurityHeadersMiddleware>();
+
       ConsiderSpaRoutes(app);
 
       var locOptions = app.ApplicationServices
