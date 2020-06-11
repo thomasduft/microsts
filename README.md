@@ -8,7 +8,7 @@ It takes advantage of the following existing functionality:
 - **[Angular](https://angular.io/)**: provides a minimalistic ui for administrate users, clients and resources.
 
 
-## Running MicroSTS from code
+## Running MicroSTS from within VS Code
 As simple as hit `F5`!
 
 
