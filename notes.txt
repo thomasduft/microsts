@@ -1,13 +1,8 @@
 ToDo:
-- security headers middleware
-  - https://www.meziantou.net/security-headers-in-asp-net-core.htm
-
 - better structuring of what is identityserver and what is custom built
 
 - secure signing tokens with private key
-
-- better home route!!!
-  - like a landing page
+  - basically there, see GetCertificate in ServicesExtension
 
 - self sign cert for https and signing tokens
   - https://mohitgoyal.co/2018/09/25/use-ssl-certificates-for-dotnet-core-application-in-docker-containers/
@@ -56,6 +51,10 @@ Done:
 - prevent admin from:
   - deleting roles that are still assigned somewhere
   - deleting claims that are still assigned somewhere
+- security headers middleware
+  - https://www.meziantou.net/security-headers-in-asp-net-core.htm
+- better home route!!!
+  - like a landing page
 
 
 Links:
