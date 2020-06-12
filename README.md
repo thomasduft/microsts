@@ -11,6 +11,7 @@ It takes advantage of the following existing functionality:
 ## Running MicroSTS from within VS Code
 As simple as hit `F5`!
 
+Once on the login page login with the username `Admin` and its default password `Pass123$`. After that it is strongly recommended to change the admin's password ;-)!
 
 ## Running MicroSTS from docker
 ```bash
