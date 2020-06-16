@@ -19,14 +19,6 @@ namespace tomware.Microsts.Web
         optional: false,
         reloadOnChange: true
       )
-      .AddJsonFile(
-        $"clients.json",
-        optional: true
-      )
-      .AddJsonFile(
-        $"identities.json",
-        optional: true
-      )
       .AddEnvironmentVariables()
       .Build();
 
