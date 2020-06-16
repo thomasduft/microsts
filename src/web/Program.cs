@@ -71,6 +71,7 @@ namespace tomware.Microsts.Web
         .UseSerilog()
         .ConfigureWebHostDefaults(webBuilder =>
         {
+          webBuilder.UseKestrel(o => o.AddServerHeader = false);
           webBuilder.UseConfiguration(Configuration);
           webBuilder.UseUrls(GetUrls(Configuration));
           webBuilder.UseStartup<Startup>();
