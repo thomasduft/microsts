@@ -45,9 +45,7 @@ namespace tomware.Microsts.Web
       services.AddRouting(o => o.LowercaseUrls = true);
 
       var connection = this.Configuration["ConnectionString"];
-      services
-        .AddEntityFrameworkSqlite()
-        .AddDbContext<STSContext>(o => o.UseSqlite(connection));
+      services.AddDbContext<STSContext>(o => o.UseSqlite(connection));
 
       // localization
       services.AddSingleton<IdentityLocalizationService>();
