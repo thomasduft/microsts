@@ -1,5 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace tomware.Microsts.Web
 {
@@ -18,36 +23,135 @@ namespace tomware.Microsts.Web
 
   public class ScopeService : IScopeService
   {
-    private readonly STSContext context;
+    private readonly ConfigurationDbContext context;
 
-    public ScopeService(STSContext context)
+    public ScopeService(ConfigurationDbContext context)
     {
       this.context = context;
     }
 
-    public Task<IEnumerable<ScopeViewModel>> GetScopesAsync()
+    public async Task<IEnumerable<ScopeViewModel>> GetScopesAsync()
     {
-      throw new System.NotImplementedException();
+      var items = await this.LoadAll()
+       .AsNoTracking()
+       .ToListAsync();
+
+      return items.Select(x => ToModel(x));
     }
 
-    public Task<ScopeViewModel> GetAsync(string name)
+    public async Task<ScopeViewModel> GetAsync(string name)
     {
-      throw new System.NotImplementedException();
+      if (name == null) throw new ArgumentNullException(nameof(name));
+
+      var apiScope = await this.GetApiScopeByName(name);
+
+      return apiScope != null ? ToModel(apiScope) : null;
     }
 
-    public Task<string> CreateAsync(ScopeViewModel model)
+    public async Task<string> CreateAsync(ScopeViewModel model)
     {
-      throw new System.NotImplementedException();
+      if (model is null) throw new System.ArgumentNullException(nameof(model));
+
+      var apiScope = new ApiScope
+      {
+        Enabled = model.Enabled,
+        Name = model.Name,
+        DisplayName = model.DisplayName,
+        Description = model.Description,
+        Required = model.Required,
+        ShowInDiscoveryDocument = model.ShowInDiscoveryDocument,
+        Emphasize = model.Emphasize,
+      };
+
+      HandleCollectionProperties(model, apiScope);
+
+      this.context.ApiScopes.Add(apiScope);
+
+      await this.context.SaveChangesAsync();
+
+      return apiScope.Name;
     }
 
-    public Task UpdateAsync(ScopeViewModel model)
+    public async Task UpdateAsync(ScopeViewModel model)
     {
-      throw new System.NotImplementedException();
+      if (model == null) throw new ArgumentNullException(nameof(model));
+
+      var apiScope = await this.GetApiScopeByName(model.Name);
+      if (apiScope == null) throw new ArgumentNullException(nameof(apiScope));
+
+      apiScope.Enabled = model.Enabled;
+      apiScope.Name = model.Name;
+      apiScope.DisplayName = model.DisplayName;
+      apiScope.Description = model.Description;
+      apiScope.Required = model.Required;
+      apiScope.ShowInDiscoveryDocument = model.ShowInDiscoveryDocument;
+      apiScope.Emphasize = model.Emphasize;
+
+      HandleCollectionProperties(model, apiScope);
+
+      this.context.ApiScopes.Update(apiScope);
+
+      await this.context.SaveChangesAsync();
     }
 
-    public Task DeleteAsync(string name)
+    public async Task DeleteAsync(string name)
     {
-      throw new System.NotImplementedException();
+      if (name == null) throw new ArgumentNullException(nameof(name));
+
+      var apiScope = await this.context.ApiScopes
+        .FirstOrDefaultAsync(c => c.Name == name);
+
+      this.context.ApiScopes.Remove(apiScope);
+
+      await this.context.SaveChangesAsync();
+    }
+
+    private IOrderedQueryable<ApiScope> LoadAll()
+    {
+      return this.context.ApiScopes
+              .Include(x => x.UserClaims)
+              .Include(x => x.Properties)
+              .OrderBy(x => x.Name);
+    }
+
+    private async Task<ApiScope> GetApiScopeByName(string name)
+    {
+      List<ApiScope> items = await this.LoadAll()
+       .Where(x => x.Name == name)
+       .ToListAsync();
+
+      return items.Count() == 1 ? items.First() : null;
+    }
+
+    private ScopeViewModel ToModel(ApiScope entity)
+    {
+      return new ScopeViewModel
+      {
+        Id = entity.Id,
+        Enabled = entity.Enabled,
+        Name = entity.Name,
+        DisplayName = entity.DisplayName,
+        Description = entity.Description,
+        Required = entity.Required,
+        ShowInDiscoveryDocument = entity.ShowInDiscoveryDocument,
+        Emphasize = entity.Emphasize,
+        UserClaims = entity.UserClaims
+          .Select(x => x.Type).ToList()
+      };
+    }
+
+    private void HandleCollectionProperties(ScopeViewModel model, ApiScope apiScope)
+    {
+      // deassign them
+      if (apiScope.UserClaims != null) apiScope.UserClaims.Clear();
+
+      // assign them
+      apiScope.UserClaims = model.UserClaims
+        .Select(x => new ApiScopeClaim
+        {
+          Scope = apiScope,
+          Type = x
+        }).ToList();
     }
   }
 }

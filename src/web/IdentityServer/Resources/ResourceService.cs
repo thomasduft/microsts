@@ -123,7 +123,7 @@ namespace tomware.Microsts.Web
       foreach (var client in clients)
       {
         client.AllowedScopes
-          .RemoveAll(x => apiResource.Scopes.Select(s => s.Name).Contains(x.Scope));
+          .RemoveAll(x => apiResource.Scopes.Select(s => s.ApiResource.Name).Contains(x.Scope));
       }
 
       this.context.ApiResources.Remove(apiResource);
@@ -157,7 +157,7 @@ namespace tomware.Microsts.Web
         Name = entity.Name,
         DisplayName = entity.DisplayName,
         Scopes = entity.Scopes
-          .Select(x => x.Name).ToList(),
+          .Select(x => x.ApiResource.Name).ToList(),
         UserClaims = entity.UserClaims
           .Select(x => x.Type).ToList()
       };
@@ -174,10 +174,10 @@ namespace tomware.Microsts.Web
 
       // assign them
       apiResource.Scopes = model.Scopes
-        .Select(s => new ApiScope
+        .Select(s => new ApiResourceScope
         {
           ApiResource = apiResource,
-          Name = s
+          Scope = s
         }).ToList();
 
       apiResource.UserClaims = model.UserClaims

@@ -85,7 +85,7 @@ namespace tomware.Microsts.Web
       await this.userManager.AddToRoleAsync(applicationUser, Roles.ADMINISTRATOR_ROLE);
     }
 
-    private async Task SeedDefaultConfiguration(IConfigurationDbContext context, string authority)
+    private async Task SeedDefaultConfiguration(ConfigurationDbContext context, string authority)
     {
       if (!context.Clients.Any())
       {
@@ -99,7 +99,7 @@ namespace tomware.Microsts.Web
 
       if (!context.IdentityResources.Any())
       {
-        foreach (var resource in Config.GetIds())
+        foreach (var resource in Config.GetIdentityResources())
         {
           context.IdentityResources.Add(resource.ToEntity());
         }
@@ -107,11 +107,21 @@ namespace tomware.Microsts.Web
         await context.SaveChangesAsync();
       }
 
+      if (!context.ApiScopes.Any())
+      {
+        foreach (var apiScope in Config.GetApiScopes())
+        {
+          context.ApiScopes.Add(apiScope.ToEntity());
+        }
+
+        await context.SaveChangesAsync();
+      }
+
       if (!context.ApiResources.Any())
       {
-        foreach (var resource in Config.GetApis())
+        foreach (var apiResource in Config.GetApiResources())
         {
-          context.ApiResources.Add(resource.ToEntity());
+          context.ApiResources.Add(apiResource.ToEntity());
         }
 
         await context.SaveChangesAsync();

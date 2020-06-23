@@ -59,7 +59,7 @@ namespace tomware.Microsts.Web
             CookieSlidingExpiration = true
           };
         })
-        .AddInMemoryIdentityResources(Config.GetIds())
+        .AddInMemoryIdentityResources(Config.GetIdentityResources())
         .AddInMemoryPersistedGrants()
         // .AddInMemoryCaching()
         // .AddOperationalStore()
@@ -88,15 +88,9 @@ namespace tomware.Microsts.Web
 
       services
         .AddAuthentication()
-        // .AddIdentityServerAuthentication(o =>
-        // {
-        //   o.Authority = GetAuthority(configuration);
-        //   o.ApiName = Constants.API_SCOPE_NAME;
-        //   o.SupportedTokens = SupportedTokens.Both;
-        // })
         .AddLocalApi(options =>
         {
-          options.ExpectedScope = Constants.API_SCOPE_NAME;
+          options.ExpectedScope = Constants.STS_API;
         });
 
       services

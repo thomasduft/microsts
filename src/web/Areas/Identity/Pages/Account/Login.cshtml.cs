@@ -115,7 +115,7 @@ namespace tomware.Microsts.Web.Areas.Identity.Pages.Account
             user.UserName,
             user.Id,
             user.UserName,
-            clientId: context?.ClientId
+            clientId: context.Client.ClientId
           ));
 
           return LocalRedirect(returnUrl);

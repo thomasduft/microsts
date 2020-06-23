@@ -6,7 +6,7 @@ namespace tomware.Microsts.Web
 {
   public class Config
   {
-    public static IEnumerable<IdentityServer4.Models.IdentityResource> GetIds()
+    public static IEnumerable<IdentityServer4.Models.IdentityResource> GetIdentityResources()
     {
       return new List<IdentityServer4.Models.IdentityResource>
       {
@@ -15,11 +15,19 @@ namespace tomware.Microsts.Web
       };
     }
 
-    public static IEnumerable<ApiResource> GetApis()
+    public static IEnumerable<ApiScope> GetApiScopes()
+    {
+      return new List<ApiScope>
+      {
+         new ApiScope(Constants.STS_API, Constants.STS_API_DISPLAY_NAME)
+      };
+    }
+
+    public static IEnumerable<ApiResource> GetApiResources()
     {
       return new List<ApiResource>
       {
-        new ApiResource("sts_api", "STS API")
+        new ApiResource(Constants.STS_API, Constants.STS_API_DISPLAY_NAME)
       };
     }
 
@@ -31,12 +39,13 @@ namespace tomware.Microsts.Web
         {
           ClientId = "stsclient",
           ClientName = "STS admin client",
-          RequireClientSecret = false,
-          RequirePkce = true,
-          RequireConsent = false,
-          AllowAccessTokensViaBrowser = true,
+          ClientUri = authority,
+
           AllowedGrantTypes = GrantTypes.Code,
-          AllowOfflineAccess = true,
+          RequirePkce = true,
+          RequireClientSecret = false,
+
+          AllowAccessTokensViaBrowser = true,
           RedirectUris = {
             authority,
             "http://localhost:4200"
@@ -51,7 +60,7 @@ namespace tomware.Microsts.Web
           },
           AllowedScopes = {
             IdentityServerConstants.StandardScopes.OpenId,
-            "sts_api"
+            Constants.STS_API
           }
         }
       };

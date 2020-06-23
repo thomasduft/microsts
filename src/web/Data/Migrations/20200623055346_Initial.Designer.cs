@@ -9,14 +9,14 @@ using tomware.Microsts.Web;
 namespace tomware.Microsts.Web.Data.Migrations
 {
     [DbContext(typeof(STSContext))]
-    [Migration("20200108074503_ClaimTypes")]
-    partial class ClaimTypes
+    [Migration("20200623055346_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0");
+                .HasAnnotation("ProductVersion", "3.1.5");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
