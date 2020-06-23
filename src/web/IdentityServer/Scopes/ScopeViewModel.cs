@@ -22,7 +22,7 @@ namespace tomware.Microsts.Web
 
     public bool ShowInDiscoveryDocument { get; set; }
 
-    public List<string> UserClaims { get; set; }
+    public List<string> UserClaims { get; set; } = new List<string>();
 
     // public List<string> Properties { get; set; }
   }
