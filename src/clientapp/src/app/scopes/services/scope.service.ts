@@ -19,6 +19,12 @@ export class ScopeService {
       .pipe(catchError(this.http.handleError));
   }
 
+  public scopenames(): Observable<Array<string>> {
+    return this.http
+      .get<Array<string>>('scopes/names')
+      .pipe(catchError(this.http.handleError));
+  }
+
   public scope(name: string): Observable<Scope> {
     return this.http
       .get<Scope>(`scopes/${name}`)

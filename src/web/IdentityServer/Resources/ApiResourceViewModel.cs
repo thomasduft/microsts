@@ -16,7 +16,7 @@ namespace tomware.Microsts.Web
 
     public List<string> UserClaims { get; set; } = new List<string>();
 
-    [RequireScopeEntryAttribute(1)]
+    [RequireScopeEntryAttribute(0)]
     public List<string> Scopes { get; set; } = new List<string>();
   }
 

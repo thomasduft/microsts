@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -16,6 +16,7 @@ import {
 } from '../../../shared';
 import { FormdefRegistry } from '../../../shared/formdef';
 import { RefreshMessage } from '../../../core';
+import { ScopeService } from '../../../scopes/services/scope.service';
 
 import { ResourceDetailSlot, Resource } from '../../models';
 import { ResourceService } from '../../services';
@@ -26,7 +27,8 @@ import { ResourceService } from '../../services';
   templateUrl: './resource-detail.component.html',
   styleUrls: ['./resource-detail.component.less'],
   providers: [
-    ResourceService
+    ResourceService,
+    ScopeService
   ]
 })
 export class ResourceDetailComponent implements OnInit {
@@ -42,6 +44,7 @@ export class ResourceDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private service: ResourceService,
+    private scopeService: ScopeService,
     private slotRegistry: FormdefRegistry,
     private popup: Popover,
     private element: ElementRef,
@@ -117,15 +120,17 @@ export class ResourceDetailComponent implements OnInit {
 
   private load(name: string): void {
     this.isNew = false;
-    this.resource$ = this.service.resource(name)
-      .subscribe((result: Resource) => {
+    this.resource$ = forkJoin({
+      scopenames: this.scopeService.scopenames(),
+      resource: this.service.resource(name)
+    }).subscribe((result: any) => {
         this.slotRegistry.register(new ResourceDetailSlot(
-          result.scopes,
-          result.userClaims
+          result.scopenames,
+          result.resource.userClaims
         ));
 
         this.key = ResourceDetailSlot.KEY;
-        this.viewModel = result;
+        this.viewModel = result.resource;
       });
   }
 

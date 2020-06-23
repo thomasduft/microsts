@@ -26,6 +26,15 @@ namespace tomware.Microsts.Web
       return Ok(result);
     }
 
+    [HttpGet("names")]
+    [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetScopeNamesAsync()
+    {
+      var result = await this.service.GetScopeNamesAsync();
+
+      return Ok(result);
+    }
+
     [HttpGet("{name}")]
     [ProducesResponseType(typeof(ScopeViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAsync(string name)
@@ -40,19 +49,19 @@ namespace tomware.Microsts.Web
 
     [HttpPost]
     [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateAsync([FromBody]ScopeViewModel model)
+    public async Task<IActionResult> CreateAsync([FromBody] ScopeViewModel model)
     {
       if (model == null) return BadRequest();
       if (!ModelState.IsValid) return BadRequest(ModelState);
 
       var result = await this.service.CreateAsync(model);
 
-      return Created($"api/scopes/{result}", result);
+      return Created($"api/scopes/{result}", this.Json(result));
     }
 
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> UpdateAsync([FromBody]ScopeViewModel model)
+    public async Task<IActionResult> UpdateAsync([FromBody] ScopeViewModel model)
     {
       if (model == null) return BadRequest();
       if (!ModelState.IsValid) return BadRequest(ModelState);

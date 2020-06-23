@@ -12,6 +12,8 @@ namespace tomware.Microsts.Web
   {
     Task<IEnumerable<ScopeViewModel>> GetScopesAsync();
 
+    Task<IEnumerable<string>> GetScopeNamesAsync();
+
     Task<ScopeViewModel> GetAsync(string name);
 
     Task<string> CreateAsync(ScopeViewModel model);
@@ -37,6 +39,23 @@ namespace tomware.Microsts.Web
        .ToListAsync();
 
       return items.Select(x => ToModel(x));
+    }
+
+    public async Task<IEnumerable<string>> GetScopeNamesAsync()
+    {
+      var apiScopes = await this.context.ApiScopes
+        .OrderBy(x => x.Name)
+        .AsNoTracking()
+        .ToListAsync();
+
+      var identityResources = await this.context.IdentityResources
+        .OrderBy(x => x.Name)
+        .AsNoTracking()
+        .ToListAsync();
+
+      return apiScopes.Select(x => x.Name)
+        .Union(identityResources.Select(x => x.Name))
+        .Distinct();
     }
 
     public async Task<ScopeViewModel> GetAsync(string name)
@@ -76,7 +95,7 @@ namespace tomware.Microsts.Web
     {
       if (model == null) throw new ArgumentNullException(nameof(model));
 
-      var apiScope = await this.GetApiScopeByName(model.Name);
+      var apiScope = await this.GetApiScopeId(model.Id.Value);
       if (apiScope == null) throw new ArgumentNullException(nameof(apiScope));
 
       apiScope.Enabled = model.Enabled;
@@ -101,6 +120,22 @@ namespace tomware.Microsts.Web
       var apiScope = await this.context.ApiScopes
         .FirstOrDefaultAsync(c => c.Name == name);
 
+      var clients = await this.context.Clients
+              .Include(x => x.AllowedScopes)
+              .ToListAsync();
+      foreach (var client in clients)
+      {
+        client.AllowedScopes.RemoveAll(x => apiScope.Name == x.Scope);
+      }
+
+      var apiResources = await this.context.ApiResources
+              .Include(x => x.Scopes)
+              .ToListAsync();
+      foreach (var apiResource in apiResources)
+      {
+        apiResource.Scopes.RemoveAll(x => apiScope.Name == x.Scope);
+      }
+
       this.context.ApiScopes.Remove(apiScope);
 
       await this.context.SaveChangesAsync();
@@ -118,6 +153,15 @@ namespace tomware.Microsts.Web
     {
       List<ApiScope> items = await this.LoadAll()
        .Where(x => x.Name == name)
+       .ToListAsync();
+
+      return items.Count() == 1 ? items.First() : null;
+    }
+
+    private async Task<ApiScope> GetApiScopeId(int id)
+    {
+      List<ApiScope> items = await this.LoadAll()
+       .Where(x => x.Id == id)
        .ToListAsync();
 
       return items.Count() == 1 ? items.First() : null;

@@ -116,16 +116,6 @@ namespace tomware.Microsts.Web
 
         await context.SaveChangesAsync();
       }
-
-      if (!context.ApiResources.Any())
-      {
-        foreach (var apiResource in Config.GetApiResources())
-        {
-          context.ApiResources.Add(apiResource.ToEntity());
-        }
-
-        await context.SaveChangesAsync();
-      }
     }
   }
 }

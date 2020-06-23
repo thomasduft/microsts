@@ -6,6 +6,7 @@ namespace tomware.Microsts.Web
 {
   public class Config
   {
+    // see: https://identityserver4.readthedocs.io/en/latest/topics/resources.html#identity-resources
     public static IEnumerable<IdentityServer4.Models.IdentityResource> GetIdentityResources()
     {
       return new List<IdentityServer4.Models.IdentityResource>
@@ -15,6 +16,7 @@ namespace tomware.Microsts.Web
       };
     }
 
+    // see: https://identityserver4.readthedocs.io/en/latest/topics/resources.html#scopes
     public static IEnumerable<ApiScope> GetApiScopes()
     {
       return new List<ApiScope>
@@ -23,6 +25,7 @@ namespace tomware.Microsts.Web
       };
     }
 
+    // see: https://identityserver4.readthedocs.io/en/latest/topics/resources.html#api-resources
     public static IEnumerable<ApiResource> GetApiResources()
     {
       return new List<ApiResource>
@@ -31,6 +34,7 @@ namespace tomware.Microsts.Web
       };
     }
 
+    // see: https://identityserver4.readthedocs.io/en/latest/topics/clients.html#defining-clients
     public static IEnumerable<Client> GetClients(string authority)
     {
       return new List<Client>
@@ -45,7 +49,6 @@ namespace tomware.Microsts.Web
           RequirePkce = true,
           RequireClientSecret = false,
 
-          AllowAccessTokensViaBrowser = true,
           RedirectUris = {
             authority,
             "http://localhost:4200"

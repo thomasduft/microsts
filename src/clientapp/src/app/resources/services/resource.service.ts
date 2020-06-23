@@ -19,12 +19,6 @@ export class ResourceService {
       .pipe(catchError(this.http.handleError));
   }
 
-  public resourcenames(): Observable<Array<string>> {
-    return this.http
-      .get<Array<string>>('resources/names')
-      .pipe(catchError(this.http.handleError));
-  }
-
   public resource(name: string): Observable<Resource> {
     return this.http
       .get<Resource>(`resources/${name}`)

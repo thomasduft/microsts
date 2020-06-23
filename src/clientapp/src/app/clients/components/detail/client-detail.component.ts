@@ -16,7 +16,7 @@ import {
 } from '../../../shared';
 import { FormdefRegistry } from '../../../shared/formdef';
 import { RefreshMessage } from '../../../core';
-import { ResourceService } from '../../../resources/services/resource.service';
+import { ScopeService } from '../../../scopes/services/scope.service';
 
 import { ClientDetailSlot, Client } from '../../models';
 import { ClientService } from '../../services';
@@ -28,7 +28,7 @@ import { ClientService } from '../../services';
   styleUrls: ['./client-detail.component.less'],
   providers: [
     ClientService,
-    ResourceService
+    ScopeService
   ]
 })
 export class ClientDetailComponent implements OnInit {
@@ -44,7 +44,7 @@ export class ClientDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private service: ClientService,
-    private resourceService: ResourceService,
+    private scopeService: ScopeService,
     private slotRegistry: FormdefRegistry,
     private popup: Popover,
     private element: ElementRef,
@@ -121,7 +121,7 @@ export class ClientDetailComponent implements OnInit {
   private load(clientId: string): void {
     this.isNew = false;
     this.client$ = forkJoin({
-      resources: this.resourceService.resourcenames(),
+      scopenames: this.scopeService.scopenames(),
       client: this.service.client(clientId)
     }).subscribe((result: any) => {
       this.slotRegistry.register(new ClientDetailSlot(
@@ -129,7 +129,7 @@ export class ClientDetailComponent implements OnInit {
         result.client.redirectUris,
         result.client.postLogoutRedirectUris,
         result.client.allowedCorsOrigins,
-        result.resources
+        result.scopenames
       ));
 
       this.key = ClientDetailSlot.KEY;

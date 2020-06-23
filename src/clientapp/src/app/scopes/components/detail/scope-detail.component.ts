@@ -163,6 +163,6 @@ export class ScopeDetailComponent implements OnInit {
         StatusLevel.Success
       ));
 
-    this.messageBus.publish(new RefreshMessage('resource'));
+    this.messageBus.publish(new RefreshMessage('scope'));
   }
 }

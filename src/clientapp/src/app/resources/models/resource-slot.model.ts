@@ -58,7 +58,7 @@ export class ResourceDetailSlot implements Slot {
         options: scopeOptions,
         singleSelection: false,
         bindingBehaviour: VALUE_BINDING_BEHAVIOR,
-        allowAddingItems: true
+        allowAddingItems: false
       }
       // {
       //   key: 'userClaims',
