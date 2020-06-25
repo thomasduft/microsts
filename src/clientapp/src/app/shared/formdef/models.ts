@@ -5,8 +5,6 @@ import {
   AbstractControl
 } from '@angular/forms';
 
-import { KEY_BINDING_BEHAVIOR } from './multi-select';
-
 export const HIDDEN_EDITOR = 'hidden';
 export const TEXT_EDITOR = 'text';
 export const TEXT_AREA_EDITOR = 'textarea';
@@ -72,6 +70,7 @@ export class FormdefValidator {
   }
 }
 
+@Directive()
 export class BaseSlotComponent {
   @Input()
   public slot: Slot;
