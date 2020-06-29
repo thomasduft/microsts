@@ -26,15 +26,6 @@ namespace tomware.Microsts.Web
       return Ok(result);
     }
 
-    [HttpGet("names")]
-    [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetResourceNamesAsync()
-    {
-      var result = await this.service.GetResourceNamesAsync();
-
-      return Ok(result);
-    }
-
     [HttpGet("{name}")]
     [ProducesResponseType(typeof(ApiResourceViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAsync(string name)

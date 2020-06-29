@@ -15,6 +15,7 @@ import { HomeModule } from './home/home.module';
 import { ClaimtypesModule } from './claimtypes/claimtypes.module';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
+import { ScopessModule } from './scopes/scopes.module';
 import { ResourcesModule } from './resources/resources.module';
 import { ClientsModule } from './clients/clients.module';
 
@@ -42,6 +43,7 @@ const ROUTES: Routes = [
     ClaimtypesModule,
     RolesModule,
     UsersModule,
+    ScopessModule,
     ResourcesModule,
     ClientsModule
   ],

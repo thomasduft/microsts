@@ -6,23 +6,19 @@ import {
   CHECKBOX_EDITOR,
   MULTI_SELECT_EDITOR,
   VALUE_BINDING_BEHAVIOR,
-  HIDDEN_EDITOR
+  HIDDEN_EDITOR,
+  TEXT_AREA_EDITOR
 } from '../../shared/formdef';
 
-export class ResourceDetailSlot implements Slot {
-  public static KEY = 'ResourceDetailSlot';
+export class ScopeDetailSlot implements Slot {
+  public static KEY = 'ScopeDetailSlot';
 
-  public key = ResourceDetailSlot.KEY;
+  public key = ScopeDetailSlot.KEY;
   public type = SINGLE_SLOT;
   public title = 'Detail';
   public editors: Editor[];
 
-  public constructor(scopes: Array<string>, claims: Array<string>) {
-
-    const scopeOptions = scopes.map((s: string) => {
-      return { key: s, value: s };
-    });
-
+  public constructor(claims: Array<string>) {
     const claimOptions = claims.map((c: string) => {
       return { key: c, value: c };
     });
@@ -52,13 +48,24 @@ export class ResourceDetailSlot implements Slot {
         required: true
       },
       {
-        key: 'scopes',
-        type: MULTI_SELECT_EDITOR,
-        label: 'Scopes',
-        options: scopeOptions,
-        singleSelection: false,
-        bindingBehaviour: VALUE_BINDING_BEHAVIOR,
-        allowAddingItems: false
+        key: 'description',
+        type: TEXT_AREA_EDITOR,
+        label: 'Description'
+      },
+      {
+        key: 'required',
+        type: CHECKBOX_EDITOR,
+        label: 'Required'
+      },
+      {
+        key: 'emphasize',
+        type: CHECKBOX_EDITOR,
+        label: 'Emphasize'
+      },
+      {
+        key: 'showInDiscoveryDocument',
+        type: CHECKBOX_EDITOR,
+        label: 'Show in discovery document'
       }
       // {
       //   key: 'userClaims',

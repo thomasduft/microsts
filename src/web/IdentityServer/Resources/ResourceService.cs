@@ -12,8 +12,6 @@ namespace tomware.Microsts.Web
   {
     Task<IEnumerable<ApiResourceViewModel>> GetApiResourcesAsync();
 
-    Task<IEnumerable<string>> GetResourceNamesAsync();
-
     Task<ApiResourceViewModel> GetApiResourceAsync(string name);
 
     Task<string> CreateApiResourceAsync(ApiResourceViewModel model);
@@ -41,23 +39,6 @@ namespace tomware.Microsts.Web
         .ToListAsync();
 
       return items.Select(x => ToModel(x));
-    }
-
-    public async Task<IEnumerable<string>> GetResourceNamesAsync()
-    {
-      var apiResources = await this.context.ApiResources
-        .OrderBy(x => x.Name)
-        .AsNoTracking()
-        .ToListAsync();
-
-      var identityResources = await this.context.IdentityResources
-        .OrderBy(x => x.Name)
-        .AsNoTracking()
-        .ToListAsync();
-
-      return apiResources.Select(x => x.Name)
-        .Union(identityResources.Select(x => x.Name))
-        .Distinct();
     }
 
     public async Task<ApiResourceViewModel> GetApiResourceAsync(string name)
@@ -114,17 +95,7 @@ namespace tomware.Microsts.Web
       if (name == null) throw new ArgumentNullException(nameof(name));
 
       var apiResource = await this.context.ApiResources
-        .Include(x => x.Scopes)
         .FirstOrDefaultAsync(c => c.Name == name);
-
-      var clients = await this.context.Clients
-        .Include(x => x.AllowedScopes)
-        .ToListAsync();
-      foreach (var client in clients)
-      {
-        client.AllowedScopes
-          .RemoveAll(x => apiResource.Scopes.Select(s => s.Name).Contains(x.Scope));
-      }
 
       this.context.ApiResources.Remove(apiResource);
 
@@ -157,7 +128,7 @@ namespace tomware.Microsts.Web
         Name = entity.Name,
         DisplayName = entity.DisplayName,
         Scopes = entity.Scopes
-          .Select(x => x.Name).ToList(),
+          .Select(s => s.Scope).ToList(),
         UserClaims = entity.UserClaims
           .Select(x => x.Type).ToList()
       };
@@ -174,10 +145,10 @@ namespace tomware.Microsts.Web
 
       // assign them
       apiResource.Scopes = model.Scopes
-        .Select(s => new ApiScope
+        .Select(s => new ApiResourceScope
         {
           ApiResource = apiResource,
-          Name = s
+          Scope = s
         }).ToList();
 
       apiResource.UserClaims = model.UserClaims

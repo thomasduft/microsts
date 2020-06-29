@@ -5,13 +5,25 @@ namespace tomware.Microsts.Web
 {
   public class ScopeViewModel
   {
+    public int? Id { get; set; }
+
+    public bool Enabled { get; set; }
+
     [Required]
     public string Name { get; set; }
 
     public string DisplayName { get; set; }
 
+    public string Description { get; set; }
+
     public bool Required { get; set; } = false;
 
-    public List<string> UserClaims { get; set; }
+    public bool Emphasize { get; set; }
+
+    public bool ShowInDiscoveryDocument { get; set; }
+
+    public List<string> UserClaims { get; set; } = new List<string>();
+
+    // public List<string> Properties { get; set; }
   }
 }

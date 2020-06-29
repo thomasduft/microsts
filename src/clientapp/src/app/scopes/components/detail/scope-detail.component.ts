@@ -1,4 +1,4 @@
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -16,35 +16,32 @@ import {
 } from '../../../shared';
 import { FormdefRegistry } from '../../../shared/formdef';
 import { RefreshMessage } from '../../../core';
-import { ScopeService } from '../../../scopes/services/scope.service';
 
-import { ClientDetailSlot, Client } from '../../models';
-import { ClientService } from '../../services';
+import { ScopeDetailSlot, Scope } from '../../models';
+import { ScopeService } from '../../services';
 
 @AutoUnsubscribe
 @Component({
-  selector: 'tw-client-detail',
-  templateUrl: './client-detail.component.html',
-  styleUrls: ['./client-detail.component.less'],
+  selector: 'tw-scope-detail',
+  templateUrl: './scope-detail.component.html',
+  styleUrls: ['./scope-detail.component.less'],
   providers: [
-    ClientService,
     ScopeService
   ]
 })
-export class ClientDetailComponent implements OnInit {
+export class ScopeDetailComponent implements OnInit {
   private routeParams$: Subscription;
-  private client$: Subscription;
+  private resource$: Subscription;
 
-  public key = ClientDetailSlot.KEY;
-  public viewModel: Client;
+  public key = ScopeDetailSlot.KEY;
+  public viewModel: Scope;
   public errors: Array<string> = [];
   public isNew = false;
 
   public constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private service: ClientService,
-    private scopeService: ScopeService,
+    private service: ScopeService,
     private slotRegistry: FormdefRegistry,
     private popup: Popover,
     private element: ElementRef,
@@ -54,21 +51,21 @@ export class ClientDetailComponent implements OnInit {
   public ngOnInit(): void {
     this.routeParams$ = this.route.params
       .subscribe((params: Params) => {
-        if (params.clientId) {
-          this.init(params.clientId);
+        if (params.name) {
+          this.init(params.name);
         }
       });
   }
 
-  public submitted(viewModel: Client): void {
+  public submitted(viewModel: Scope): void {
     if (this.isNew) {
-      this.client$ = this.service.create(viewModel)
+      this.resource$ = this.service.create(viewModel)
         .subscribe(
           () => this.handleSuccess(),
           (error: IdentityResult) => this.handleError(error)
         );
     } else {
-      this.client$ = this.service.update(viewModel)
+      this.resource$ = this.service.update(viewModel)
         .subscribe(
           () => this.handleSuccess(),
           (error: IdentityResult) => this.handleError(error)
@@ -76,7 +73,7 @@ export class ClientDetailComponent implements OnInit {
     }
   }
 
-  public deleted(viewModel: Client): void {
+  public deleted(viewModel: Scope): void {
     if (this.isNew) {
       return;
     }
@@ -90,14 +87,14 @@ export class ClientDetailComponent implements OnInit {
         hasBackdrop: false,
         data: {
           confirm: false,
-          itemText: viewModel.clientId
+          itemText: viewModel.name
         }
       });
 
     popoverRef.afterClosed$
       .subscribe((res: PopoverCloseEvent<DeleteConfirmation>) => {
         if (res.data.confirm) {
-          this.client$ = this.service.delete(viewModel.clientId)
+          this.resource$ = this.service.delete(viewModel.name)
             .subscribe((id: string) => {
               this.changesSaved();
               this.back();
@@ -107,34 +104,28 @@ export class ClientDetailComponent implements OnInit {
   }
 
   public back(): void {
-    this.router.navigate(['clients']);
+    this.router.navigate(['scopes']);
   }
 
-  private init(clientId?: string): void {
-    if (clientId !== 'new') {
-      this.load(clientId);
+  private init(name?: string): void {
+    if (name !== 'new') {
+      this.load(name);
     } else {
       this.create();
     }
   }
 
-  private load(clientId: string): void {
+  private load(name: string): void {
     this.isNew = false;
-    this.client$ = forkJoin({
-      scopenames: this.scopeService.scopenames(),
-      client: this.service.client(clientId)
-    }).subscribe((result: any) => {
-      this.slotRegistry.register(new ClientDetailSlot(
-        result.client.allowedGrantTypes,
-        result.client.redirectUris,
-        result.client.postLogoutRedirectUris,
-        result.client.allowedCorsOrigins,
-        result.scopenames
-      ));
+    this.resource$ = this.service.scope(name)
+      .subscribe((result: Scope) => {
+        this.slotRegistry.register(new ScopeDetailSlot(
+          result.userClaims
+        ));
 
-      this.key = ClientDetailSlot.KEY;
-      this.viewModel = result.client;
-    });
+        this.key = ScopeDetailSlot.KEY;
+        this.viewModel = result;
+      });
   }
 
   private create(): void {
@@ -142,26 +133,16 @@ export class ClientDetailComponent implements OnInit {
     this.viewModel = {
       id: 0,
       enabled: true,
-      clientId: 'new',
-      clientName: undefined,
-      requireClientSecret: false,
-      clientSecret: undefined,
-      requirePkce: false,
-      requireConsent: false,
-      allowAccessTokensViaBrowser: false,
-      allowedGrantTypes: [],
-      redirectUris: [],
-      postLogoutRedirectUris: [],
-      allowedCorsOrigins: [],
-      allowedScopes: []
+      name: 'new',
+      displayName: undefined,
+      description: undefined,
+      required: false,
+      showInDiscoveryDocument: false,
+      emphasize: false,
+      userClaims: []
     };
-
-    this.slotRegistry.register(new ClientDetailSlot(
-      this.viewModel.allowedGrantTypes,
-      this.viewModel.redirectUris,
-      this.viewModel.postLogoutRedirectUris,
-      this.viewModel.allowedCorsOrigins,
-      this.viewModel.allowedScopes
+    this.slotRegistry.register(new ScopeDetailSlot(
+      this.viewModel.userClaims
     ));
   }
 
@@ -182,6 +163,6 @@ export class ClientDetailComponent implements OnInit {
         StatusLevel.Success
       ));
 
-    this.messageBus.publish(new RefreshMessage('client'));
+    this.messageBus.publish(new RefreshMessage('scope'));
   }
 }

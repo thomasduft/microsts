@@ -9,7 +9,7 @@ import { MenuService } from './menu.service';
     MenuService
   ],
   template: `
-  <li routerLinkActive="item.route ? 'active' : null"
+  <li [routerLinkActive]="'active'"
       [ngClass]="{'menu__item': item.route}"
       *ngFor="let item of menuItems">
     <a *ngIf="item.route" [routerLink]="item.route">
@@ -64,13 +64,20 @@ export class MenuComponent implements OnInit {
 
     this.service.register({
       id: '4',
+      name: 'Scopes',
+      route: '/scopes',
+      icon: 'globe'
+    });
+
+    this.service.register({
+      id: '5',
       name: 'Resources',
       route: '/resources',
       icon: 'server'
     });
 
     this.service.register({
-      id: '5',
+      id: '6',
       name: 'Clients',
       route: '/clients',
       icon: 'desktop'
