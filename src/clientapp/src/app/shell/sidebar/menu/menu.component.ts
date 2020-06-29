@@ -9,7 +9,7 @@ import { MenuService } from './menu.service';
     MenuService
   ],
   template: `
-  <li routerLinkActive="item.route ? 'active' : null"
+  <li [routerLinkActive]="'active'"
       [ngClass]="{'menu__item': item.route}"
       *ngFor="let item of menuItems">
     <a *ngIf="item.route" [routerLink]="item.route">
