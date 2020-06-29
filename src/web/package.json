@@ -1,7 +1,7 @@
 {
   "name": "styles",
   "version": "1.0.0",
-  "description": "styles for sts",
+  "description": "styles for microsts",
   "main": "index.js",
   "scripts": {
     "gulp": "node_modules/.bin/gulp.js --gulpfile ./gulpfile.js",
