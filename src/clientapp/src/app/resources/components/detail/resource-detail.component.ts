@@ -34,6 +34,7 @@ import { ResourceService } from '../../services';
 export class ResourceDetailComponent implements OnInit {
   private routeParams$: Subscription;
   private resource$: Subscription;
+  private scopes$: Subscription;
 
   public key = ResourceDetailSlot.KEY;
   public viewModel: Resource;
@@ -124,30 +125,33 @@ export class ResourceDetailComponent implements OnInit {
       scopenames: this.scopeService.scopenames(),
       resource: this.service.resource(name)
     }).subscribe((result: any) => {
-        this.slotRegistry.register(new ResourceDetailSlot(
-          result.scopenames,
-          result.resource.userClaims
-        ));
+      this.slotRegistry.register(new ResourceDetailSlot(
+        result.scopenames,
+        result.resource.userClaims
+      ));
 
-        this.key = ResourceDetailSlot.KEY;
-        this.viewModel = result.resource;
-      });
+      this.key = ResourceDetailSlot.KEY;
+      this.viewModel = result.resource;
+    });
   }
 
   private create(): void {
     this.isNew = true;
-    this.viewModel = {
-      id: 0,
-      enabled: true,
-      name: 'new',
-      displayName: undefined,
-      scopes: [],
-      userClaims: []
-    };
-    this.slotRegistry.register(new ResourceDetailSlot(
-      this.viewModel.scopes,
-      this.viewModel.userClaims
-    ));
+    this.scopes$ = this.scopeService.scopenames()
+      .subscribe((scopes: Array<string>) => {
+        this.viewModel = {
+          id: 0,
+          enabled: true,
+          name: 'new',
+          displayName: undefined,
+          scopes: [],
+          userClaims: []
+        };
+        this.slotRegistry.register(new ResourceDetailSlot(
+          scopes,
+          this.viewModel.userClaims
+        ));
+      });
   }
 
   private handleSuccess(): void {

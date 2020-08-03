@@ -64,26 +64,26 @@ namespace tomware.Microsts.Web
         "Feature-Policy",
         new StringValues(
           "accelerometer 'none';" +
-          "ambient-light-sensor 'none';" +
+          // "ambient-light-sensor 'none';" +
           "autoplay 'none';" +
-          "battery 'none';" +
+          // "battery 'none';" +
           "camera 'none';" +
-          "display-capture 'none';" +
+          // "display-capture 'none';" +
           "document-domain 'none';" +
           "encrypted-media 'none';" +
-          "execution-while-not-rendered 'none';" +
-          "execution-while-out-of-viewport 'none';" +
+          // "execution-while-not-rendered 'none';" +
+          // "execution-while-out-of-viewport 'none';" +
           "gyroscope 'none';" +
           "magnetometer 'none';" +
           "microphone 'none';" +
           "midi 'none';" +
-          "navigation-override 'none';" +
+          // "navigation-override 'none';" +
           "payment 'none';" +
           "picture-in-picture 'none';" +
           "publickey-credentials-get 'none';" +
           "sync-xhr 'none';" +
           "usb 'none';" +
-          "wake-lock 'none';" +
+          // "wake-lock 'none';" +
           "xr-spatial-tracking 'none';"
           ));
 
