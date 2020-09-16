@@ -1,4 +1,9 @@
 ToDo:
+- stylings for multiselect
+
+- claimtype value -> valuetype
+  - better workflow for adding a claim
+
 - better structuring of what is identityserver and what is custom built
 
 - secure signing tokens with private key
