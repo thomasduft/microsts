@@ -65,7 +65,7 @@
     <value>Sie haben keinen Zugriff auf diese Ressource.</value>
   </data>
   <data name="ACCOUNT_LOGIN" xml:space="preserve">
-    <value>Einloggen</value>
+    <value>Anmelden</value>
   </data>
   <data name="ACCOUNT_NO_EXTERNAL_LOGINS" xml:space="preserve">
     <value>Es sind keine externen Authentifizierungsdienste konfiguriert.</value>
@@ -206,7 +206,7 @@
     <value>Haben Sie keinen Zugriff auf Ihr Authentifizierungsgerät? Sie können</value>
   </data>
   <data name="ACCOUNT_LOGIN_2FA_RECOVERY_CODE_TEXT" xml:space="preserve">
-    <value>Einloggen mit einem Wiederherstellungscode</value>
+    <value>Anmelden mit einem Wiederherstellungscode</value>
   </data>
   <data name="ACCOUNT_LOGIN_2FA_REMEMBER_MC" xml:space="preserve">
     <value>Maschine merken</value>

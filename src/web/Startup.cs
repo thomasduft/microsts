@@ -90,17 +90,11 @@ namespace tomware.Microsts.Web
         options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
       });
 
+      // Api Services
+      services.AddApiServices();
+      
       // STS Services
       services.AddSTSServices();
-      services.AddIdentityServerServices();
-
-      services.AddSession(options =>
-      {
-        options.IdleTimeout = TimeSpan.FromMinutes(2);
-        options.Cookie.HttpOnly = true;
-        options.Cookie.SameSite = SameSiteMode.None;
-        // options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // TODO: check https or not
-      });
 
       // Swagger
       services.AddSwaggerDocumentation();

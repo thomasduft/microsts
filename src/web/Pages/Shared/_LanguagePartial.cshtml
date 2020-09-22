@@ -18,7 +18,7 @@
         }
         else
         {
-          <a asp-controller="SetLanguage"
+          <a asp-controller="Language"
              asp-action="Index"
              asp-route-culture="@item.Name"
              asp-route-returnUrl="@Context.Request.Path">@item.TwoLetterISOLanguageName</a>

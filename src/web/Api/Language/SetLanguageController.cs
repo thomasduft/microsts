@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace tomware.Microsts.Web
 {
-  public class SetLanguageController : Controller
+  public class LanguageController : Controller
   {
     public IActionResult Index(string culture, string returnUrl)
     {

@@ -106,8 +106,6 @@ namespace tomware.Microsts.Web
 
       // own services
       services.AddScoped<IMigrationService, MigrationService>();
-      services.AddTransient<IAccountService, AccountService>();
-      services.AddTransient<IRoleService, RoleService>();
       services.AddTransient<IEmailSender, LogEmailSender>();
       services.AddSingleton<ITitleService, TitleService>();
 
