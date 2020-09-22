@@ -1,6 +1,4 @@
 ToDo:
-- stylings for multiselect
-
 - claimtype value -> valuetype
   - better workflow for adding a claim
 

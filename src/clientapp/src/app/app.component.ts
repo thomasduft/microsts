@@ -62,21 +62,21 @@ export class AppComponent implements OnInit {
       ? 'http://localhost:4200'
       : window.location.origin;
 
-    // console.log('Redirect uri:', redirUri);
+    const devModeIssuer = 'https://localhost:5000';
 
     this.oauthService.configure({
       clientId: 'stsclient',
       issuer: isDevMode()
-        ? 'http://localhost:5000'
+        ? devModeIssuer
         : window.location.origin,
       redirectUri: redirUri,
       responseType: 'code',
       scope: 'openid sts_api',
       loginUrl: isDevMode()
-        ? 'http://localhost:5000/identity/account/login'
+        ? devModeIssuer +  '/identity/account/login'
         : window.location.origin + 'identity/account/login',
       logoutUrl: isDevMode()
-        ? 'http://localhost:5000/identity/account/logout'
+        ? devModeIssuer + '/identity/account/logout'
         : window.location.origin + '/identity/account/logout',
       requireHttps: false
     });
