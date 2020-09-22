@@ -31,7 +31,7 @@
       <li class="filter-textbox" *ngIf="listItems.length > 0">
         <input type="text" 
                aria-label="multiselect-search"
-               i18n-placeholder [placeholder]="'Search'"
+               i18n-placeholder [placeholder]="'search'"
                [readOnly]="disabled"
                [(ngModel)]="filter.value"
                (ngModelChange)="onFilterTextChange($event)">
@@ -39,15 +39,13 @@
       <li class="filter-textbox" *ngIf="allowAddingItems">
         <input type="text" 
                aria-label="multiselect-add-listitem"
-               i18n-placeholder [placeholder]="'Add item'"
+               i18n-placeholder [placeholder]="'add item'"
                [readOnly]="disabled"
                #addListItem>
-        <div>
-          <button 
-            type="button" 
-            class="button--link" 
-            (click)="addItem(addListItem.value)"><strong>+</strong></button>
-        </div>
+        <button 
+          type="button" 
+          (click)="addItem(addListItem.value)"><strong>+</strong>
+        </button>
       </li>
     </ul>
     <ul>
