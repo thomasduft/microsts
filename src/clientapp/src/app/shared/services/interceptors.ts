@@ -21,6 +21,24 @@ import { MessageBus } from './messageBus.service';
 @Injectable({
   providedIn: 'root'
 })
+export class AuthInterceptor implements HttpInterceptor {
+  public constructor(
+    private oauthService: OAuthService
+  ) { }
+
+  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (this.oauthService.hasValidAccessToken()) {
+      const token = this.oauthService.getAccessToken();
+      req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
+    }
+
+    return next.handle(req);
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class HttpErrorInterceptor implements HttpInterceptor {
   public constructor(
     private router: Router,
@@ -77,5 +95,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 }
 
 export const httpInterceptorProviders = [
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
 ];

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace tomware.Microsts.Web
 {
   [Route("api/resources")]
-  [Authorize(Policies.ADMIN_POLICY)]
+  [Authorize(Policies.ADMIN_POLICY, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   public class ResourceController : Controller
   {
     private readonly IResourceService service;

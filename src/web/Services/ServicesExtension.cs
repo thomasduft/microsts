@@ -1,4 +1,7 @@
 using IdentityServer4.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -86,8 +89,15 @@ namespace tomware.Microsts.Web
         builder.AddSigningCredential(cert);
       }
 
+      var authority = GetAuthority(configuration);
       services
-        .AddAuthentication()
+        .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, opt =>
+        {
+          opt.Authority = authority;
+          opt.ApiName = Constants.STS_API;
+          opt.RequireHttpsMetadata = false;
+        })
         .AddLocalApi(options =>
         {
           options.ExpectedScope = Constants.STS_API;

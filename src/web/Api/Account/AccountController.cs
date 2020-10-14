@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace tomware.Microsts.Web
 {
   [Route("api/accounts")]
-  [Authorize(Policies.ADMIN_POLICY)]
+  [Authorize(Policies.ADMIN_POLICY, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   public class AccountController : Controller
   {
     private readonly ILogger<AccountController> logger;
