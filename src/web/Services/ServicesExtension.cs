@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
@@ -92,11 +93,25 @@ namespace tomware.Microsts.Web
       var authority = GetAuthority(configuration);
       services
         .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        .AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, opt =>
+        // .AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, opt =>
+        // {
+        //   opt.Authority = authority;
+        //   opt.ApiName = Constants.STS_API;
+        //   opt.RequireHttpsMetadata = false;
+        // })
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
         {
           opt.Authority = authority;
-          opt.ApiName = Constants.STS_API;
+          opt.Audience = Constants.STS_API;
           opt.RequireHttpsMetadata = false;
+          opt.IncludeErrorDetails = true;
+          opt.SaveToken = true;
+          opt.TokenValidationParameters = new TokenValidationParameters()
+          {
+            ValidateIssuer = true,
+            ValidateAudience = false,
+            NameClaimType = "name",
+          };
         })
         .AddLocalApi(options =>
         {

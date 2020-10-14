@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -139,6 +140,8 @@ namespace tomware.Microsts.Web
       {
         app.UseCors("AllowAllOrigins");
         app.UseSwaggerDocumentation();
+
+        IdentityModelEventSource.ShowPII = true;
 
         app.UseDeveloperExceptionPage();
       }
